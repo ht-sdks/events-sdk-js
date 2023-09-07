@@ -1,77 +1,36 @@
-<p align="center">
-  <a href="https://rudderstack.com/">
-    <img src="https://user-images.githubusercontent.com/59817155/121357083-1c571300-c94f-11eb-8cc7-ce6df13855c9.png">
-  </a>
-</p>
+# Events Javascript SDK
 
-<p align="center"><b>The Customer Data Platform for Developers</b></p>
-
-<p align="center">
-  <b>
-    <a href="https://rudderstack.com">Website</a>
-    ·
-    <a href="https://rudderstack.com/docs/stream-sources/rudderstack-sdk-integration-guides/rudderstack-javascript-sdk/">Documentation</a>
-    ·
-    <a href="https://rudderstack.com/join-rudderstack-slack-community">Community Slack</a>
-  </b>
-</p>
-
-## [![Releases](https://img.shields.io/github/release/rudderlabs/rudder-sdk-js.svg)](https://github.com/rudderlabs/rudder-sdk-js/releases) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rudderlabs_rudder-sdk-js&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rudderlabs_rudder-sdk-js) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=rudderlabs_rudder-sdk-js&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=rudderlabs_rudder-sdk-js) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=rudderlabs_rudder-sdk-js&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=rudderlabs_rudder-sdk-js) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=rudderlabs_rudder-sdk-js&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=rudderlabs_rudder-sdk-js) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rudderlabs_rudder-sdk-js&metric=coverage)](https://sonarcloud.io/summary/new_code?id=rudderlabs_rudder-sdk-js)
-
----
-
-# [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#rudderstack-javascript-sdk)RudderStack JavaScript SDK
-
-The JavaScript SDK lets you track customer event data from your website and send it to your specified destinations via RudderStack.
-
-> For detailed documentation on the RudderStack JavaScript SDK, click [**here**](https://docs.rudderstack.com/stream-sources/rudderstack-sdk-integration-guides/rudderstack-javascript-sdk).
-
-## Table of Contents
-
-- [**Installing the JavaScript SDK**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#installing-the-javascript-sdk)
-- [**Identifying your users**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#identifying-users)
-- [**Tracking user actions**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#tracking-user-actions)
-- [**The `ready` API**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#the-ready-api)
-- [**Self-hosted control plane**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#self-hosted-control-plane)
-- [**Adding your own integrations**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#adding-your-own-integrations)
-- [**Usage in Chrome Extensions**](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#usage-in-chrome-extensions)
-
-| **IMPORTANT**: We have deprecated the Autotrack feature for the RudderStack JavaScript SDK and it will soon be removed. If you still wish to use it for your project, refer to [**this repository**](https://github.com/rudderlabs/rudder-sdk-js-autotrack#autotrack). |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-
-## [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#installing-the-javascript-sdk)Installing the JavaScript SDK
+## Installation
 
 To integrate the JavaScript SDK with your website, place the following code snippet in the `<head>` section of your website.
 
 ```javascript
 <script type="text/javascript">
-!function(){var e=window.rudderanalytics=window.rudderanalytics||[];e.methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],e.factory=function(t){return function(){e.push([t].concat(Array.prototype.slice.call(arguments)))}};for(var t=0;t<e.methods.length;t++){var r=e.methods[t];e[r]=e.factory(r)}e.loadJS=function(e,t){var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a)},e.loadJS(),
-e.load(<WRITE_KEY>,<DATA_PLANE_URL>),
+!function(){var e=window.hightouchevents=window.hightouchevents||[];e.methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],e.factory=function(t){return function(){e.push([t].concat(Array.prototype.slice.call(arguments)))}};for(var t=0;t<e.methods.length;t++){var r=e.methods[t];e[r]=e.factory(r)}e.loadJS=function(e,t){var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://d1xt4zx4uzh8tq.cloudfront.net/v0.1/events.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a)},e.loadJS(),
+e.load(<WRITE_KEY>,<DATA_PLANE_URL>,{configUrl: <CONTROL_PLANE_URL>}),
 e.page()}();
 </script>
 ```
 
-<br>
+The above snippet lets you integrate the SDK with your website and load it asynchronously to keep your page load time unaffected.
 
-> The above snippet lets you integrate the SDK with your website and load it asynchronously to keep your page load time unaffected.
-
-To load `rudder-analytics.js` on to your page synchronously, you can refer to the minified or non-minified versions of the code in the following sections:
+To load `hightouch-events.js` on to your page synchronously, you can refer to the minified or non-minified versions of the code in the following sections:
 
 ### Minified code
 
 ```html
 <script>
-  rudderanalytics=window.rudderanalytics=[];for(var methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],i=0;i<methods.length;i++){var method=methods[i];rudderanalytics[method]=function(a){return function(){rudderanalytics.push([a].concat(Array.prototype.slice.call(arguments)))}}(method)}rudderanalytics.load(<WRITE_KEY>,<DATA_PLANE_URL>),rudderanalytics.page();
+  hightouchevents=window.hightouchevents=[];for(var methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],i=0;i<methods.length;i++){var method=methods[i];hightouchevents[method]=function(a){return function(){hightouchevents.push([a].concat(Array.prototype.slice.call(arguments)))}}(method)}hightouchevents.load(<WRITE_KEY>,<DATA_PLANE_URL>, {configUrl: <CONTROL_PLANE_URL>}),hightouchevents.page();
 </script>
 
-<script src="https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js"></script>
+<script src="https://d1xt4zx4uzh8tq.cloudfront.net/v0.1/events.min.js"></script>
 ```
 
 ### Non-minified code
 
 ```html
 <script>
-  rudderanalytics = window.rudderanalytics = [];
+  hightouchevents = window.hightouchevents = [];
 
   var methods = [
     'load',
@@ -88,19 +47,23 @@ To load `rudder-analytics.js` on to your page synchronously, you can refer to th
 
   for (var i = 0; i < methods.length; i++) {
     var method = methods[i];
-    rudderanalytics[method] = (function (methodName) {
+    hightouchevents[method] = (function (methodName) {
       return function () {
-        rudderanalytics.push([methodName].concat(Array.prototype.slice.call(arguments)));
+        hightouchevents.push([methodName].concat(Array.prototype.slice.call(arguments)));
       };
     })(method);
   }
-  rudderanalytics.load(YOUR_WRITE_KEY, DATA_PLANE_URL);
+  hightouchevents.load(YOUR_WRITE_KEY, DATA_PLANE_URL, {
+    configUrl: <CONTROL_PLANE_URL>,
+  });
   //For example,
-  //rudderanalytics.load("1Qb1F3jSWv0eKFBPZcrM7ypgjVo", "http://localhost:8080");
-  rudderanalytics.page();
+  //hightouchevents.load("1Qb1F3jSWv0eKFBPZcrM7ypgjVo", "http://localhost:8080", {
+  //  configUrl: "http://localhost:8080,
+  //});
+  hightouchevents.page();
 </script>
 
-<script src="https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js"></script>
+<script src="https://d1xt4zx4uzh8tq.cloudfront.net/v0.1/events.min.js"></script>
 ```
 
 In all the above versions, there is an explicit `page` call at the end. This is added to ensure that whenever the SDK loads in a page, a `page` call is sent. You can remove this call completely or modify it with the extra page properties to suit your requirement. You can also add `page` calls in your application in places not tied directly to page load, e.g., virtual page views, page renders on route change such as in SPAs, etc.
@@ -109,54 +72,37 @@ In all the above versions, there is an explicit `page` call at the end. This is 
 
 To integrate and initialize the JavaScript SDK, you will need the source write key and the data plane URL.
 
-- To get the source write key, follow [**this guide**](https://www.rudderstack.com/docs/get-started/glossary/#write-key).
-- To get the data plane URL, follow [**this guide**](https://www.rudderstack.com/docs/rudderstack-cloud/dashboard-overview/#data-plane-url).
-
 ### Alternative installation using NPM
 
-Although we recommend using the snippets mentioned above to use the JavaScript SDK with your website, you can also use this [**NPM module**](https://www.npmjs.com/package/rudder-sdk-js) to package RudderStack directly into your project.
+Although we recommend using the snippets mentioned above to use the JavaScript SDK with your website, you can also use this [**NPM module**](https://www.npmjs.com/package/@ht-sdks/events-sdk-js) to package the library directly into your project.
 
 To install the SDK via npm, run the following command:
 
 ```bash
-npm install rudder-sdk-js --save
+npm install @ht-sdks/events-sdk-js --save
 ```
 
-**Note that this NPM module is only meant to be used for a browser installation**. If you want to integrate RudderStack with your Node.js application, refer to the [**RudderStack Node.js repository**](https://github.com/rudderlabs/rudder-sdk-node).
+**Note that this NPM module is only meant to be used for a browser installation**. If you want to integrate with your Node.js application, refer to the [**Node.js SDK**](https://github.com/ht-sdks/events-sdk-node).
 <br><br>
 
 **IMPORTANT**: Since the module exports the [**related APIs**](#exported-apis) on an already-defined object combined with the Node.js module caching, you should run the following code snippet only once and use the exported object throughout your project:
 
 ```javascript
-import * as rudderanalytics from "rudder-sdk-js";
-rudderanalytics.ready(() => {
+import * as hightouchevents from "events-sdk-js";
+hightouchevents.ready(() => {
   console.log("we are all set!!!");
 });
-rudderanalytics.load(<WRITE_KEY>, <DATA_PLANE_URL>);
-export { rudderanalytics };
+hightouchevents.load(<WRITE_KEY>, <DATA_PLANE_URL>);
+export { hightouchevents };
 ```
 
 You can also do this with **ES5** using the `require` method, as shown:
 
 ```javascript
-var rudderanalytics = require("rudder-sdk-js");
-rudderanalytics.load(<WRITE_KEY>, <DATA_PLANE_URL>);
-exports.rudderanalytics = rudderanalytics;
+var hightouchevents = require("events-sdk-js");
+hightouchevents.load(<WRITE_KEY>, <DATA_PLANE_URL>);
+exports.hightouchevents = hightouchevents;
 ```
-
-For destinations where you don't want the SDK to load the third-party scripts separately, modify the `load` call as shown:
-
-```javascript
-rudderanalytics.load(<YOUR_WRITE_KEY>, <DATA_PLANE_URL>, {loadIntegration:  false})
-```
-
-> For more information on the `load()` method, refer to the detailed [**JavaScript SDK documentation**](https://docs.rudderstack.com/stream-sources/rudderstack-sdk-integration-guides/rudderstack-javascript-sdk).
-
-A few important things to note:
-
-- The SDK expects the destination global queue or function for pushing the events is already present for the particular destination/s.
-- Currently, `loadIntegration` is supported only for Amplitude and Google Analytics.
-- The JavaScript SDK expects `window.amplitude` and `window.ga` to be already defined by the user separately for the sending the events to these destinations.
 
 ### Exported APIs
 
@@ -173,13 +119,6 @@ The APIs exported by the module are:
 - `getAnonymousId`
 - `setAnonymousId`
 
-### Sample implementations
-
-Refer to the following projects for a detailed walk-through of the above steps:
-
-- [**Sample Angular project**](https://github.com/rudderlabs/rudder-analytics-angular)
-- [**Sample React project**](https://github.com/rudderlabs/rudder-analytics-react)
-
 ### Supported browser versions
 
 | **Browser**     | **Supported Versions** |
@@ -194,14 +133,14 @@ Refer to the following projects for a detailed walk-through of the above steps:
 
 > If the SDK does not work on the browser versions that you are targeting, verify if adding the browser polyfills to your application solves the issue.
 
-## [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#identifying-users)Identifying users
+## Identifying users
 
 The `identify` call lets you identify a visiting user and associate them to their actions. It also lets you record the traits about them like their name, email address, etc.
 
 A sample `identify()` call is shown below:
 
 ```javascript
-rudderanalytics.identify(
+hightouchevents.identify(
   '12345',
   {
     email: 'name@domain.com',
@@ -221,20 +160,18 @@ rudderanalytics.identify(
 );
 ```
 
-In the above example, the user-related information like the `userId` and `email` along with the [**contextual information**](https://docs.rudderstack.com/rudderstack-api/api-specification/rudderstack-spec/common-fields#javascript-sdk) is captured.
+In the above example, the user-related information like the `userId` and `email` is captured.
 
 > There is no need to call `identify()` for anonymous visitors to your website. Such visitors are automatically assigned an `anonymousId`.
 
-For more information on how to use the `identify` call, refer to the [**JavaScript SDK documentation**](https://docs.rudderstack.com/stream-sources/rudderstack-sdk-integration-guides/rudderstack-javascript-sdk).
-
-## [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#tracking-user-actions)Tracking user actions
+## Tracking user actions
 
 The `track` call lets you record the customer events, i.e. the actions that they perform, along with any associated properties.
 
 A sample `track` call is shown below:
 
 ```javascript
-rudderanalytics.track(
+hightouchevents.track(
   'test track event GA3',
   {
     revenue: 30,
@@ -251,47 +188,12 @@ In the above example, the `track` method tracks the user event ‘**test track e
 
 > You can use the `track` method to track various success metrics for your website like user signups, item purchases, article bookmarks, and more.
 
-## [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#the-ready-api)The `ready` API
-
-There are cases when you may want to tap into the features provided by the end-destination SDKs to enhance tracking and other functionalities. The JavaScript SDK exposes a `ready` API with a `callback` parameter that fires when the SDK is done initializing itself and the other third-party native SDK destinations.
-
-An example is shown in the following snippet:
-
-```javascript
-rudderanalytics.ready(() => {
-  console.log('we are all set!!!');
-});
-```
-
-> For more information on the other supported methods, refer to the [**JavaScript SDK APIs**](https://docs.rudderstack.com/stream-sources/rudderstack-sdk-integration-guides/rudderstack-javascript-sdk#supported-apis).
-
-## [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#self-hosted-control-plane)Self-Hosted control plane
-
-If you are using a device mode destination like Heap, FullStory, etc., the JavaScript SDK needs to fetch the required configuration from the [**control plane**](https://docs.rudderstack.com/get-started/rudderstack-architecture#control-plane).
-
-If you are self-hosting the control plane using the [**RudderStack Control Plane Lite**](https://docs.rudderstack.com/get-started/control-plane-lite#what-is-the-control-plane-url) utility, your `load` call will look like the following:
-
-```javascript
-rudderanalytics.load(<WRITE_KEY>, <DATA_PLANE_URL>, {
-  configUrl: <CONTROL_PLANE_URL>,
-});
-```
-
-> More information on how to get the `CONTROL_PLANE_URL` can be found [**here**](https://docs.rudderstack.com/get-started/control-plane-lite#what-is-the-control-plane-url).
-
-| **For detailed technical documentation and troubleshooting guide on the RudderStack’s JavaScript SDK, check out our [docs](https://docs.rudderstack.com/stream-sources/rudderstack-sdk-integration-guides/rudderstack-javascript-sdk).** |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-
-## [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#adding-your-own-integrations)Adding your own integrations
-
-You can start adding integrations of your choice for sending the data through their respective web (JavaScript) SDKs.
-
-### [](https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md#how-to-build-the-sdk)How to build the SDK
+### How to build the SDK
 
 - Look for run scripts in the `package.json` file for getting the browser minified and non-minified builds. The builds are updated in the `dist` folder of the directory. Among the others, some of the important ones are:
 
-  - `npm run build:browser`: This outputs **rudder-analytics.min.js**.
-  - `npm run build:npm`: This outputs **rudder-sdk-js** folder that contains the npm package contents.
+  - `npm run build:browser`: This outputs **events.min.js**.
+  - `npm run build:npm`: This outputs **events-sdk-js** folder that contains the npm package contents.
   - `npm run build:integration:all`: This outputs **integrations** folder that contains the integrations.
 
 > We use **rollup** to build our SDKs. The configuration for it is present in `rollup-configs` folder.
@@ -300,15 +202,4 @@ You can start adding integrations of your choice for sending the data through th
 
 ### Usage in Chrome Extensions
 
-RudderStack JS SDK can be used in Chrome Extensions with manifest v3, both as a content script or as a background script
-service worker.
-
-For examples and specific details look into [Chrome Extensions Usage](https://github.com/rudderlabs/rudder-sdk-js/blob/production/examples/chrome-extension/USAGE.md)
-
-## Contribute
-
-We would love to see you contribute to this project. Get more information on how to contribute [**here**](./CONTRIBUTING.md).
-
-## Contact us
-
-For more information on any of the sections covered in this readme, you can [**contact us**](mailto:%20docs@rudderstack.com) or start a conversation on our [**Slack**](https://resources.rudderstack.com/join-rudderstack-slack) channel.
+The JS SDK can be used in Chrome Extensions with manifest v3, both as a content script or as a background script service worker.

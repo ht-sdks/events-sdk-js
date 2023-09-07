@@ -3,9 +3,9 @@ name: 'Unit Tests, Coverage & Sonar'
 on:
   workflow_dispatch:
   push:
-    branches: ['production', 'production-staging']
+    branches: ['main']
   pull_request:
-    branches: ['production', 'production-staging', 'hotfix/*']
+    branches: ['main', 'hotfix/*']
     types: ['opened', 'reopened', 'synchronize']
 
 jobs:
@@ -33,13 +33,7 @@ jobs:
           npm run test:ci
           npm run check:lint
 
-      - name: Fix filesystem paths in generated reports
-        run: |
-          sed -i 's+home/runner/work/rudder-sdk-js/rudder-sdk-js+/github/workspace+g' reports/coverage/lcov.info
-          sed -i 's+/home/runner/work/rudder-sdk-js/rudder-sdk-js+/github/workspace+g' reports/eslint.json
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: Fix filesystem paths in generated reports
+      #   run: |
+      #     sed -i 's+home/runner/work/rudder-sdk-js/rudder-sdk-js+/github/workspace+g' reports/coverage/lcov.info
+      #     sed -i 's+/home/runner/work/rudder-sdk-js/rudder-sdk-js+/github/workspace+g' reports/eslint.json

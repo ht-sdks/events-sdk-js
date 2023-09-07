@@ -5,7 +5,7 @@
 module.exports = [
   {
     name: 'Core - CDN',
-    path: 'dist/legacy/rudder-analytics.min.js',
+    path: 'dist/legacy/events.min.js',
     gzip: true,
     limit: '41.1 kB',
   },

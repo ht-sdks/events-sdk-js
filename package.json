@@ -1,6 +1,6 @@
 {
-  "name": "rudder-analytics",
-  "version": "2.41.0",
+  "name": "events-sdk-js",
+  "version": "0.0.1",
   "description": "",
   "main": "./dist/browser.min.js",
   "scripts": {
@@ -52,15 +52,15 @@
     "build:sanity": "rm -rf sanity-suite/dist && cd sanity-suite && npm run build:all && npm run build:all:staging",
     "postinstall": "npx patch-package"
   },
-  "author": "RudderStack",
+  "author": "HT-SDKS",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rudderlabs/rudder-sdk-js/issues"
+    "url": "https://github.com/ht-sdks/events-sdk-js/issues"
   },
-  "homepage": "https://github.com/rudderlabs/rudder-sdk-js#readme",
+  "homepage": "https://github.com/ht-sdks/events-sdk-js#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rudderlabs/rudder-sdk-js.git"
+    "url": "https://github.com/ht-sdks/events-sdk-js.git"
   },
   "dependencies": {
     "@lukeed/uuid": "2.0.1",
