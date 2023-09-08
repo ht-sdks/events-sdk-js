@@ -6,54 +6,53 @@
     </script> -->
     <script type="text/javascript">
       // checking test commit 2
-      rudderanalytics = window.rudderanalytics = [];
-      var methods = ["load", "ready", "track"];
-     
+      hightouchevents = window.hightouchevents = [];
+      var methods = ['load', 'ready', 'track'];
 
-      // this is required to be set before RudderAnalytics is loaded/run
-      window.rudderanalytics.syncPixelCallback = (obj) => {
-        /*  window.rudderanalytics.track(
+      // this is required to be set before hightouchevents is loaded/run
+      window.hightouchevents.syncPixelCallback = (obj) => {
+        /*  window.hightouchevents.track(
                 "sync lotame",
                 { destination: obj.destination },
                 { integrations: { All: false, S3: true } }
               ); */
       };
-      var methods = ["load", "page", "identify", "track", "ready"];
+      var methods = ['load', 'page', 'identify', 'track', 'ready'];
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push([methodName, ...arguments]);
+            hightouchevents.push([methodName, ...arguments]);
           };
         })(method);
       }
 
-      rudderanalytics.load('__WRITE_KEY__', '__DATAPLANE_URL__', {
-        logLevel: "DEBUG",
-        configUrl: '__CONFIG_SERVER_HOST__'
+      hightouchevents.load('__WRITE_KEY__', '__DATAPLANE_URL__', {
+        logLevel: 'DEBUG',
+        configUrl: '__CONFIG_SERVER_HOST__',
       });
 
-      //  rudderanalytics.track();
-      //rudderanalytics.page(); //Turn this on if Chartbeat is a destination
+      //  hightouchevents.track();
+      //hightouchevents.page(); //Turn this on if Chartbeat is a destination
     </script>
 
-    <script src="./rudder-analytics.js"></script>
-<!--    <script type="module">-->
-<!--      import mediaHeartbeats from "../../src/integrations/AdobeAnalytics/heartbeatHandle.js"-->
-<!--    </script>-->
+    <script src="./events.js"></script>
+    <!--    <script type="module">-->
+    <!--      import mediaHeartbeats from "../../src/integrations/AdobeAnalytics/heartbeatHandle.js"-->
+    <!--    </script>-->
     <script>
-      window.rudderanalytics.ready(() => {
-        console.log("we are all set!!!");
+      window.hightouchevents.ready(() => {
+        console.log('we are all set!!!');
       });
       //page calls
-      // window.rudderanalytics.page();
+      // window.hightouchevents.page();
 
-      // window.rudderanalytics.page("ruchira category", "ruchira name", {
+      // window.hightouchevents.page("ruchira category", "ruchira name", {
       //   url: "url",
       //   path: "/path",
       // });
 
-      // rudderanalytics.track("Order Completed", {
+      // hightouchevents.track("Order Completed", {
       //   checkout_id: "what is checkout id here??",
       //   order_id: "transactionId",
       //   value: 31.98,
@@ -114,13 +113,13 @@
       //   ],
       // });
 
-      // window.rudderanalytics.page('category', 'name', {
+      // window.hightouchevents.page('category', 'name', {
       //         url: 'ruchira url',
       //         path: '/ruchirapath',
       //         search: '?q=1'
       //       });
 
-      //       window.rudderanalytics.page(
+      //       window.hightouchevents.page(
       //         'category1',
       //         'name1',
       //         { url: 'url1', path: '/path1', search: '?q=11' },
@@ -135,23 +134,23 @@
       //         }
       //       );
 
-      //       window.rudderanalytics.page({
+      //       window.hightouchevents.page({
       //         score: 21,
       //         author: 'Author',
       //         postType: 'blog',
       //         section: 'News'
       //       });
 
-      //       window.rudderanalytics.page({
+      //       window.hightouchevents.page({
       //         score: 211,
       //         author: 'Author1',
       //         postType: 'blog1',
       //         section: 'News1'
       //       });
 
-      //       window.rudderanalytics.page('Name1');
+      //       window.hightouchevents.page('Name1');
 
-      //       window.rudderanalytics.page(
+      //       window.hightouchevents.page(
       //         'Name2',
       //         {},
       //         {
@@ -165,18 +164,18 @@
       //         }
       //       );
 
-      //       window.rudderanalytics.page('Category2', 'Name2');
+      //       window.hightouchevents.page('Category2', 'Name2');
 
-      //       window.rudderanalytics.page({
+      //       window.hightouchevents.page({
       //         fruit: 'Apple',
       //         color: 'Red'
       //       });
 
-      //       window.rudderanalytics.page({ referrer: 'http://lifeofpablo.com' });
+      //       window.hightouchevents.page({ referrer: 'http://lifeofpablo.com' });
 
       //       //identify calls
-      // window.rudderanalytics.page();
-      // window.rudderanalytics.identify("ruchu123", {
+      // window.hightouchevents.page();
+      // window.hightouchevents.identify("ruchu123", {
       //   name: "Ruchira Moitra",
       //   email: "ruchira@gmail.com",
       //   plan: "Enterprise",
@@ -185,14 +184,14 @@
       //   },
       //   createdAt: "Thu Mar 24 2016 17:46:45 GMT+0000 (UTC)",
       // });
-      // window.rudderanalytics.identify("Steven");
+      // window.hightouchevents.identify("Steven");
 
       // track calls
 
-      // window.rudderanalytics.track('Simple event');
-      // window.rudderanalytics.track('event2', { category: 'blah' });
+      // window.hightouchevents.track('Simple event');
+      // window.hightouchevents.track('event2', { category: 'blah' });
 
-      // window.rudderanalytics.track(
+      // window.hightouchevents.track(
       //       'event3',
       //       {},
       //       {
@@ -206,31 +205,31 @@
       //       }
       //     );
 
-      //     window.rudderanalytics.track('event4', { category: 'category' });
+      //     window.hightouchevents.track('event4', { category: 'category' });
 
-      //     // window.rudderanalytics.page('category', 'name');
-      //     window.rudderanalytics.track('event5', {});
+      //     // window.hightouchevents.page('category', 'name');
+      //     window.hightouchevents.track('event5', {});
 
-      //     // window.rudderanalytics.page('category(page)');
-      //     window.rudderanalytics.track('event6', { category: 'category(track)' });
+      //     // window.hightouchevents.page('category(page)');
+      //     window.hightouchevents.track('event6', { category: 'category(track)' });
 
-      //     window.rudderanalytics.track('event7', { label: 'label' });
+      //     window.hightouchevents.track('event7', { label: 'label' });
 
-      //     window.rudderanalytics.track('event8', { value: 1.1 });
+      //     window.hightouchevents.track('event8', { value: 1.1 });
 
-      //     window.rudderanalytics.track('event9', { revenue: 9.99 });
+      //     window.hightouchevents.track('event9', { revenue: 9.99 });
 
-      //     window.rudderanalytics.track('event10', { nonInteraction: 1 });
+      //     window.hightouchevents.track('event10', { nonInteraction: 1 });
 
-      //     window.rudderanalytics.track(
+      //     window.hightouchevents.track(
       //       'event11',
       //       {},
       //       { 'Google Analytics': { nonInteraction: 1 } }
       //     );
 
-      //     window.rudderanalytics.track('event12', { nonInteraction: false });
+      //     window.hightouchevents.track('event12', { nonInteraction: false });
 
-      // window.rudderanalytics.track("Order Completed", {
+      // window.hightouchevents.track("Order Completed", {
       //   order_id: "ruchiraorder1",
       //   total: 99.99,
       //   shipping: 13.99,
@@ -252,7 +251,7 @@
       //   ],
       // });
 
-      // window.rudderanalytics.track("Order Completed", {
+      // window.hightouchevents.track("Order Completed", {
       //   order_id: "5d4c7cb5",
       //   revenue: 99.9,
       //   shipping: 13.99,
@@ -260,7 +259,7 @@
       //   products: [],
       // });
 
-      // window.rudderanalytics.track("Order Completed", {
+      // window.hightouchevents.track("Order Completed", {
       //   order_id: "5d4c7cb5ruchira",
       //   revenue: 99.9,
       //   shipping: 13.99,
@@ -269,7 +268,7 @@
       //   currency: "EUR",
       // });
 
-      // window.rudderanalytics.track("Product Added", {
+      // window.hightouchevents.track("Product Added", {
       //   currency: "CAD",
       //   quantity: 1,
       //   price: 24.75,
@@ -281,7 +280,7 @@
       //   position: 4,
       // });
 
-      // window.rudderanalytics.track("Product Added", {
+      // window.hightouchevents.track("Product Added", {
       //   currency: "CAD",
       //   quantity: 1,
       //   price: 24.75,
@@ -293,7 +292,7 @@
       //   position: 4.5,
       // });
 
-      // window.rudderanalytics.track("Product Added", {
+      // window.hightouchevents.track("Product Added", {
       //   currency: "CAD",
       //   quantity: 1,
       //   price: 24.75,
@@ -303,7 +302,7 @@
       //   label: "sample label",
       // });
 
-      // window.rudderanalytics.track("Product Removed", {
+      // window.hightouchevents.track("Product Removed", {
       //   currency: "CAD",
       //   quantity: 1,
       //   price: 24.75,
@@ -314,7 +313,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Product Viewed", {
+      // window.hightouchevents.track("Product Viewed", {
       //   currency: "CAD",
       //   quantity: 1,
       //   price: 24.75,
@@ -326,7 +325,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Product List Filtered", {
+      // window.hightouchevents.track("Product List Filtered", {
       //   category: "cat 1",
       //   list_id: "1234",
       //   filters: [
@@ -355,7 +354,7 @@
       //   testDimension: true,
       //   testMetric: true,
       // });
-      // window.rudderanalytics.track("Product List Viewed", {
+      // window.hightouchevents.track("Product List Viewed", {
       //   category: "cat 1",
       //   list_id: "1234",
       //   products: [
@@ -380,7 +379,7 @@
       //   ],
       // });
 
-      // window.rudderanalytics.track("Product List Viewed", {
+      // window.hightouchevents.track("Product List Viewed", {
       //   category: "cat 1",
       //   list_id: "1234",
       //   products: [
@@ -405,7 +404,7 @@
       //   ],
       // });
 
-      // window.rudderanalytics.track("Product List Viewed", {
+      // window.hightouchevents.track("Product List Viewed", {
       //   category: "cat 1",
       //   list_id: "1234",
       //   products: [
@@ -419,7 +418,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Product List Filtered", {
+      // window.hightouchevents.track("Product List Filtered", {
       //   category: "cat 2",
       //   list_id: "1234",
       //   filters: [
@@ -454,7 +453,7 @@
       //   ],
       // });
 
-      // window.rudderanalytics.track("Product Clicked", {
+      // window.hightouchevents.track("Product Clicked", {
       //   currency: "CAD",
       //   quantity: 1,
       //   price: 24.75,
@@ -466,7 +465,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Promotion Viewed", {
+      // window.hightouchevents.track("Promotion Viewed", {
       //   currency: "CAD",
       //   promotion_id: "PROMO_1234",
       //   name: "Summer Sale",
@@ -476,7 +475,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Promotion Clicked", {
+      // window.hightouchevents.track("Promotion Clicked", {
       //   currency: "CAD",
       //   promotion_id: "PROMO_1234",
       //   name: "Summer Sale",
@@ -486,7 +485,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Checkout Started", {
+      // window.hightouchevents.track("Checkout Started", {
       //   currency: "CAD",
       //   products: [
       //     {
@@ -508,7 +507,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Order Updated", {
+      // window.hightouchevents.track("Order Updated", {
       //   currency: "CAD",
       //   products: [
       //     {
@@ -532,33 +531,33 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Checkout Step Viewed", {
+      // window.hightouchevents.track("Checkout Step Viewed", {
       //   currency: "CAD",
       //   step: 2,
       // });
 
-      // window.rudderanalytics.track("Checkout Step Completed", {
+      // window.hightouchevents.track("Checkout Step Completed", {
       //   currency: "CAD",
       //   step: 2,
       //   shippingMethod: "FedEx",
       // });
-      // window.rudderanalytics.track("Checkout Step Completed", {
+      // window.hightouchevents.track("Checkout Step Completed", {
       //   currency: "CAD",
       //   step: 2,
       //   paymentMethod: "Visa",
       //   shippingMethod: "FedEx1",
       // });
-      // window.rudderanalytics.track("Checkout Step Completed", {
+      // window.hightouchevents.track("Checkout Step Completed", {
       //   currency: "CAD",
       //   paymentMethod: "Visa",
       //   shippingMethod: "FedEx1",
       // });
-      // window.rudderanalytics.track("Checkout Step Completed", {
+      // window.hightouchevents.track("Checkout Step Completed", {
       //   currency: "CAD",
       //   step: 2,
       // });
 
-      // window.rudderanalytics.track("Order Completed", {
+      // window.hightouchevents.track("Order Completed", {
       //   order_id: "780bc55ruchu",
       //   total: 99.9,
       //   shipping: 13.99,
@@ -585,13 +584,13 @@
       //     },
       //   ],
       // });
-      // window.rudderanalytics.track("Order Refunded", {
+      // window.hightouchevents.track("Order Refunded", {
       //   order_id: "780bc55",
       //   testDimension: true,
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.track("Order Refunded", {
+      // window.hightouchevents.track("Order Refunded", {
       //   order_id: "780bc55",
       //   products: [
       //     {
@@ -607,7 +606,7 @@
       //   testMetric: true,
       // });
 
-      // window.rudderanalytics.page("category", "name", {
+      // window.hightouchevents.page("category", "name", {
       //   path: "path",
       //   url: "url",
       //   title: "title",
@@ -616,10 +615,9 @@
       //   testDimension: "true",
       // });
 
-
       // Video Track Calls
 
-      // window.rudderanalytics.track('Video Playback Started', {
+      // window.hightouchevents.track('Video Playback Started', {
       //     session_id: "session-1",
       //     channel: 'Black Mesa',
       //     video_player: 'Transit Announcement System',
@@ -630,287 +628,272 @@
       //     livestream: false
       //   });
 
-        // window.rudderanalytics.track('Video Content Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Content Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
-    // // send next two calls together
-    // window.rudderanalytics.track('Video Playback Started', {
-    //       session_id: "sessionId",
-    //       channel: 'Black Mesa',
-    //       video_player: 'Transit Announcement System',
-    //       playhead: 5,
-    //       asset_id: 'Gordon Freeman',
-    //       title: 'Half-Life',
-    //       total_length: 1260,
-    //       livestream: false
-    //     });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
+      // // send next two calls together
+      // window.hightouchevents.track('Video Playback Started', {
+      //       session_id: "sessionId",
+      //       channel: 'Black Mesa',
+      //       video_player: 'Transit Announcement System',
+      //       playhead: 5,
+      //       asset_id: 'Gordon Freeman',
+      //       title: 'Half-Life',
+      //       total_length: 1260,
+      //       livestream: false
+      //     });
 
-    //     window.rudderanalytics.track('Video Playback Started', {
-    //       session_id: "newSessionId",
-    //       channel: 'Aperture Enrichment Center',
-    //       video_player: 'GLaDOS',
-    //       playhead: 0,
-    //       asset_id: 'Companion Cube',
-    //       title: 'Portal',
-    //       total_length: 317,
-    //       livestream: false
-    //     });
+      //     window.hightouchevents.track('Video Playback Started', {
+      //       session_id: "newSessionId",
+      //       channel: 'Aperture Enrichment Center',
+      //       video_player: 'GLaDOS',
+      //       playhead: 0,
+      //       asset_id: 'Companion Cube',
+      //       title: 'Portal',
+      //       total_length: 317,
+      //       livestream: false
+      //     });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: sessionId,
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: sessionId,
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Content Started', {
-        //   session_id: sessionId,
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Content Started', {
+      //   session_id: sessionId,
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   video_genre: 'Reality, Game Show, Music',
-        //   video_asset_title: 'Some Kind of Title',
-        //   video_series_name: 'The Masked Singer'
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   video_genre: 'Reality, Game Show, Music',
+      //   video_asset_title: 'Some Kind of Title',
+      //   video_series_name: 'The Masked Singer'
+      // });
 
-        // window.rudderanalytics.track(
-        //   'Video Playback Started',
-        //   {
-        //     session_id: "sessionId",
-        //     video_genre: 'Reality, Game Show, Music',
-        //     video_asset_title: 'Some Kind of Title',
-        //     video_series_name: 'The Masked Singer'
-        //   },
-        //   {
-        //     context: {
-        //       page: { path: 'yolo moves most definitely made' }
-        //     }
-        //   }
-        // );
+      // window.hightouchevents.track(
+      //   'Video Playback Started',
+      //   {
+      //     session_id: "sessionId",
+      //     video_genre: 'Reality, Game Show, Music',
+      //     video_asset_title: 'Some Kind of Title',
+      //     video_series_name: 'The Masked Singer'
+      //   },
+      //   {
+      //     context: {
+      //       page: { path: 'yolo moves most definitely made' }
+      //     }
+      //   }
+      // );
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Resumed', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Resumed', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Content Completed', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Content Completed', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Paused', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Paused', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Completed', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Completed', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "1",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "1",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Ad Started', {
-        //   session_id: "1",
-        //   asset_id: 12345,
-        //   title: 'Shut up and take my money!',
-        //   type: 'mid-roll',
-        //   position: 0,
-        //   total_length: 31
-        // });
+      // window.hightouchevents.track('Video Ad Started', {
+      //   session_id: "1",
+      //   asset_id: 12345,
+      //   title: 'Shut up and take my money!',
+      //   type: 'mid-roll',
+      //   position: 0,
+      //   total_length: 31
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Ad Started', {
-        //   session_id: "sessionId",
-        //   asset_id: '12345',
-        //   title: 'Shut up and take my money!',
-        //   type: 'mid-roll',
-        //   position: 0,
-        //   total_length: 31
-        // });
+      // window.hightouchevents.track('Video Ad Started', {
+      //   session_id: "sessionId",
+      //   asset_id: '12345',
+      //   title: 'Shut up and take my money!',
+      //   type: 'mid-roll',
+      //   position: 0,
+      //   total_length: 31
+      // });
 
-        // window.rudderanalytics.track('Video Ad Completed', {
-        //   session_id: "sessionId",
-        //   asset_id: '12345',
-        //   title: 'Shut up and take my money!',
-        //   type: 'mid-roll',
-        //   position: 0,
-        //   total_length: 31
-        // });
+      // window.hightouchevents.track('Video Ad Completed', {
+      //   session_id: "sessionId",
+      //   asset_id: '12345',
+      //   title: 'Shut up and take my money!',
+      //   type: 'mid-roll',
+      //   position: 0,
+      //   total_length: 31
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Ad Completed', {
-        //   session_id: "sessionId",
-        //   asset_id: '12345',
-        //   title: 'Shut up and take my money!',
-        //   type: 'mid-roll',
-        //   position: 20,
-        //   total_length: 31
-        // });
+      // window.hightouchevents.track('Video Ad Completed', {
+      //   session_id: "sessionId",
+      //   asset_id: '12345',
+      //   title: 'Shut up and take my money!',
+      //   type: 'mid-roll',
+      //   position: 20,
+      //   total_length: 31
+      // });
 
-        // window.rudderanalytics.track('Video Playback Interrupted', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // });
+      // window.hightouchevents.track('Video Playback Interrupted', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
 
-        // window.rudderanalytics.track('Video Playback Started', {
-        //   session_id: "sessionId",
-        //   channel: 'Black Mesa',
-        //   video_player: 'Transit Announcement System',
-        //   playhead: 5,
-        //   asset_id: 'Gordon Freeman',
-        //   title: 'Half-Life',
-        //   total_length: 1260,
-        //   livestream: false
-        // }); 
-      //   window.rudderanalytics.track('Video Playback Seek Started', {
-      //     "session_id": "12345",
-      // "content_asset_id": "0129370",
-      // "content_pod_id": "rudder1",
-      // "position": 320,
-      // "total_length": 392,
-      // "bitrate": 100,
-      // "framerate": 29.00,
-      // "video_player": "youtube",
-      // "sound": 55,
-      // "full_screen": false,
-      // "ad_enabled": false,
-      // "quality": "hd1080",
-      // "livestream": false
-      //   }); 
-      //   window.rudderanalytics.track('Video Playback Seek Completed', {
+      // window.hightouchevents.track('Video Playback Started', {
+      //   session_id: "sessionId",
+      //   channel: 'Black Mesa',
+      //   video_player: 'Transit Announcement System',
+      //   playhead: 5,
+      //   asset_id: 'Gordon Freeman',
+      //   title: 'Half-Life',
+      //   total_length: 1260,
+      //   livestream: false
+      // });
+      //   window.hightouchevents.track('Video Playback Seek Started', {
       //     "session_id": "12345",
       // "content_asset_id": "0129370",
       // "content_pod_id": "rudder1",
@@ -925,37 +908,51 @@
       // "quality": "hd1080",
       // "livestream": false
       //   });
-    //     window.rudderanalytics.track('Video Playback Buffer Started', {
-    //   "session_id": "12345",
-    //   "content_asset_id": "0129370",
-    //   "content_pod_id": "rudder1",
-    //   "position": 278,
-    //   "total_length": 392,
-    //   "bitrate": 100,
-    //   "framerate": 29.00,
-    //   "video_player": "youtube",
-    //   "sound": 55,
-    //   "full_screen": false,
-    //   "ad_enabled": false,
-    //   "quality": "hd1080",
-    //   "livestream": false
-    // });
-    // window.rudderanalytics.track('Video Playback Buffer Completed', {
-    //   "session_id": "12345",
-    //   "content_asset_id": "0129370",
-    //   "content_pod_id": "rudder1",
-    //   "position": 278,
-    //   "total_length": 392,
-    //   "bitrate": 100,
-    //   "framerate": 29.00,
-    //   "video_player": "youtube",
-    //   "sound": 55,
-    //   "full_screen": false,
-    //   "ad_enabled": false,
-    //   "quality": "hd1080",
-    //   "livestream": false
-    // });
-
+      //   window.hightouchevents.track('Video Playback Seek Completed', {
+      //     "session_id": "12345",
+      // "content_asset_id": "0129370",
+      // "content_pod_id": "rudder1",
+      // "position": 320,
+      // "total_length": 392,
+      // "bitrate": 100,
+      // "framerate": 29.00,
+      // "video_player": "youtube",
+      // "sound": 55,
+      // "full_screen": false,
+      // "ad_enabled": false,
+      // "quality": "hd1080",
+      // "livestream": false
+      //   });
+      //     window.hightouchevents.track('Video Playback Buffer Started', {
+      //   "session_id": "12345",
+      //   "content_asset_id": "0129370",
+      //   "content_pod_id": "rudder1",
+      //   "position": 278,
+      //   "total_length": 392,
+      //   "bitrate": 100,
+      //   "framerate": 29.00,
+      //   "video_player": "youtube",
+      //   "sound": 55,
+      //   "full_screen": false,
+      //   "ad_enabled": false,
+      //   "quality": "hd1080",
+      //   "livestream": false
+      // });
+      // window.hightouchevents.track('Video Playback Buffer Completed', {
+      //   "session_id": "12345",
+      //   "content_asset_id": "0129370",
+      //   "content_pod_id": "rudder1",
+      //   "position": 278,
+      //   "total_length": 392,
+      //   "bitrate": 100,
+      //   "framerate": 29.00,
+      //   "video_player": "youtube",
+      //   "sound": 55,
+      //   "full_screen": false,
+      //   "ad_enabled": false,
+      //   "quality": "hd1080",
+      //   "livestream": false
+      // });
     </script>
   </head>
   <body>
@@ -965,11 +962,7 @@
     </div>
 
     <div id="id2">
-      <a
-        id="link2"
-        href="https://3a842fe106ca.ngrok.io/tests/html/script-test.html"
-        >example 2</a
-      >
+      <a id="link2" href="https://3a842fe106ca.ngrok.io/tests/html/script-test.html">example 2</a>
     </div>
   </body>
 </html>

@@ -682,7 +682,7 @@ class Analytics {
       (options = properties), (properties = name), (name = null);
     if (typeof category === 'string' && typeof name !== 'string')
       (name = category), (category = null);
-    if (this.sendAdblockPage && category != 'RudderJS-Initiated') {
+    if (this.sendAdblockPage && category != 'EventsJS-Initiated') {
       this.sendSampleRequest();
     }
     let clonedProperties = R.clone(properties);
@@ -1434,17 +1434,17 @@ class Analytics {
       Object.keys(this.methodToCallbackMapping).forEach((methodName) => {
         if (
           this.methodToCallbackMapping.hasOwnProperty(methodName) &&
-          window.rudderanalytics &&
-          typeof window.rudderanalytics[this.methodToCallbackMapping[methodName]] === 'function'
+          window.hightouchevents &&
+          typeof window.hightouchevents[this.methodToCallbackMapping[methodName]] === 'function'
         ) {
           this.clientSuppliedCallbacks[methodName] =
-            window.rudderanalytics[this.methodToCallbackMapping[methodName]];
+            window.hightouchevents[this.methodToCallbackMapping[methodName]];
         }
         // let callback =
-        //   ? typeof window.rudderanalytics[
+        //   ? typeof window.hightouchevents[
         //       this.methodToCallbackMapping[methodName]
         //     ] == "function"
-        //     ? window.rudderanalytics[this.methodToCallbackMapping[methodName]]
+        //     ? window.hightouchevents[this.methodToCallbackMapping[methodName]]
         //     : () => {}
         //   : () => {};
 
@@ -1575,7 +1575,7 @@ instance.initializeCallbacks();
 instance.registerCallbacks(false);
 
 const defaultMethod = 'load';
-const argumentsArray = window.rudderanalytics;
+const argumentsArray = window.hightouchevents;
 const isValidArgsArray = Array.isArray(argumentsArray);
 let defaultEvent;
 if (isValidArgsArray) {

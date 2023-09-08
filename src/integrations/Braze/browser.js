@@ -73,7 +73,7 @@ class Braze {
    * - If userId is different from previous call, then it will make new call and store the payload.
    * - It will deeply check all other attributes and pass the unique or changed fields.
    *   1st- payload                                                                                     2nd- payload
-   * rudderanalytics.identify("rudderUserId100", {                                                   rudderanalytics.identify("rudderUserId100", {
+   * hightouchevents.identify("rudderUserId100", {                                                   hightouchevents.identify("rudderUserId100", {
    *  name: "Rudder Keener",                                                                          name: "Rudder Keener",
    *  email: "rudder100@example.com",                                                                 email: "rudder100@example.com",
    *  primaryEmail: "test350@email.com",                                                              primaryEmail: "test350@email.com",

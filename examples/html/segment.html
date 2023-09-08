@@ -1,7 +1,7 @@
 <html>
   <head>
     <!-- <script type="text/javascript">
-      rudderanalytics = window.analytics = [];
+      hightouchevents = window.analytics = [];
       var methods = [
         "load",
         "page",
@@ -14,33 +14,33 @@
       ];
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function(methodName) {
+        hightouchevents[method] = (function(methodName) {
           return function() {
-            rudderanalytics.push([methodName, ...arguments]);
+            hightouchevents.push([methodName, ...arguments]);
           };
         })(method);
       }
 
-      rudderanalytics.load(
+      hightouchevents.load(
         "1UsLllhcaMieRKR7VFawOtNtaM3",
         "http://localhost:8080"
       );
-      // rudderanalytics.track();
+      // hightouchevents.track();
     </script>
     <script src="./browser.js"></script> -->
 
     <!-- <script>
       const testCasesLength = 5;
-      rudderanalytics.track("TEST_CASES_BEGIN");
+      hightouchevents.track("TEST_CASES_BEGIN");
       for (let i = 1; i <= testCasesLength; i++) {
-        rudderanalytics.track("TEST_CASES_BEGIN", { id: `TC_00${i}` });
+        hightouchevents.track("TEST_CASES_BEGIN", { id: `TC_00${i}` });
         const script = document.createElement("script");
         script.src = `../TC/TC_00${i}.js`;
         script.type = "text/javascript";
         document.getElementsByTagName("head")[0].appendChild(script);
-        rudderanalytics.track("TEST_CASES_END", { id: `TC_00${i}` });
+        hightouchevents.track("TEST_CASES_END", { id: `TC_00${i}` });
       }
-      rudderanalytics.track("TEST_CASES_END");
+      hightouchevents.track("TEST_CASES_END");
     </script> -->
     <!-- Start VWO Async Smartcode -->
     <!-- <script type="text/javascript">
@@ -118,35 +118,33 @@
     </script> -->
     <!-- End VWO Async Smartcode -->
     <script>
-      !(function() {
+      !(function () {
         var analytics = (window.analytics = window.analytics || []);
         if (!analytics.initialize)
           if (analytics.invoked)
-            window.console &&
-              console.error &&
-              console.error("Segment snippet included twice.");
+            window.console && console.error && console.error('Segment snippet included twice.');
           else {
             analytics.invoked = !0;
             analytics.methods = [
-              "trackSubmit",
-              "trackClick",
-              "trackLink",
-              "trackForm",
-              "pageview",
-              "identify",
-              "reset",
-              "group",
-              "track",
-              "ready",
-              "alias",
-              "debug",
-              "page",
-              "once",
-              "off",
-              "on"
+              'trackSubmit',
+              'trackClick',
+              'trackLink',
+              'trackForm',
+              'pageview',
+              'identify',
+              'reset',
+              'group',
+              'track',
+              'ready',
+              'alias',
+              'debug',
+              'page',
+              'once',
+              'off',
+              'on',
             ];
-            analytics.factory = function(t) {
-              return function() {
+            analytics.factory = function (t) {
+              return function () {
                 var e = Array.prototype.slice.call(arguments);
                 e.unshift(t);
                 analytics.push(e);
@@ -157,17 +155,17 @@
               var e = analytics.methods[t];
               analytics[e] = analytics.factory(e);
             }
-            analytics.load = function(t, e) {
-              var n = document.createElement("script");
-              n.type = "text/javascript";
+            analytics.load = function (t, e) {
+              var n = document.createElement('script');
+              n.type = 'text/javascript';
               n.async = !0;
-              n.src = "analytics.js";
-              var a = document.getElementsByTagName("script")[0];
+              n.src = 'analytics.js';
+              var a = document.getElementsByTagName('script')[0];
               a.parentNode.insertBefore(n, a);
               analytics._loadOptions = e;
             };
-            analytics.SNIPPET_VERSION = "4.1.0";
-            analytics.load("Advg9xdQtfCan4PTaZiTsmfvXc4Lajr2");
+            analytics.SNIPPET_VERSION = '4.1.0';
+            analytics.load('Advg9xdQtfCan4PTaZiTsmfvXc4Lajr2');
             analytics.page();
           }
       })();

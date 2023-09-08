@@ -14,7 +14,7 @@ jest.mock('../../src/utils/utils', () => {
 
 describe('CDN Paths: getIntegrationsCDNPath', () => {
   const dummyCustomURL = 'https://www.dummy.url/integrations';
-  const dummyScriptURL = 'https://www.dummy.url/fromScript/v1.1/rudder-analytics.js';
+  const dummyScriptURL = 'https://www.dummy.url/fromScript/v1.1/events.js';
   const dummyVersion = '2.x.x';
 
   beforeEach(() => {
@@ -33,7 +33,7 @@ describe('CDN Paths: getIntegrationsCDNPath', () => {
   it('should throw error if invalid custom url is provided', () => {
     const integrationsCDNPath = () => getIntegrationsCDNPath(dummyVersion, false, '/');
     expect(integrationsCDNPath).toThrow(
-      'Failed to load Rudder SDK: CDN base URL for integrations is not valid',
+      'Failed to load Events SDK: CDN base URL for integrations is not valid',
     );
   });
 

@@ -23,9 +23,9 @@ const API_KEY = '__RS_BUGSNAG_API_KEY__';
 
 // Errors only from Below SDKs are allowed to reach Bugsnag
 const SDK_FILE_NAMES = [
-  'rudder-analytics.min.js',
-  'rudder-analytics-staging.min.js',
-  'rudder-analytics.js',
+  'events.min.js',
+  'events-staging.min.js',
+  'events.js',
   ...Object.keys(configToIntNames).map((intgName) => `${configToIntNames[intgName]}.min.js`),
   ...Object.keys(configToIntNames).map(
     (intgName) => `${configToIntNames[intgName]}-staging.min.js`,
@@ -126,10 +126,7 @@ class BugsnagProvider {
    */
   init() {
     // Return if RS Bugsnag instance is already initialized
-    if (
-      window.RudderStackGlobals &&
-      window.RudderStackGlobals[ERROR_REPORTING_SERVICE_GLOBAL_KEY_NAME]
-    ) {
+    if (window.HtEventsGlobals && window.HtEventsGlobals[ERROR_REPORTING_SERVICE_GLOBAL_KEY_NAME]) {
       return;
     }
 

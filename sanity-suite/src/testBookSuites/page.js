@@ -10,7 +10,7 @@ const pageMethodSuite = {
   id: 'pageMethod',
   name: 'Page',
   description:
-    'Page Method: rudderanalytics.page(category, name, [properties], [apiOptions], [callback]);',
+    'Page Method: hightouchevents.page(category, name, [properties], [apiOptions], [callback]);',
   testCases: [
     {
       id: 'page1',

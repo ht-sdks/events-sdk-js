@@ -37,7 +37,7 @@ const normalizeError = (error, customMessage, analyticsInstance) => {
     // SDK triggered ad-blocker script
     if (error.target.id === 'ad-block') {
       analyticsInstance.page(
-        'RudderJS-Initiated',
+        'EventsJS-Initiated',
         'ad-block page request',
         { path: '/ad-blocked', title: errorMessage },
         analyticsInstance.sendAdblockPageOptions,

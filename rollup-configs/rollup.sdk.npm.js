@@ -4,8 +4,8 @@ import { getDefaultConfig } from './rollup.utilities';
 
 const outDir = `dist`;
 const npmPackageOutDir = `${outDir}/npm-lib`;
-const distName = 'rudder-analytics';
-const modName = 'rudderanalytics';
+const distName = 'hightouch-events';
+const modName = 'hightouchevents';
 
 const outputFiles = [
   {

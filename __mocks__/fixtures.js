@@ -1,7 +1,7 @@
 const dummyWriteKey = 'dummyWriteKey';
 
 const dummyDataplaneHost = 'https://dummy.dataplane.host.com';
-const sdkName = 'RudderLabs JavaScript SDK';
+const sdkName = 'Events SDK JavaScript';
 const errorMessage = 'order number must be an integer';
 const actualErrorMessage = '[Transformation]:: order number must be an integer';
 

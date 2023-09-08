@@ -3,8 +3,8 @@
     "channel": "web",
     "context": {
       "app": {
-        "name": "RudderLabs JavaScript SDK",
-        "namespace": "com.rudderlabs.javascript",
+        "name": "Events SDK JavaScript",
+        "namespace": "com.hightouch.javascript",
         "version": "2.22.2"
       },
       "traits": {
@@ -45,7 +45,7 @@
           }
         ]
       },
-      "library": { "name": "RudderLabs JavaScript SDK", "version": "2.22.2" },
+      "library": { "name": "Events SDK JavaScript", "version": "2.22.2" },
       "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
       "device": null,
       "network": null,

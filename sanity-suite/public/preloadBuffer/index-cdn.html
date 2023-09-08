@@ -15,13 +15,13 @@
               { CustomGroupId: 'C0003', GroupName: 'Analytical Cookies' },
               { CustomGroupId: 'C0004', GroupName: 'Targeting Cookies' },
               { CustomGroupId: 'C0005', GroupName: 'Social Media Cookies' },
-              { CustomGroupId: 'C0006', GroupName: 'Advertisement Cookies' }
-            ]
+              { CustomGroupId: 'C0006', GroupName: 'Advertisement Cookies' },
+            ],
           };
-        }
+        },
       };
       window.OnetrustActiveGroups = ',C0001,C0003,';
-      rudderanalytics = window.rudderanalytics = [];
+      hightouchevents = window.hightouchevents = [];
       var methods = [
         'load',
         'page',
@@ -43,9 +43,9 @@
 
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push([methodName].concat(Array.prototype.slice.call(arguments)));
+            hightouchevents.push([methodName].concat(Array.prototype.slice.call(arguments)));
           };
         })(method);
       }
@@ -53,18 +53,18 @@
       window.userWriteKey = '__FEATURE_PRELOAD_BUFFER_WRITE_KEY__';
       window.userConfigUrl = '__CONFIG_SERVER_HOST__';
 
-      rudderanalytics.load('__FEATURE_PRELOAD_BUFFER_WRITE_KEY__', '__DATAPLANE_URL__', {
+      hightouchevents.load('__FEATURE_PRELOAD_BUFFER_WRITE_KEY__', '__DATAPLANE_URL__', {
         logLevel: 'DEBUG',
         configUrl: '__CONFIG_SERVER_HOST__',
         destSDKBaseURL: '__DEST_SDK_BASE_URL__',
         cookieConsentManager: {
-            oneTrust: {
-                enabled: true,
-            }
-        }
+          oneTrust: {
+            enabled: true,
+          },
+        },
       });
 
-      rudderanalytics.ready(function() {
+      hightouchevents.ready(function () {
         console.log('We are all set!!!');
       });
     </script>
@@ -88,9 +88,7 @@
       integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://polyfill.io/v3/polyfill.min.js?features=MutationObserver%2CArray.from%2CArray.prototype.find%2CArray.prototype.includes%2CPromise%2CString.prototype.endsWith%2CString.prototype.includes%2CString.prototype.startsWith%2CObject.entries%2CObject.values%2CElement.prototype.dataset%2CString.prototype.replaceAll"
-    ></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=MutationObserver%2CArray.from%2CArray.prototype.find%2CArray.prototype.includes%2CPromise%2CString.prototype.endsWith%2CString.prototype.includes%2CString.prototype.startsWith%2CObject.entries%2CObject.values%2CElement.prototype.dataset%2CString.prototype.replaceAll"></script>
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
     <style>
       .collapsed-row pre {
@@ -101,7 +99,7 @@
 
     <script
       async
-      src="https://cdn.rudderlabs.com/__CDN_VERSION_PATH__rudder-analytics__STAGING_FILE_PATH__.min.js"
+      src="https://cdn.rudderlabs.com/__CDN_VERSION_PATH__events__STAGING_FILE_PATH__.min.js"
     ></script>
   </head>
   <body>

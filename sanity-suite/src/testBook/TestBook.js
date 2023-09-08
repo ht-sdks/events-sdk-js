@@ -189,7 +189,7 @@ class TestBook {
     if (typeof clickHandler === 'function') {
       clickHandler.apply(null, inputs);
     } else if (typeof clickHandler === 'string') {
-      window.rudderanalytics[clickHandler].apply(null, inputs);
+      window.hightouchevents[clickHandler].apply(null, inputs);
     }
   }
 

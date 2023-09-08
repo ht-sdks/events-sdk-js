@@ -561,7 +561,7 @@ const getSDKUrlInfo = () => {
   for (let i = 0; i < scripts.length; i += 1) {
     const curScriptSrc = removeTrailingSlashes(scripts[i].getAttribute('src'));
     if (curScriptSrc) {
-      const urlMatches = curScriptSrc.match(/^.*rudder-analytics(-staging)?(\.min)?\.js$/);
+      const urlMatches = curScriptSrc.match(/^.*events(-staging)?(\.min)?\.js$/);
       if (urlMatches) {
         sdkURL = curScriptSrc;
         isStaging = urlMatches[1] !== undefined;

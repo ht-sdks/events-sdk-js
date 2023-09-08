@@ -1,26 +1,26 @@
 <html>
   <head>
     <script type="text/javascript">
-      rudderanalytics = window.rudderanalytics = [];
+      hightouchevents = window.hightouchevents = [];
       var methods = ['load', 'page', 'identify', 'track', 'ready', 'group'];
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push([methodName, ...arguments]);
+            hightouchevents.push([methodName, ...arguments]);
           };
         })(method);
       }
-      rudderanalytics.load('1l90d23mEVIDyCeoZkE7X85DH0P', 'https://hosted.rudderlabs.com', {
+      hightouchevents.load('1l90d23mEVIDyCeoZkE7X85DH0P', 'https://hosted.rudderlabs.com', {
         logLevel: 'DEBUG',
         configUrl: 'http://localhost:5000/sourceConfig',
         loadIntegration: false,
       });
     </script>
-    <script src="https://cdn.rudderlabs.com/v1/rudder-analytics-staging.min.js"></script>
+    <script src="https://cdn.rudderlabs.com/v1/events-staging.min.js"></script>
     <script>
-      rudderanalytics.page();
-      rudderanalytics.identify(
+      hightouchevents.page();
+      hightouchevents.identify(
         'user123456',
         { email: 'user@email.com', age: 22 },
         {
@@ -29,8 +29,8 @@
           },
         },
       );
-      rudderanalytics.track('track without property');
-      rudderanalytics.track(
+      hightouchevents.track('track without property');
+      hightouchevents.track(
         'track with property',
         { validProp: 'valid property', blackproperty: 'not valid' },
         {
@@ -42,7 +42,7 @@
           },
         },
       );
-      rudderanalytics.track(
+      hightouchevents.track(
         'track with property2',
         { validProp: 'valid property', blackproperty: 'not valid' },
         {

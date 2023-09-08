@@ -42,17 +42,17 @@ jobs:
         env:
           BUGSNAG_API_KEY: ${{ secrets.RS_PROD_BUGSNAG_API_KEY }}
         run: |
-          sed -i -e 's|{{RS_BUGSNAG_API_KEY}}|'$BUGSNAG_API_KEY'|' dist/legacy/rudder-analytics.min.js
-          sed -i -e 's|{{RS_BUGSNAG_API_KEY}}|'$BUGSNAG_API_KEY'|' dist/modern/rudder-analytics.min.js
+          sed -i -e 's|{{RS_BUGSNAG_API_KEY}}|'$BUGSNAG_API_KEY'|' dist/legacy/events.min.js
+          sed -i -e 's|{{RS_BUGSNAG_API_KEY}}|'$BUGSNAG_API_KEY'|' dist/modern/events.min.js
 
       - name: Sync files to S3 v1.1
         run: |
-          aws s3 cp dist/legacy/rudder-analytics.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/rudder-analytics.min.js --cache-control max-age=3600
-          aws s3 cp dist/legacy/rudder-analytics.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/rudder-analytics.min.js.map --cache-control max-age=3600
+          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/events.min.js --cache-control max-age=3600
+          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/events.min.js.map --cache-control max-age=3600
           aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/js-integrations/ --recursive --cache-control max-age=3600
           aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/list_integration_sdks.html --cache-control max-age=3600
-          aws s3 cp dist/modern/rudder-analytics.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/rudder-analytics.min.js --cache-control max-age=3600
-          aws s3 cp dist/modern/rudder-analytics.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/rudder-analytics.min.js.map --cache-control max-age=3600
+          aws s3 cp dist/modern/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/events.min.js --cache-control max-age=3600
+          aws s3 cp dist/modern/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/events.min.js.map --cache-control max-age=3600
           aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/js-integrations/ --recursive --cache-control max-age=3600
           aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/list_integration_sdks.html --cache-control max-age=3600
           aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/v1.1*"
@@ -69,7 +69,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           PROJECT_NAME: 'JS SDK Browser Package Rollback'
-          CDN_URL: 'https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js'
+          CDN_URL: 'https://cdn.rudderlabs.com/v1.1/events.min.js'
         with:
           channel-id: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
           payload: |

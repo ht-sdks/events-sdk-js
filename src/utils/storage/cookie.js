@@ -76,7 +76,7 @@ class CookieLocal {
    * @returns boolean
    */
   checkSupportAvailability() {
-    const name = 'test_rudder_cookie';
+    const name = 'test_htevents_cookie';
     this.set(name, true);
 
     if (this.get(name)) {

@@ -4,8 +4,8 @@ const variantSubfolder = process.env.BROWSERSLIST_ENV === 'modern' ? '/modern' :
 const sourceMapType =
   process.env.PROD_DEBUG === 'inline' ? 'inline' : process.env.PROD_DEBUG === 'true';
 const outDir = `dist${variantSubfolder}`;
-const distName = 'rudder-analytics';
-const modName = 'rudderanalytics';
+const distName = 'events';
+const modName = 'hightouchevents';
 
 const outFilePath = getOutputFilePath(outDir, distName);
 

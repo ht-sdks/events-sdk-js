@@ -50,7 +50,7 @@ const populatingProperties = (data) => {
  * @param {*} standardEventsMap mapping of events done by the user
  * @param {*} eventName standard event name
  * @param {*} data data here, contains all the details about the event.
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  * eg. For event CTA Viewed
  * data: {
  * cta_name: {cta.name}
@@ -81,7 +81,7 @@ const makeACall = (standardEventsMap, eventName, data, analytics) => {
  * collecting the data.
  * @param {*} userDefinedEventsMapping Mapping of events in the webapp by the user
  * @param {*} userDefinedEventsList List of requested events by the user.
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 const trigger = (userDefinedEventsMapping, userDefinedEventsList, analytics) => {
   let standardEventsMap = getHashFromArray(userDefinedEventsMapping);

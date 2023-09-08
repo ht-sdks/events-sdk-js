@@ -9,7 +9,7 @@
     <!-- Case 5: At least one of the intg. SDK load timed out. (network issue) -->
 
     <script>
-      rudderanalytics = window.rudderanalytics = [];
+      hightouchevents = window.hightouchevents = [];
 
       var methods = [
         "load",
@@ -26,16 +26,16 @@
 
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push(
+            hightouchevents.push(
               [methodName].concat(Array.prototype.slice.call(arguments))
             );
           };
         })(method);
       }
 
-      rudderanalytics.load(
+      hightouchevents.load(
         "1xXRrCtFweOR54PIyMRCLQfFjBN",
         "http://localhost:8080/",
         {
@@ -48,7 +48,7 @@
 
     <!-- ============ Cuustomer's own CDN ============ -->
 
-    <script src="https://ddim5kcy73icz.cloudfront.net/v2/rudder-analytics.min.js"></script>
+    <script src="https://ddim5kcy73icz.cloudfront.net/v2/events.min.js"></script>
   </head>
 
   <body>
@@ -82,7 +82,7 @@
         ">
       <p>
         <b>Note:</b> Rudderstack's JS SDK CDN:
-        https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js
+        https://cdn.rudderlabs.com/v1.1/events.min.js
       </p>
       <p>
         Rudderstack's destination SDKs url :
@@ -115,9 +115,9 @@
     <script>
       function myFunction() {
         document.getElementById("demo").innerHTML = "Hello World";
-        rudderanalytics.page();
+        hightouchevents.page();
 
-        rudderanalytics.identify(
+        hightouchevents.identify(
           "moumita123",
           { email: "name@domain.com" },
           {
@@ -133,7 +133,7 @@
             console.log("in identify call");
           }
         );
-        rudderanalytics.track(
+        hightouchevents.track(
           "test track event GA3",
           {
             revenue: 30,

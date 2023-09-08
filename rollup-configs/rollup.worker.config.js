@@ -4,7 +4,7 @@ import { getDefaultConfig } from './rollup.utilities';
 
 const outDir = 'dist';
 const distName = 'index';
-const modName = 'rudderServiceWorker';
+const modName = 'hightouchServiceWorker';
 const npmPackageOutDir = `${outDir}/npm-lib/service-worker`;
 
 const outputFiles = [
@@ -27,7 +27,7 @@ const buildConfig = {
 buildConfig.plugins.push(
   copy({
     targets: [{ src: 'src/service-worker/index.d.ts', dest: `${outDir}/npm-lib/service-worker` }],
-  })
+  }),
 );
 
 export default {

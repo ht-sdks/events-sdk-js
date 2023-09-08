@@ -9,7 +9,7 @@ const trackMethodSuite = {
   id: 'trackMethod',
   name: 'Track',
   description:
-    'Track Method: rudderanalytics.track(event, [properties], [apiOptions], [callback]);',
+    'Track Method: hightouchevents.track(event, [properties], [apiOptions], [callback]);',
   testCases: [
     {
       id: 'track1',

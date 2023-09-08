@@ -1,79 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RudderStack JS SDK Sanity Suite</title>
 
     <script>
-        window.OneTrust = {
-            GetDomainData: function () {
-            return {
-                Groups: [
-                { CustomGroupId: 'C0001', GroupName: 'Functional Cookies' },
-                { CustomGroupId: 'C0002', GroupName: 'Performance Cookies' },
-                { CustomGroupId: 'C0003', GroupName: 'Analytical Cookies' },
-                { CustomGroupId: 'C0004', GroupName: 'Targeting Cookies' },
-                { CustomGroupId: 'C0005', GroupName: 'Social Media Cookies' },
-                { CustomGroupId: 'C0006', GroupName: 'Advertisement Cookies' }
-                ]
-            };
-            }
-        };
-        window.OnetrustActiveGroups = ',C0001,C0003,';
-        rudderanalytics = window.rudderanalytics = [];
-        var methods = [
-            'load',
-            'page',
-            'track',
-            'identify',
-            'alias',
-            'group',
-            'ready',
-            'reset',
-            'getAnonymousId',
-            'setAnonymousId',
-            'getUserId',
-            'getUserTraits',
-            'getGroupId',
-            'getGroupTraits',
-            'endSession',
-            'startSession',
-        ];
+      window.OneTrust = {
+        GetDomainData: function () {
+          return {
+            Groups: [
+              { CustomGroupId: 'C0001', GroupName: 'Functional Cookies' },
+              { CustomGroupId: 'C0002', GroupName: 'Performance Cookies' },
+              { CustomGroupId: 'C0003', GroupName: 'Analytical Cookies' },
+              { CustomGroupId: 'C0004', GroupName: 'Targeting Cookies' },
+              { CustomGroupId: 'C0005', GroupName: 'Social Media Cookies' },
+              { CustomGroupId: 'C0006', GroupName: 'Advertisement Cookies' },
+            ],
+          };
+        },
+      };
+      window.OnetrustActiveGroups = ',C0001,C0003,';
+      hightouchevents = window.hightouchevents = [];
+      var methods = [
+        'load',
+        'page',
+        'track',
+        'identify',
+        'alias',
+        'group',
+        'ready',
+        'reset',
+        'getAnonymousId',
+        'setAnonymousId',
+        'getUserId',
+        'getUserTraits',
+        'getGroupId',
+        'getGroupTraits',
+        'endSession',
+        'startSession',
+      ];
 
-        for (var i = 0; i < methods.length; i++) {
-            var method = methods[i];
-            rudderanalytics[method] = (function (methodName) {
-                return function () {
-                    rudderanalytics.push(
-                        [methodName].concat(Array.prototype.slice.call(arguments))
-                    );
-                };
-            })(method);
-        }
+      for (var i = 0; i < methods.length; i++) {
+        var method = methods[i];
+        hightouchevents[method] = (function (methodName) {
+          return function () {
+            hightouchevents.push([methodName].concat(Array.prototype.slice.call(arguments)));
+          };
+        })(method);
+      }
 
-        window.userWriteKey = '__WRITE_KEY__';
-        window.userConfigUrl = '__CONFIG_SERVER_HOST__';
+      window.userWriteKey = '__WRITE_KEY__';
+      window.userConfigUrl = '__CONFIG_SERVER_HOST__';
 
-        rudderanalytics.load(
-            '__WRITE_KEY__',
-            '__DATAPLANE_URL__',
-            {
-                logLevel: 'DEBUG',
-                configUrl: '__CONFIG_SERVER_HOST__',
-                lockIntegrationsVersion: true,
-                destSDKBaseURL: '__DEST_SDK_BASE_URL__',
-                cookieConsentManager: {
-                    oneTrust: {
-                        enabled: true,
-                    }
-                }
-            }
-        );
+      hightouchevents.load('__WRITE_KEY__', '__DATAPLANE_URL__', {
+        logLevel: 'DEBUG',
+        configUrl: '__CONFIG_SERVER_HOST__',
+        lockIntegrationsVersion: true,
+        destSDKBaseURL: '__DEST_SDK_BASE_URL__',
+        cookieConsentManager: {
+          oneTrust: {
+            enabled: true,
+          },
+        },
+      });
 
-        rudderanalytics.ready(function() {
-            console.log('We are all set!!!');
-        });
+      hightouchevents.ready(function () {
+        console.log('We are all set!!!');
+      });
     </script>
     <link
       rel="stylesheet"
@@ -95,25 +89,21 @@
       integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://polyfill.io/v3/polyfill.min.js?features=MutationObserver%2CArray.from%2CArray.prototype.find%2CArray.prototype.includes%2CPromise%2CString.prototype.endsWith%2CString.prototype.includes%2CString.prototype.startsWith%2CObject.entries%2CObject.values%2CElement.prototype.dataset%2CString.prototype.replaceAll"
-    ></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=MutationObserver%2CArray.from%2CArray.prototype.find%2CArray.prototype.includes%2CPromise%2CString.prototype.endsWith%2CString.prototype.includes%2CString.prototype.startsWith%2CObject.entries%2CObject.values%2CElement.prototype.dataset%2CString.prototype.replaceAll"></script>
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
     <style>
-        .collapsed-row pre{
-            height: 124px;
-            overflow: hidden;
-        }
+      .collapsed-row pre {
+        height: 124px;
+        overflow: hidden;
+      }
     </style>
-    <script async src="./rudder-analytics.min.js"></script>
-</head>
-<body>
-
-<div class="container-xxl">
-    <div class="row ow px-4">
-        <div class="col" id="testBook">
-        </div>
+    <script async src="./events.min.js"></script>
+  </head>
+  <body>
+    <div class="container-xxl">
+      <div class="row ow px-4">
+        <div class="col" id="testBook"></div>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>

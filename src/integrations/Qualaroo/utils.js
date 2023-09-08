@@ -23,7 +23,7 @@ const swapKeyValuePairs = (standardEventsMap) => {
  * @param {*} standardEventsMap mapping of events done by the user
  * @param {*} eventName standard event name
  * @param {*} updateEventNames boolean variable to change eventName
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 const triggerCallback = (standardEventsMap, eventName, updateEventNames, analytics) => {
   const updatedEvent =
@@ -48,7 +48,7 @@ const triggerCallback = (standardEventsMap, eventName, updateEventNames, analyti
  * @param {*} updateEventNames boolean variable to change eventName
  * @param {*} userDefinedEventsList list of requested events by the user
  * @param {*} userDefinedEventsMapping mapping of events in the webapp by the user
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 const recordQualarooEvents = (
   updateEventNames,

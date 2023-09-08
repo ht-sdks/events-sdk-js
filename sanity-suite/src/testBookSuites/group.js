@@ -7,7 +7,7 @@ import group6ExpectedData from '../../__mocks__/group6.json';
 const groupMethodSuite = {
   id: 'groupMethod',
   name: 'Group',
-  description: 'Group Method: rudderanalytics.group(groupId, [traits], [apiOptions], [callback]);',
+  description: 'Group Method: hightouchevents.group(groupId, [traits], [apiOptions], [callback]);',
   testCases: [
     {
       id: 'group1',

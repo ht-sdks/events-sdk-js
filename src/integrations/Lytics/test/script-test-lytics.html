@@ -6,22 +6,22 @@
     </script> -->
     <script type="text/javascript">
       // checking test commit 2
-      rudderanalytics = window.rudderanalytics = [];
+      hightouchevents = window.hightouchevents = [];
       var methods = ['load', 'ready', 'track'];
 
-      // this is required to be set before RudderAnalytics is loaded/run
-      window.rudderanalytics.syncPixelCallback = (obj) => {};
+      // this is required to be set before hightouchevents is loaded/run
+      window.hightouchevents.syncPixelCallback = (obj) => {};
       var methods = ['load', 'page', 'identify', 'track', 'ready'];
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push([methodName, ...arguments]);
+            hightouchevents.push([methodName, ...arguments]);
           };
         })(method);
       }
 
-      rudderanalytics.load('1haY9AxJbyxwjLXEe9A5xQnvIQZ', 'http://localhost:8080', {
+      hightouchevents.load('1haY9AxJbyxwjLXEe9A5xQnvIQZ', 'http://localhost:8080', {
         logLevel: 'DEBUG',
         configUrl: 'https://api.dev.rudderlabs.com',
       });
@@ -30,13 +30,13 @@
     <script src="./browser.js"></script>
 
     <script>
-      window.rudderanalytics.ready(() => {
+      window.hightouchevents.ready(() => {
         console.log('we are all set!!!');
       });
 
       //IDENTIFY CALLS
 
-      window.rudderanalytics.identify('ruchu123', {
+      window.hightouchevents.identify('ruchu123', {
         name: 'Ruchira Moitra',
         email: 'ruchira@gmail.com',
         plan: 'Enterprise',
@@ -71,7 +71,7 @@
            http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?user_id=ruchu123&name=Ruchira%20Moitra&email=ruchira%40gmail.com&plan=Enterprise&company_len=2&company_json=%5B%7B%22id%22%3A%22abc123%22%2C%22name%22%3A%7B%22second_name%22%3A%22xyz%22%2C%22first_name%22%3A%22abc%22%7D%7D%2C%7B%22id%22%3A%22abc1234%22%2C%22name%22%3A%7B%22second_name%22%3A%22xyza%22%2C%22first_name%22%3A%22abcd%22%7D%7D%5D&company.id=abc123&company.name.second_name=xyz&company.name.first_name=abc&company.id=abc1234&company.name.second_name=xyza&company.name.first_name=abcd&createdAt=Thu%20Mar%2024%202016%2017%3A46%3A45%20GMT%2B0000%20(UTC)&_ts=1601468609900&_nmob=t&_device=desktop&url=localhost%2Fscript-test-lytics.html&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
          **/
 
-      window.rudderanalytics.identify('Steven');
+      window.hightouchevents.identify('Steven');
 
       //Expected Result:
       /**
@@ -81,7 +81,7 @@
 
       //PAGE CALLS
 
-      window.rudderanalytics.page();
+      window.hightouchevents.page();
 
       //Expected Result:
 
@@ -90,7 +90,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?path=%2Fscript-test-lytics.html&referrer=&search=&title=&url=localhost%2Fscript-test-lytics.html&_ts=1601468609903&_nmob=t&_device=desktop&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        * **/
 
-      window.rudderanalytics.page('category', 'name', {
+      window.hightouchevents.page('category', 'name', {
         url: 'ruchira url',
         path: '/ruchirapath',
         search: '?q=1',
@@ -103,7 +103,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?_e=name&url=localhost%2Fscript-test-lytics.html&path=%2Fruchirapath&search=%3Fq%3D1&name=name&category=category&referrer=&title=&_ts=1601468609903&_nmob=t&_device=desktop&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        * **/
 
-      window.rudderanalytics.page('Name1');
+      window.hightouchevents.page('Name1');
 
       //Expected Result:
       /**
@@ -111,7 +111,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?_e=Name1&name=Name1&path=%2Fscript-test-lytics.html&referrer=&search=&title=&url=localhost%2Fscript-test-lytics.html&_ts=1601468609904&_nmob=t&_device=desktop&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        * **/
 
-      window.rudderanalytics.page({
+      window.hightouchevents.page({
         score: 211,
         author: 'Author1',
         postType: 'blog1',
@@ -125,7 +125,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?score=211&author=Author1&postType=blog1&section=News1&path=%2Fscript-test-lytics.html&referrer=&search=&title=&url=localhost%2Fscript-test-lytics.html&_ts=1601468609904&_nmob=t&_device=desktop&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        * **/
 
-      window.rudderanalytics.page('Category2', 'Name2');
+      window.hightouchevents.page('Category2', 'Name2');
 
       //Expected Result:
       /**
@@ -134,7 +134,7 @@
        * **/
 
       //TRACK CALLS
-      rudderanalytics.track();
+      hightouchevents.track();
 
       //Expected Result:
       /**
@@ -142,7 +142,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?_ts=1601468609905&_nmob=t&_device=desktop&url=localhost%2Fscript-test-lytics.html&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        * **/
 
-      window.rudderanalytics.track('event1');
+      window.hightouchevents.track('event1');
 
       //Expected Result:
       /**
@@ -150,7 +150,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?_e=event1&_ts=1601468609906&_nmob=t&_device=desktop&url=localhost%2Fscript-test-lytics.html&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        **/
 
-      rudderanalytics.track('Order Completed', {
+      hightouchevents.track('Order Completed', {
         checkout_id: 'what is checkout id here??',
         order_id: 'transactionId',
         value: 31.98,
@@ -217,7 +217,7 @@
        * http://c.lytics.io/c/850f5386f55ea22cd32b29a759dd3f8a/test_file?_e=Order%20Completed&checkout_id=what%20is%20checkout%20id%20here%3F%3F&order_id=transactionId&value=31.98&revenue=31.98&shipping=4&coupon=APPARELSALE&currency=GBP&products_len=3&products_json=%5B%7B%22product_id%22%3A%22product-bacon-jam%22%2C%22sku%22%3A%22sku-1%22%2C%22category%22%3A%22Merch%22%2C%22name%22%3A%22Food%2FDrink%22%2C%22brand%22%3A%22%22%2C%22variant%22%3A%22Extra%20topped%22%2C%22price%22%3A3%2C%22quantity%22%3A2%2C%22currency%22%3A%22GBP%22%2C%22position%22%3A1%2C%22value%22%3A6%2C%22typeOfProduct%22%3A%22Food%22%2C%22url%22%3A%22https%3A%2F%2Fwww.example.com%2Fproduct%2Fbacon-jam%22%2C%22image_url%22%3A%22https%3A%2F%2Fwww.example.com%2Fproduct%2Fbacon-jam.jpg%22%7D%2C%7B%22product_id%22%3A%22product-t-shirt%22%2C%22sku%22%3A%22sku-2%22%2C%22category%22%3A%22Merch%22%2C%22name%22%3A%22T-Shirt%22%2C%22brand%22%3A%22Levis%22%2C%22variant%22%3A%22White%22%2C%22price%22%3A12.99%2C%22quantity%22%3A1%2C%22currency%22%3A%22GBP%22%2C%22position%22%3A2%2C%22value%22%3A12.99%2C%22typeOfProduct%22%3A%22Shirt%22%2C%22url%22%3A%22https%3A%2F%2Fwww.example.com%2Fproduct%2Ft-shirt%22%2C%22image_url%22%3A%22https%3A%2F%2Fwww.example.com%2Fproduct%2Ft-shirt.jpg%22%7D%2C%7B%22product_id%22%3A%22offer-t-shirt%22%2C%22sku%22%3A%22sku-3%22%2C%22category%22%3A%22Merch%22%2C%22name%22%3A%22T-Shirt-on-offer%22%2C%22brand%22%3A%22Levis%22%2C%22variant%22%3A%22Black%22%2C%22price%22%3A12.99%2C%22quantity%22%3A1%2C%22currency%22%3A%22GBP%22%2C%22position%22%3A1%2C%22value%22%3A12.99%2C%22coupon%22%3A%22APPARELSALE%22%2C%22typeOfProduct%22%3A%22Shirt%22%2C%22url%22%3A%22https%3A%2F%2Fwww.example.com%2Fproduct%2Foffer-t-shirt%22%2C%22image_url%22%3A%22https%3A%2F%2Fwww.example.com%2Fproduct%2Foffer-t-shirt.jpg%22%7D%5D&products.product_id=product-bacon-jam&products.sku=sku-1&products.category=Merch&products.name=Food%2FDrink&products.brand=&products.variant=Extra%20topped&products.price=3&products.quantity=2&products.currency=GBP&products.position=1&products.value=6&products.typeOfProduct=Food&products.url=https%3A%2F%2Fwww.example.com%2Fproduct%2Fbacon-jam&products.image_url=https%3A%2F%2Fwww.example.com%2Fproduct%2Fbacon-jam.jpg&products.product_id=product-t-shirt&products.sku=sku-2&products.category=Merch&products.name=T-Shirt&products.brand=Levis&products.variant=White&products.price=12.99&products.quantity=1&products.currency=GBP&products.position=2&products.value=12.99&products.typeOfProduct=Shirt&products.url=https%3A%2F%2Fwww.example.com%2Fproduct%2Ft-shirt&products.image_url=https%3A%2F%2Fwww.example.com%2Fproduct%2Ft-shirt.jpg&products.product_id=offer-t-shirt&products.sku=sku-3&products.category=Merch&products.name=T-Shirt-on-offer&products.brand=Levis&products.variant=Black&products.price=12.99&products.quantity=1&products.currency=GBP&products.position=1&products.value=12.99&products.coupon=APPARELSALE&products.typeOfProduct=Shirt&products.url=https%3A%2F%2Fwww.example.com%2Fproduct%2Foffer-t-shirt&products.image_url=https%3A%2F%2Fwww.example.com%2Fproduct%2Foffer-t-shirt.jpg&_ts=1601468609906&_nmob=t&_device=desktop&url=localhost%2Fscript-test-lytics.html&_uid=u_568832263937661300&_v=3.0.11&_uido=u_568832263937661300
        * **/
 
-      window.rudderanalytics.track('Product Added', {
+      window.hightouchevents.track('Product Added', {
         currency: 'CAD',
         quantity: 1,
         price: 24.75,

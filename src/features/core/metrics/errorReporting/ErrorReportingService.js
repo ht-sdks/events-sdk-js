@@ -85,11 +85,11 @@ class ErrorReportingService {
   // Expose the error reporting service as global variable after provider is ready,
   // so it can be used without injecting the service to consumer methods
   exposeToGlobal() {
-    if (!window.RudderStackGlobals) {
-      window.RudderStackGlobals = {};
+    if (!window.HtEventsGlobals) {
+      window.HtEventsGlobals = {};
     }
 
-    window.RudderStackGlobals[ERROR_REPORTING_SERVICE_GLOBAL_KEY_NAME] = this;
+    window.HtEventsGlobals[ERROR_REPORTING_SERVICE_GLOBAL_KEY_NAME] = this;
   }
 
   leaveBreadcrumb(breadcrumb) {

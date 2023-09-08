@@ -10,47 +10,40 @@
     <!-- Case 3.4: File names of integration SDKs modified -->
 
     <script>
-      rudderanalytics = window.rudderanalytics = [];
+      hightouchevents = window.hightouchevents = [];
 
       var methods = [
-        "load",
-        "page",
-        "track",
-        "identify",
-        "alias",
-        "group",
-        "ready",
-        "reset",
-        "getAnonymousId",
-        "setAnonymousId",
+        'load',
+        'page',
+        'track',
+        'identify',
+        'alias',
+        'group',
+        'ready',
+        'reset',
+        'getAnonymousId',
+        'setAnonymousId',
       ];
 
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push(
-              [methodName].concat(Array.prototype.slice.call(arguments))
-            );
+            hightouchevents.push([methodName].concat(Array.prototype.slice.call(arguments)));
           };
         })(method);
       }
 
-      rudderanalytics.load(
-        "1xXRrCtFweOR54PIyMRCLQfFjBN",
-        "http://localhost:8080/",
-        {
-          configUrl:
-            "https://api.dev.rudderlabs.com/sourceConfig/?p=web&v=1.1.18",
-          // destSDKBaseURL: "https://ddim5kcy73icz.cloudfront.net/v2/test/", //destination sdk name changed from GA.min.js to GAB.min.js
-        }
-      );
+      hightouchevents.load('1xXRrCtFweOR54PIyMRCLQfFjBN', 'http://localhost:8080/', {
+        configUrl: 'https://api.dev.rudderlabs.com/sourceConfig/?p=web&v=1.1.18',
+        // destSDKBaseURL: "https://ddim5kcy73icz.cloudfront.net/v2/test/", //destination sdk name changed from GA.min.js to GAB.min.js
+      });
     </script>
 
     <!-- ============ Cuustomer's own CDN ============ -->
-    <!-- ============ SDK name remains same as  rudder-analytics.min.js ============ -->
+    <!-- ============ SDK name remains same as  events.min.js ============ -->
 
-    <script src="https://ddim5kcy73icz.cloudfront.net/v2/rudder-analytics.min.js"></script>
+    <script src="https://ddim5kcy73icz.cloudfront.net/v2/events.min.js"></script>
   </head>
 
   <body>
@@ -67,12 +60,9 @@
         text-align: center;
       "
     >
+      <h3>Case 3: Customer downloaded all the sdks and uploaded in their own CDN</h3>
       <h3>
-        Case 3: Customer downloaded all the sdks and uploaded in their own CDN
-      </h3>
-      <h3>
-        3.4: File names of integration SDKs modified(name changed from GA.min.js
-        to GAB.min.js)
+        3.4: File names of integration SDKs modified(name changed from GA.min.js to GAB.min.js)
       </h3>
     </div>
     <div
@@ -85,17 +75,11 @@
         padding: 5px 0px 2px 10px;
         background-color: #b4e3aa;
         color: #185c0a;
-        text-align: center; ;
+        text-align: center;
       "
     >
-      <p>
-        <b>Note:</b> Rudderstack's JS SDK CDN:
-        https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js
-      </p>
-      <p>
-        Rudderstack's destination SDKs url :
-        https://cdn.rudderlabs.com/v1.1/js-integration
-      </p>
+      <p><b>Note:</b> Rudderstack's JS SDK CDN: https://cdn.rudderlabs.com/v1.1/events.min.js</p>
+      <p>Rudderstack's destination SDKs url : https://cdn.rudderlabs.com/v1.1/js-integration</p>
       <p>
         Refer this link for more info:
         <a
@@ -124,35 +108,35 @@
 
     <script>
       function myFunction() {
-        document.getElementById("demo").innerHTML = "Hello World";
-        rudderanalytics.page();
+        document.getElementById('demo').innerHTML = 'Hello World';
+        hightouchevents.page();
 
-        rudderanalytics.identify(
-          "moumita123",
-          { email: "name@domain.com" },
+        hightouchevents.identify(
+          'moumita123',
+          { email: 'name@domain.com' },
           {
             page: {
-              path: "",
-              referrer: "",
-              search: "",
-              title: "",
-              url: "",
+              path: '',
+              referrer: '',
+              search: '',
+              title: '',
+              url: '',
             },
           },
           () => {
-            console.log("in identify call");
-          }
+            console.log('in identify call');
+          },
         );
-        rudderanalytics.track(
-          "test track event GA3",
+        hightouchevents.track(
+          'test track event GA3',
           {
             revenue: 30,
-            currency: "USD",
+            currency: 'USD',
             user_actual_id: 12345,
           },
           () => {
-            console.log("in track call");
-          }
+            console.log('in track call');
+          },
         );
       }
     </script>

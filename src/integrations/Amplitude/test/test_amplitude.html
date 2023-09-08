@@ -1,25 +1,25 @@
 <html>
   <head>
     <script type="text/javascript">
-      rudderanalytics = window.rudderanalytics = [];
+      hightouchevents = window.hightouchevents = [];
       var methods = ['load', 'page', 'identify', 'track', 'ready', 'group'];
       for (var i = 0; i < methods.length; i++) {
         var method = methods[i];
-        rudderanalytics[method] = (function (methodName) {
+        hightouchevents[method] = (function (methodName) {
           return function () {
-            rudderanalytics.push([methodName, ...arguments]);
+            hightouchevents.push([methodName, ...arguments]);
           };
         })(method);
       }
 
-      rudderanalytics.load('1kT6kQvlivvbvyzO3SW4d2G0Y2u', 'https://hosted.rudderlabs.com', {
+      hightouchevents.load('1kT6kQvlivvbvyzO3SW4d2G0Y2u', 'https://hosted.rudderlabs.com', {
         logLevel: 'DEBUG',
         configUrl: 'http://localhost:5000/sourceConfig',
       });
     </script>
-    <script src="https://cdn.rudderlabs.com/v1/rudder-analytics-staging.min.js"></script>
+    <script src="https://cdn.rudderlabs.com/v1/events-staging.min.js"></script>
     <script>
-      rudderanalytics.page();
+      hightouchevents.page();
       /*
       Expected result: ehen trackAllPages settings is enabled.
 
@@ -27,7 +27,7 @@
 
       */
 
-      rudderanalytics.track('track without property');
+      hightouchevents.track('track without property');
       /*
       Expected result:
 
@@ -35,7 +35,7 @@
 
       */
 
-      rudderanalytics.identify('user1234', {
+      hightouchevents.identify('user1234', {
         name: 'test name123',
         email: 'test123@email.com',
         score: 10,
@@ -48,7 +48,7 @@
 
       */
 
-      rudderanalytics.track('test track event', { prop1: 'value1', prop2: 'value2' });
+      hightouchevents.track('test track event', { prop1: 'value1', prop2: 'value2' });
       /*
       Expected result:
 
@@ -56,7 +56,7 @@
 
       */
 
-      rudderanalytics.track('test revenue event', { revenue: 12, currency: 'GBP' });
+      hightouchevents.track('test revenue event', { revenue: 12, currency: 'GBP' });
 
       /*
       Expected result:
@@ -65,7 +65,7 @@
 
       */
 
-      rudderanalytics.track('Order Completed', {
+      hightouchevents.track('Order Completed', {
         checkout_id: 'what is checkout id here??',
         orderId: 'ABCD1234',
         value: 31.98,

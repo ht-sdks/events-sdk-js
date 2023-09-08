@@ -15,7 +15,7 @@ const standardEventsList = ['display', 'progress', 'complete', 'dismiss'];
  * @param {*} eventName standard event name
  * @param {*} updateEventNames boolean variable to change eventName
  * @param {*} events list of events
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 const triggerCallback = (standardEventsMap, eventName, updateEventNames, events, analytics) => {
   const updatedEvent =
@@ -33,7 +33,7 @@ const triggerCallback = (standardEventsMap, eventName, updateEventNames, events,
  * @param {*} updateEventNames boolean variable to change eventName
  * @param {*} userDefinedEventsList list of requested events by the user
  * @param {*} userDefinedEventsMapping mapping of events in the webapp by the user
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 const recordSatismeterEvents = (
   updateEventNames,

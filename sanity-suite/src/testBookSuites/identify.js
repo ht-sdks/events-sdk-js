@@ -11,7 +11,7 @@ const identifyMethodSuite = {
   id: 'identifyMethod',
   name: 'Identify',
   description:
-    'Identify Method: rudderanalytics.identify(userId, [traits], [apiOptions], [callback]);',
+    'Identify Method: hightouchevents.identify(userId, [traits], [apiOptions], [callback]);',
   testCases: [
     {
       id: 'identify1',

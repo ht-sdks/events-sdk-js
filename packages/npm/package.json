@@ -1,7 +1,7 @@
 {
-  "name": "rudder-sdk-js",
-  "version": "2.41.0",
-  "description": "RudderStack Javascript SDK",
+  "name": "events-sdk-js",
+  "version": "0.0.1",
+  "description": "Events SDK Javascript",
   "main": "index.js",
   "module": "index.es.js",
   "exports": {
@@ -36,18 +36,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "analytics",
-    "rudder"
-  ],
-  "author": "RudderStack",
+  "keywords": [],
+  "author": "HT-SDKS",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rudderlabs/rudder-sdk-js.git"
+    "url": "git+https://github.com/ht-sdks/events-sdk-js.git"
   },
   "bugs": {
-    "url": "https://github.com/rudderlabs/rudder-sdk-js/issues"
+    "url": "https://github.com/ht-sdks/events-sdk-js/issues"
   },
-  "homepage": "https://github.com/rudderlabs/rudder-sdk-js/blob/master/README.md"
+  "homepage": "https://github.com/ht-sdks/events-sdk-js/blob/master/README.md"
 }

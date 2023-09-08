@@ -55,7 +55,7 @@ class StoreLocal {
    * @returns boolean
    */
   checkSupportAvailability() {
-    const name = 'test_rudder_ls';
+    const name = 'test_htevents_ls';
     this.set(name, true);
 
     if (this.get(name)) {

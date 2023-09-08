@@ -1,5 +1,5 @@
 import { initSanitySuite } from './testBook/index';
 
-window.rudderanalytics.ready(function () {
+window.hightouchevents.ready(function () {
   initSanitySuite();
 });

@@ -87,8 +87,8 @@ const getCopyTargets = () => {
       return [];
     default:
       return [
-        { src: '../dist/legacy/rudder-analytics.min.js', dest: getDistPath() },
-        { src: '../dist/legacy/rudder-analytics.min.js.map', dest: getDistPath() },
+        { src: '../dist/legacy/events.min.js', dest: getDistPath() },
+        { src: '../dist/legacy/events.min.js.map', dest: getDistPath() },
         { src: '../dist/legacy/js-integrations/*', dest: `${getDistPath()}/js-integrations` },
       ];
   }

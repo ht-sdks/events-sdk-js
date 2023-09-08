@@ -6,7 +6,7 @@ import alias6ExpectedData from '../../__mocks__/alias6.json';
 const aliasMethodSuite = {
   id: 'aliasMethod',
   name: 'Alias',
-  description: 'Alias Method: rudderanalytics.alias(to, from, [apiOptions], [callback]);',
+  description: 'Alias Method: hightouchevents.alias(to, from, [apiOptions], [callback]);',
   testCases: [
     {
       id: 'alias1',

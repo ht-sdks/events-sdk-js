@@ -1,6 +1,6 @@
 # Chrome Extension Usage
 
-RudderStack JS SDK can be used in Chrome Extensions with manifest v3, both as a content script or as a background script
+The JS SDK can be used in Chrome Extensions with manifest v3, both as a content script or as a background script
 service worker.
 
 ## Table of contents
@@ -11,28 +11,28 @@ service worker.
 
 ## Examples
 
-The provided examples are based on [Chrome Extension v3 Starter](https://github.com/SimGus/chrome-extension-v3-starter) 
+The provided examples are based on [Chrome Extension v3 Starter](https://github.com/SimGus/chrome-extension-v3-starter)
 that contains a minimal Chrome/Chromium extension using the newest version of the manifest (v3).
 
 ## Background Script
 
-RuderStack npm package JS SDK service worker export can be used as background script. In order to do so you will need to 
-place it in your Chrome extension resources, either by copying the file from node modules, and have it as part of the 
-resources, or by using a JS bundler and bundle it as part of you service worker script.
+The npm package has a service worker export that can be used as a background script. You will need to
+place it in your Chrome extension resources, either by copying the file from node modules--having it as part of your
+resources--or by using a JS bundler.
 
 Relevant permissions need to be enabled in the manifest file as per the desired capabilities and connections allowed.
 Additionally setting the background script type as module will allow you to import is as ESM.
 
     "permissions": ["storage", "tabs"],
     "host_permissions": [
-        "https://*.dataplane.rudderstack.com/*",
-        "https://*.rudderlabs.com/*",
+        "https://*.*.hightouch.com/*",
+        "https://*.hightouch.com/*",
         "*://*/*"
     ],
     "externally_connectable": {
         "matches": [
-            "https://*.dataplane.rudderstack.com/*",
-            "https://*.rudderlabs.com/*"
+            "https://*.*.hightouch.com/*",
+            "https://*.hightouch.com/*"
         ]
     },
     "background": {
@@ -40,8 +40,7 @@ Additionally setting the background script type as module will allow you to impo
         "type": "module"
     },
 
-After that you should be able to follow the [NodeJS SDK documentation](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-node-sdk/) 
-for further usage.
+After that you should be able to follow the NodeJS SDK documentation for further usage.
 
 You can react to events that are available in background scripts via the [Chrome API](https://developer.chrome.com/docs/extensions/reference/).
 
@@ -49,22 +48,22 @@ Here is an example to track url changes.
 
 Sample background script imports:
 
-    # In case file is copied from node_modules/rudder-sdk-js/service-worker/index.es.js in extension resources folder
+    # In case file is copied from node_modules/@ht-sdks/events-sdk-js/service-worker/index.es.js in extension resources folder
     import { Analytics } from "./rudderAnalytics.js";
 
     # In case the package is imported directly as umd and then bundled in the background script
-    import { Analytics } from "rudder-sdk-js/service-worker";
+    import { Analytics } from "@ht-sdks/events-sdk-js/service-worker";
 
     # In case the package is imported directly as es-module and then bundled in the background script
-    import { Analytics } from "rudder-sdk-js/service-worker/index.es"; 
+    import { Analytics } from "@ht-sdks/events-sdk-js/service-worker/index.es";
 
 Sample background script:
-    
-    const rudderClient = new Analytics("<writeKey>","<dataPlaneURL>/v1/batch");
-    
+
+    const hightouchClient = new Analytics("<writeKey>","<dataPlaneURL>/v1/batch", {configUrl: <controlPlaneUrl>});
+
     chrome.tabs.onUpdated.addListener((tabId, tab) => {
         if (tab.url) {
-            rudderClient.track({
+            hightouchClient.track({
                 userId: "123456",
                 event: "Event Name",
                 properties: {
@@ -76,27 +75,24 @@ Sample background script:
 
 ## Content Script
 
-RuderStack JS SDK can be used as content script. In order to do so you will need to place it in your Chrome extension
-resources, either by downloading the file and have it as part of the resources or by using a JS bundler and bundle it as 
-part of you content script.
+The SDK can also be used as a content script. Place it in your Chrome extension resources, either by downloading the file or by using a JS bundler and bundling it as part of your content script.
 
 Relevant permissions need to be enabled in the manifest file as per the desired capabilities and connections allowed
 
     "permissions": ["storage", "tabs"],
     "host_permissions": [
-        "https://*.dataplane.rudderstack.com/*",
-        "https://*.rudderlabs.com/*",
+        "https://*.*.hightouch.com/*",
+        "https://*.hightouch.com/*",
         "*://*/*"
     ],
     "externally_connectable": {
         "matches": [
-            "https://*.dataplane.rudderstack.com/*",
-            "https://*.rudderlabs.com/*"
+            "https://*.*.hightouch.com/*",
+            "https://*.hightouch.com/*"
         ]
     }
 
-After that you should be able to follow the [JS SDK documentation](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/quick-start-guide/) 
-for further usage.
+After that you should be able to follow the JS SDK documentation for further usage.
 
 You can react to events that are available in both content and background scripts too via the [Chrome API](https://developer.chrome.com/docs/extensions/reference/).
 
@@ -105,13 +101,13 @@ Here is an example to track url changes.
 Sample content script:
 
     # prepend the JS SDK file here
-    rudderanalytics.load("<writeKey>", "<dataPlaneURL>");
-    
+    analytics.load("<writeKey>", "<dataPlaneURL>", {configUrl: <controlPlaneUrl>});
+
     chrome.runtime.onMessage.addListener((obj, sender, response) => {
         const { type, value } = obj;
 
         if (type === "trackURL") {
-            rudderanalytics.track("URL change", { url: value });
+            analytics.track("URL change", { url: value });
         }
     });
 

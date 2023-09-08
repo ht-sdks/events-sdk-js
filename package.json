@@ -5,8 +5,8 @@
   "main": "./dist/browser.min.js",
   "scripts": {
     "setup": "npm i && cd sanity-suite && npm i",
-    "test": "npm run build:browser && sed 's/var rudderanalytics/rudderanalytics/g' dist/legacy/rudder-analytics.min.js > __tests__/prodsdk.js && jest --watchAll=false --maxWorkers=50% --coverage",
-    "test:ci": "npm run build:browser && sed 's/var rudderanalytics/rudderanalytics/g' dist/legacy/rudder-analytics.min.js > __tests__/prodsdk.js && jest --watchAll=false --maxWorkers=2 --coverage",
+    "test": "npm run build:browser && sed 's/var hightouchevents/hightouchevents/g' dist/legacy/events.min.js > __tests__/prodsdk.js && jest --watchAll=false --maxWorkers=50% --coverage",
+    "test:ci": "npm run build:browser && sed 's/var hightouchevents/hightouchevents/g' dist/legacy/events.min.js > __tests__/prodsdk.js && jest --watchAll=false --maxWorkers=2 --coverage",
     "start": "rollup --config rollup-configs/rollup.sdk.browser.js --watch --environment DEV_SERVER,PROD_DEBUG:inline",
     "start:all": "npm run build:integration:all && rollup --config rollup-configs/rollup.sdk.browser.js --watch --environment DEV_SERVER,PROD_DEBUG:inline",
     "build:browser:dev": "rollup --config rollup-configs/rollup.sdk.browser.js",

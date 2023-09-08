@@ -1,17 +1,17 @@
-const rudderanalytics = [];
+const hightouchevents = [];
 
-rudderanalytics.track('Products Searched', {
+hightouchevents.track('Products Searched', {
   query: 'HDMI cable',
 });
 
-rudderanalytics.track('Products Searched', {
+hightouchevents.track('Products Searched', {
   query: 'HDMI cable',
   properties: {
     date: '7 january',
   },
 });
 
-rudderanalytics.track('Product List Filtered', {
+hightouchevents.track('Product List Filtered', {
   list_id: 'todays_deals_may_11_2019',
   filters: [
     {
@@ -51,7 +51,7 @@ rudderanalytics.track('Product List Filtered', {
   ],
 });
 
-rudderanalytics.track('Product Added', {
+hightouchevents.track('Product Added', {
   product_id: '123',
   sku: 'F15',
   category: 'Games',
@@ -66,7 +66,7 @@ rudderanalytics.track('Product Added', {
   image_url: 'https://www.website.com/product/path.png',
 });
 
-rudderanalytics.track('Order Completed', {
+hightouchevents.track('Order Completed', {
   checkout_id: 'fksdjfsdjfisjf9sdfjsd9f',
   order_id: '50314b8e9bcf000000000000',
   affiliation: 'Google Store',
@@ -100,7 +100,7 @@ rudderanalytics.track('Order Completed', {
   ],
 });
 
-rudderanalytics.page('Alert! I am raising a bug', 'testing you', {
+hightouchevents.page('Alert! I am raising a bug', 'testing you', {
   path: 'path',
   url: 'url',
   title: 'title',
@@ -108,17 +108,17 @@ rudderanalytics.page('Alert! I am raising a bug', 'testing you', {
   referrer: 'referrer',
   testDimension: 'true',
 });
-rudderanalytics.page('I am no one', {
+hightouchevents.page('I am no one', {
   score: 21,
   author: 'Author',
   postType: 'blog',
   section: 'News',
 });
 
-rudderanalytics.identify('user123456', { email: 'user@email.com', age: 22 });
+hightouchevents.identify('user123456', { email: 'user@email.com', age: 22 });
 
 // Tests With Custom Properties added
-rudderanalytics.track('Order Completed', {
+hightouchevents.track('Order Completed', {
   checkout_id: '12345',
   order_id: '1234',
   affiliation: 'Apple Store',
@@ -153,7 +153,7 @@ rudderanalytics.track('Order Completed', {
   ],
 });
 // This event will map to Signup for Pinterest because there is a property mapping associated  with it.
-rudderanalytics.track('register', {
+hightouchevents.track('register', {
   checkout_id: '12345',
   order_id: '1234',
   isUserAuthenticated: true, // custom properties

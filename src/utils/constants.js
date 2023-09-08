@@ -11,7 +11,7 @@ const RESERVED_KEYS = [
 ];
 
 const CONFIG_URL =
-  'https://api.rudderlabs.com/sourceConfig/?p=__MODULE_TYPE__&v=__PACKAGE_VERSION__';
+  'https://events.us-east-1.hightouch.com/sourceConfig/?p=__MODULE_TYPE__&v=__PACKAGE_VERSION__';
 const SDK_CDN_BASE_URL = 'https://cdn.rudderlabs.com';
 const CDN_ARCH_VERSION_DIR = 'v1.1';
 const CDN_INT_DIR = 'js-integrations';
@@ -37,7 +37,7 @@ const ERROR_REPORTING_SERVICE_GLOBAL_KEY_NAME = 'errorReporting';
 const LOAD_ORIGIN = 'RS_JS_SDK';
 
 const DEFAULT_REGION = 'US';
-const DEFAULT_DATAPLANE_URL = 'https://hosted.rudderlabs.com';
+const DEFAULT_DATAPLANE_URL = 'https://events.us-east-1.hightouch.com';
 
 const RESIDENCY_SERVERS = [DEFAULT_REGION, 'EU'];
 

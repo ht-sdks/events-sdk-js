@@ -1379,13 +1379,13 @@ const pageEvents = [
         context: {
           app: {
             build: '1.0.0',
-            name: 'RudderLabs JavaScript SDK',
-            namespace: 'com.rudderlabs.javascript',
+            name: 'Events SDK JavaScript',
+            namespace: 'com.hightouch.javascript',
             version: '1.0.5',
           },
           ip: '0.0.0.0',
           library: {
-            name: 'RudderLabs JavaScript SDK',
+            name: 'Events SDK JavaScript',
             version: '1.0.5',
           },
           locale: 'en-GB',
@@ -1442,7 +1442,7 @@ const groupEvents = [
         userId: 'user@1',
         context: {
           library: {
-            name: 'rudder-analytics-php',
+            name: 'events-php',
             version: '2.0.1',
             consumer: 'LibCurl',
           },

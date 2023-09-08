@@ -17,9 +17,9 @@ describe('FacebookPixel init tests', () => {
   test('Testing init call of Facebook Pixel with identified user and updated mapping true', () => {
     const mockAnalytics = {
       getUserTraits: jest.fn(() => ({
-        firstName: 'rudder',
+        firstName: 'bob',
         lastName: 'stack',
-        email: 'abce@rudderstack.com',
+        email: 'abce@example.com',
       })),
       getAnonymousId: jest.fn(() => 'testAnonymousID'),
       getUserId: jest.fn(() => 'testUserID'),
@@ -32,9 +32,9 @@ describe('FacebookPixel init tests', () => {
     facebookPixel.init();
     expect(typeof window.fbq).toBe('function');
     expect(facebookPixel.userPayload).toStrictEqual({
-      em: 'abce@rudderstack.com',
+      em: 'abce@example.com',
       external_id: 'd06773e1bf4b8a96a4786fbb8e3444092438ad29401769613ae9e0e3e1e08a84',
-      fn: 'rudder',
+      fn: 'bob',
       ln: 'stack',
     });
   });
@@ -60,9 +60,9 @@ describe('FacebookPixel init tests', () => {
   test('Testing init call of Facebook Pixel with identified user and updated mapping false', () => {
     const mockAnalytics = {
       getUserTraits: jest.fn(() => ({
-        firstName: 'rudder',
+        firstName: 'bob',
         lastName: 'stack',
-        email: 'abcd@rudderstack.com',
+        email: 'abcd@example.com',
       })),
       getAnonymousId: jest.fn(() => 'testAnonymousID'),
       getUserId: jest.fn(() => 'testUserID'),
@@ -75,8 +75,8 @@ describe('FacebookPixel init tests', () => {
     facebookPixel.init();
     expect(typeof window.fbq).toBe('function');
     expect(facebookPixel.userPayload).toStrictEqual({
-      email: 'abcd@rudderstack.com',
-      firstName: 'rudder',
+      email: 'abcd@example.com',
+      firstName: 'bob',
       lastName: 'stack',
     });
   });
@@ -86,9 +86,9 @@ describe('FacebookPixel page', () => {
   let facebookPixel;
   const mockAnalytics = {
     getUserTraits: jest.fn(() => ({
-      firstName: 'rudder',
+      firstName: 'bob',
       lastName: 'stack',
-      email: 'abc@rudderstack.com',
+      email: 'abc@example.com',
     })),
     getAnonymousId: jest.fn(() => 'testAnonymousID'),
     getUserId: jest.fn(() => 'testUserID'),
@@ -133,9 +133,9 @@ describe('FacebookPixel page', () => {
 describe('Facebook Pixel Track event', () => {
   const mockAnalytics = {
     getUserTraits: jest.fn(() => ({
-      firstName: 'rudder',
+      firstName: 'bob',
       lastName: 'stack',
-      email: 'abc@rudderstack.com',
+      email: 'abc@example.com',
     })),
     getAnonymousId: jest.fn(() => 'testAnonymousID'),
     getUserId: jest.fn(() => 'testUserID'),

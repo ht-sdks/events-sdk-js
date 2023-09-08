@@ -1,4 +1,4 @@
-import * as rudderanalytics from 'rudder-sdk-js';
+import * as hightouchevents from 'events-sdk-js';
 import { initSanitySuite } from './testBook/index';
 
 const getWriteKey = () => {
@@ -53,13 +53,13 @@ const getLoadOptions = () => {
   }
 };
 
-rudderanalytics.load(getWriteKey(), 'DATA_PLANE_URL', getLoadOptions());
+hightouchevents.load(getWriteKey(), 'DATA_PLANE_URL', getLoadOptions());
 
-rudderanalytics.ready(() => {
+hightouchevents.ready(() => {
   console.log('We are all set!!!');
   initSanitySuite();
 });
 
-window.rudderanalytics = rudderanalytics;
+window.hightouchevents = hightouchevents;
 
-export { rudderanalytics };
+export { hightouchevents };

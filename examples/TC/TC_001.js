@@ -1,4 +1,4 @@
-const rudderanalytics = window.analytics;
-rudderanalytics.reset();
-window.rudderanalytics.identify();
-rudderanalytics.track("oky");
+const hightouchevents = window.analytics;
+hightouchevents.reset();
+window.hightouchevents.identify();
+hightouchevents.track('oky');

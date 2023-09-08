@@ -1,8 +1,8 @@
 // Application class
 class RudderApp {
   constructor() {
-    this.name = 'RudderLabs JavaScript SDK';
-    this.namespace = 'com.rudderlabs.javascript';
+    this.name = 'Events SDK JavaScript';
+    this.namespace = 'com.hightouch.javascript';
     this.version = '__PACKAGE_VERSION__';
   }
 }

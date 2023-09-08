@@ -16,7 +16,7 @@ import {
 jest.mock('uuid', () => ({ v4: () => '123456789' }));
 
 describe('JS SDK Service Worker', () => {
-  let rudderAnalyticsClient = null;
+  let hightouchEventsClient = null;
   let requestBody;
 
   beforeAll(() => {
@@ -25,14 +25,14 @@ describe('JS SDK Service Worker', () => {
   });
 
   beforeEach(() => {
-    rudderAnalyticsClient = new Analytics(dummyWriteKey, dummyDataplaneHost, dummyInitOptions);
+    hightouchEventsClient = new Analytics(dummyWriteKey, dummyDataplaneHost, dummyInitOptions);
     server.events.on('request:start', (req) => {
       requestBody = req.body;
     });
   });
 
   afterEach(() => {
-    rudderAnalyticsClient = null;
+    hightouchEventsClient = null;
     server.resetHandlers();
     server.events.removeAllListeners();
     requestBody = null;
@@ -43,19 +43,19 @@ describe('JS SDK Service Worker', () => {
   });
 
   it('Should initialise with correct values', () => {
-    expect(rudderAnalyticsClient.writeKey).toBe(dummyWriteKey);
-    expect(rudderAnalyticsClient.host).toBe(dummyDataplaneHost);
-    expect(rudderAnalyticsClient.timeout).toBe(dummyInitOptions.timeout);
-    expect(rudderAnalyticsClient.flushAt).toBe(dummyInitOptions.flushAt);
-    expect(rudderAnalyticsClient.flushInterval).toBe(dummyInitOptions.flushInterval);
-    expect(rudderAnalyticsClient.maxInternalQueueSize).toBe(dummyInitOptions.maxInternalQueueSize);
-    expect(rudderAnalyticsClient.logLevel).toBe(dummyInitOptions.logLevel);
-    expect(rudderAnalyticsClient.enable).toBe(dummyInitOptions.enable);
+    expect(hightouchEventsClient.writeKey).toBe(dummyWriteKey);
+    expect(hightouchEventsClient.host).toBe(dummyDataplaneHost);
+    expect(hightouchEventsClient.timeout).toBe(dummyInitOptions.timeout);
+    expect(hightouchEventsClient.flushAt).toBe(dummyInitOptions.flushAt);
+    expect(hightouchEventsClient.flushInterval).toBe(dummyInitOptions.flushInterval);
+    expect(hightouchEventsClient.maxInternalQueueSize).toBe(dummyInitOptions.maxInternalQueueSize);
+    expect(hightouchEventsClient.logLevel).toBe(dummyInitOptions.logLevel);
+    expect(hightouchEventsClient.enable).toBe(dummyInitOptions.enable);
   });
 
   it('Should record identify', async () => {
-    rudderAnalyticsClient.identify(identifyRequestPayload);
-    rudderAnalyticsClient.flush();
+    hightouchEventsClient.identify(identifyRequestPayload);
+    hightouchEventsClient.flush();
 
     await new Promise((r) => setTimeout(r, 1));
 
@@ -63,8 +63,8 @@ describe('JS SDK Service Worker', () => {
   });
 
   it('Should record track', async () => {
-    rudderAnalyticsClient.track(trackRequestPayload);
-    rudderAnalyticsClient.flush();
+    hightouchEventsClient.track(trackRequestPayload);
+    hightouchEventsClient.flush();
 
     await new Promise((r) => setTimeout(r, 1));
 
@@ -72,8 +72,8 @@ describe('JS SDK Service Worker', () => {
   });
 
   it('Should record page', async () => {
-    rudderAnalyticsClient.page(pageRequestPayload);
-    rudderAnalyticsClient.flush();
+    hightouchEventsClient.page(pageRequestPayload);
+    hightouchEventsClient.flush();
 
     await new Promise((r) => setTimeout(r, 1));
 
@@ -81,8 +81,8 @@ describe('JS SDK Service Worker', () => {
   });
 
   it('Should record screen', async () => {
-    rudderAnalyticsClient.screen(screenRequestPayload);
-    rudderAnalyticsClient.flush();
+    hightouchEventsClient.screen(screenRequestPayload);
+    hightouchEventsClient.flush();
 
     await new Promise((r) => setTimeout(r, 1));
 
@@ -90,8 +90,8 @@ describe('JS SDK Service Worker', () => {
   });
 
   it('Should record group', async () => {
-    rudderAnalyticsClient.group(groupRequestPayload);
-    rudderAnalyticsClient.flush();
+    hightouchEventsClient.group(groupRequestPayload);
+    hightouchEventsClient.flush();
 
     await new Promise((r) => setTimeout(r, 1));
 
@@ -99,8 +99,8 @@ describe('JS SDK Service Worker', () => {
   });
 
   it('Should record alias', async () => {
-    rudderAnalyticsClient.alias(aliasRequestPayload);
-    rudderAnalyticsClient.flush();
+    hightouchEventsClient.alias(aliasRequestPayload);
+    hightouchEventsClient.flush();
 
     await new Promise((r) => setTimeout(r, 1));
 

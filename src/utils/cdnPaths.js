@@ -20,7 +20,7 @@ const getIntegrationsCDNPath = (
       handleError({
         message: `[Analytics] load:: ${errorMsg}`,
       });
-      throw Error(`Failed to load Rudder SDK: ${errorMsg}`);
+      throw Error(`Failed to load Events SDK: ${errorMsg}`);
     }
 
     return integrationsCDNPath;

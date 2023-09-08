@@ -2,7 +2,7 @@
 // Library information class
 class RudderLibraryInfo {
   constructor() {
-    this.name = 'RudderLabs JavaScript SDK';
+    this.name = 'Events SDK JavaScript';
     this.version = '__PACKAGE_VERSION__';
   }
 }

@@ -1,13 +1,15 @@
 import { mergeContext, mergeTopLevelElementsMutator } from '../../src/utils/eventProcessorUtils';
 
+const libName = 'Events SDK JavaScript';
+
 describe('Event processor Utilities', () => {
   const rudderElement = {
     message: {
       channel: 'web',
       context: {
         app: {
-          name: 'RudderLabs JavaScript SDK',
-          namespace: 'com.rudderlabs.javascript',
+          name: libName,
+          namespace: 'com.hightouch.javascript',
           version: '2.22.0',
         },
         traits: {
@@ -21,7 +23,7 @@ describe('Event processor Utilities', () => {
             { label: 'home', city: 'Kolkata', country: 'India' },
           ],
         },
-        library: { name: 'RudderLabs JavaScript SDK', version: '2.22.0' },
+        library: { name: libName, version: '2.22.0' },
         userAgent:
           'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
         device: null,
@@ -54,22 +56,22 @@ describe('Event processor Utilities', () => {
   };
   const optionsWithLibraryInfo = {
     ...options,
-    library:{
-      name: 'Random SDK'
+    library: {
+      name: 'Random SDK',
     },
-    context:{
-      library:{
-        name: 'Random SDK no 2'
+    context: {
+      library: {
+        name: 'Random SDK no 2',
       },
-      metaData:{
+      metaData: {
         key3: 976545678,
-        key4: null
-      }
-    }
+        key4: null,
+      },
+    },
   };
   const optionsWithNullContext = {
     ...options,
-    context: null
+    context: null,
   };
 
   const expectedRudderElement = {
@@ -80,8 +82,8 @@ describe('Event processor Utilities', () => {
         key1: 123456,
         key2: { fg: 'shgjsh' },
         app: {
-          name: 'RudderLabs JavaScript SDK',
-          namespace: 'com.rudderlabs.javascript',
+          name: libName,
+          namespace: 'com.hightouch.javascript',
           version: '2.22.0',
         },
         traits: {
@@ -95,7 +97,7 @@ describe('Event processor Utilities', () => {
             { label: 'home', city: 'Kolkata', country: 'India' },
           ],
         },
-        library: { name: 'RudderLabs JavaScript SDK', version: '2.22.0' },
+        library: { name: libName, version: '2.22.0' },
         userAgent:
           'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
         device: null,
@@ -122,8 +124,8 @@ describe('Event processor Utilities', () => {
       channel: 'web',
       context: {
         app: {
-          name: 'RudderLabs JavaScript SDK',
-          namespace: 'com.rudderlabs.javascript',
+          name: libName,
+          namespace: 'com.hightouch.javascript',
           version: '2.22.0',
         },
         traits: {
@@ -137,7 +139,7 @@ describe('Event processor Utilities', () => {
             { label: 'home', city: 'Kolkata', country: 'India' },
           ],
         },
-        library: { name: 'RudderLabs JavaScript SDK', version: '2.22.0' },
+        library: { name: libName, version: '2.22.0' },
         userAgent:
           'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
         device: null,
@@ -168,8 +170,8 @@ describe('Event processor Utilities', () => {
         key1: 123456,
         key2: { fg: 'shgjsh' },
         app: {
-          name: 'RudderLabs JavaScript SDK',
-          namespace: 'com.rudderlabs.javascript',
+          name: libName,
+          namespace: 'com.hightouch.javascript',
           version: '2.22.0',
         },
         traits: {
@@ -183,10 +185,10 @@ describe('Event processor Utilities', () => {
             { label: 'home', city: 'Kolkata', country: 'India' },
           ],
         },
-        library: { name: 'RudderLabs JavaScript SDK', version: '2.22.0' },
-        metaData:{
+        library: { name: libName, version: '2.22.0' },
+        metaData: {
           key3: 976545678,
-          key4: null
+          key4: null,
         },
         userAgent:
           'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
@@ -252,9 +254,11 @@ describe('Event processor Utilities', () => {
 
   it('Should not override library info in context if provided in options', () => {
     const mergedRudderMessageContext = mergeContext(rudderElement.message, optionsWithLibraryInfo);
-    expect(mergedRudderMessageContext).toStrictEqual(expectedRudderElementWithLibraryInfo.message.context);
+    expect(mergedRudderMessageContext).toStrictEqual(
+      expectedRudderElementWithLibraryInfo.message.context,
+    );
   });
-  
+
   it('Should not merge null context if provided in options', () => {
     const mergedRudderMessageContext = mergeContext(rudderElement.message, optionsWithNullContext);
     expect(mergedRudderMessageContext).toStrictEqual(expectedRudderElement.message.context);

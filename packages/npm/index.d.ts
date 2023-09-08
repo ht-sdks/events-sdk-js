@@ -1,4 +1,4 @@
-declare module 'rudder-sdk-js' {
+declare module 'events-sdk-js' {
   /**
    * Represents the integration options object
    * Example usages:

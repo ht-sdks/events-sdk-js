@@ -11,7 +11,7 @@ const integrationContext = {
  * @param {*} standardEventsMap mapping of events done by the user
  * @param {*} eventName standard event name
  * @param {*} updateEventNames boolean variable to change eventName.
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 const makeACall = (standardEventsMap, eventName, updateEventNames, analytics) => {
   // Updating the event name with any mapping from the webapp if available else
@@ -36,7 +36,7 @@ const swapKeyValuePairs = (standardEventsMap) => {
  * @param {*} updateEventNames variable to Update event name .
  * @param {*} userDefinedEventsList List of requested events by the user.
  * @param {*} userDefinedEventsMapping Mapping of events in the webapp by the user
- * @param {*} analytics rudderanalytics object
+ * @param {*} analytics hightouchevents object
  */
 function recordingLiveChatEvents(
   updateEventNames,
