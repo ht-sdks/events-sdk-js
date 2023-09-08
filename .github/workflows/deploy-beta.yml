@@ -1,7 +1,10 @@
-name: Deploy BETA/BugBash Feature
+name: Deploy Beta Feature
 
 on:
-  workflow_dispatch:
+  push:
+    # Pattern matched against refs/tags
+    tags:
+      - 'beta[0-9]+.[0-9]+.[0-9]+'
 
 permissions:
   id-token: write # allows the JWT to be requested from GitHub's OIDC provider
@@ -9,25 +12,9 @@ permissions:
 
 jobs:
   deploy-tag:
-    name: Deploy BETA/BugBash Feature
+    name: Deploy beta tag
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/beta/') || startsWith(github.ref, 'refs/tags/bugbash')
     steps:
-      - name: Extract feature name from branch
-        shell: bash
-        run: |
-          source_branch_name=${GITHUB_REF##*/}
-          RELEASE_TYPE=beta
-          grep -q "bugbash/" <<< "${GITHUB_REF}" && RELEASE_TYPE=bugbash
-          FEATURE_NAME=${source_branch_name#bugbash/}
-          FEATURE_NAME=${FEATURE_NAME#beta/}
-          FEATURE_NAME=${FEATURE_NAME#refs/heads/}
-          FEATURE_NAME=${FEATURE_NAME#refs/tags/}
-
-          echo "branch_name=$FEATURE_NAME" >> $GITHUB_OUTPUT
-          echo "branch_type=$RELEASE_TYPE" >> $GITHUB_OUTPUT
-        id: extract_branch
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -36,6 +23,11 @@ jobs:
 
       - name: Checkout source branch
         uses: actions/checkout@v4
+
+      - name: Get tag name
+        run: |
+          echo "TAGNAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          echo "DATE=$(date)" >> $GITHUB_ENV
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -55,7 +47,7 @@ jobs:
 
       - name: Sync files to S3 beta folder
         run: |
-          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ steps.extract_branch.outputs.branch_type }}/${{ steps.extract_branch.outputs.branch_name }}/events.min.js --cache-control max-age=3600
-          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ steps.extract_branch.outputs.branch_type }}/${{ steps.extract_branch.outputs.branch_name }}/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ steps.extract_branch.outputs.branch_type }}/${{ steps.extract_branch.outputs.branch_name }}/js-integrations/ --recursive --cache-control max-age=3600
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/${{ steps.extract_branch.outputs.branch_type }}/${{ steps.extract_branch.outputs.branch_name }}/*"
+          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/beta/${{ env.TAGNAME }}/events.min.js --cache-control max-age=3600
+          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/beta/${{ env.TAGNAME }}/events.min.js.map --cache-control max-age=3600
+          aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/beta/${{ env.TAGNAME }}/js-integrations/ --recursive --cache-control max-age=3600
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/beta/${{ env.TAGNAME }}/*"
