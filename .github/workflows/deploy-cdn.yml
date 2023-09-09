@@ -1,12 +1,8 @@
-name: Deploy to PROD
+name: Deploy to CDN
 
 on:
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - production
-    types:
-      - closed
+  release:
+    types: [published]
 
 permissions:
   id-token: write # allows the JWT to be requested from GitHub's OIDC provider
@@ -16,7 +12,7 @@ jobs:
   deploy-tag:
     name: Deploy to PROD
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/production') || github.event.pull_request.merged == true
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -51,54 +47,45 @@ jobs:
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
           echo "DATE=$(date)" >> $GITHUB_ENV
 
-      - name: Sync files to S3 v1.1
-        run: |
-          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/events.min.js --cache-control max-age=3600
-          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/js-integrations/ --recursive --cache-control max-age=3600
-          aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/list_integration_sdks.html --cache-control max-age=3600
-          aws s3 cp dist/modern/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/events.min.js --cache-control max-age=3600
-          aws s3 cp dist/modern/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/js-integrations/ --recursive --cache-control max-age=3600
-          aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v1.1/modern/list_integration_sdks.html --cache-control max-age=3600
-          AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/v1.1*"
-
       - name: Sync files to S3 versioned folder
+        # for now, skip integrations
+        # aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/list_integration_sdks.html --cache-control max-age=3600
+        # aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/js-integrations/ --recursive --cache-control max-age=3600
+        # aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/list_integration_sdks.html --cache-control max-age=3600
+        # aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/js-integrations/ --recursive --cache-control max-age=3600
         run: |
           aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/events.min.js --cache-control max-age=3600
           aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/js-integrations/ --recursive --cache-control max-age=3600
-          aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/list_integration_sdks.html --cache-control max-age=3600
           aws s3 cp dist/modern/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/events.min.js --cache-control max-age=3600
           aws s3 cp dist/modern/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/js-integrations/ --recursive --cache-control max-age=3600
-          aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/list_integration_sdks.html --cache-control max-age=3600
           AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/${{ env.CURRENT_VERSION_VALUE }}*"
 
       - name: Sync files to S3 latest
+        # for now, skip integrations
+        # aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/list_integration_sdks.html --cache-control max-age=3600
+        # aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/js-integrations/ --recursive --cache-control max-age=3600
+        # aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/modern/list_integration_sdks.html --cache-control max-age=3600
+        # aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/modern/js-integrations/ --recursive --cache-control max-age=3600
         run: |
           aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/events.min.js --cache-control max-age=3600
           aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/js-integrations/ --recursive --cache-control max-age=3600
-          aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/list_integration_sdks.html --cache-control max-age=3600
           aws s3 cp dist/modern/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/modern/events.min.js --cache-control max-age=3600
           aws s3 cp dist/modern/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/modern/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/modern/js-integrations/ --recursive --cache-control max-age=3600
-          aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/latest/modern/list_integration_sdks.html --cache-control max-age=3600
           AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/latest*"
 
-      - name: Sync assets to S3
-        run: |
-          aws s3 cp assets/integrations/AdobeAnalytics/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/adobe-analytics-js --recursive --cache-control max-age=3600
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/adobe-analytics-js*"
+      # for now, skip integrations
+      # - name: Sync assets to S3
+      #   run: |
+      #     aws s3 cp assets/integrations/AdobeAnalytics/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/adobe-analytics-js --recursive --cache-control max-age=3600
+      #     aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/adobe-analytics-js*"
 
       - name: Send message to Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          PROJECT_NAME: 'JS SDK Browser Package'
-          CDN_URL: 'https://cdn.rudderlabs.com/v1.1/events.min.js'
+          PROJECT_NAME: 'Events SDK JS - Browser CDN Package'
+          CDN_URL: 'https://d1xt4zx4uzh8tq.cloudfront.net/${{ env.CURRENT_VERSION_VALUE }}/events.min.js'
         with:
           channel-id: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
           payload: |

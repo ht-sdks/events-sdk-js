@@ -3,7 +3,7 @@ import { mergeContext, mergeTopLevelElementsMutator } from '../../src/utils/even
 const libName = 'Events SDK JavaScript';
 
 describe('Event processor Utilities', () => {
-  const rudderElement = {
+  const htElement = {
     message: {
       channel: 'web',
       context: {
@@ -74,7 +74,7 @@ describe('Event processor Utilities', () => {
     context: null,
   };
 
-  const expectedRudderElement = {
+  const expectedHtElement = {
     message: {
       channel: 'web',
       context: {
@@ -119,7 +119,7 @@ describe('Event processor Utilities', () => {
       user_properties: null,
     },
   };
-  const expectedRudderElementWithTopLevelElement = {
+  const expectedHtElementWithTopLevelElement = {
     message: {
       channel: 'web',
       context: {
@@ -162,7 +162,7 @@ describe('Event processor Utilities', () => {
     },
   };
 
-  const expectedRudderElementWithLibraryInfo = {
+  const expectedHtElementWithLibraryInfo = {
     message: {
       channel: 'web',
       context: {
@@ -213,54 +213,54 @@ describe('Event processor Utilities', () => {
   };
 
   it('Should merge the context provided in options with the previous context', () => {
-    const mergedRudderMessageContext = mergeContext(rudderElement.message, options);
-    expect(mergedRudderMessageContext).toStrictEqual(expectedRudderElement.message.context);
+    const mergedRudderMessageContext = mergeContext(htElement.message, options);
+    expect(mergedRudderMessageContext).toStrictEqual(expectedHtElement.message.context);
   });
 
   it('Should context object remain intact if no options provided', () => {
-    const mergedRudderMessageContext = mergeContext(rudderElement.message, undefined);
-    expect(mergedRudderMessageContext).toStrictEqual(rudderElement.message.context);
+    const mergedRudderMessageContext = mergeContext(htElement.message, undefined);
+    expect(mergedRudderMessageContext).toStrictEqual(htElement.message.context);
   });
 
   it('Should context object remain intact if null options provided', () => {
-    const mergedRudderMessageContext = mergeContext(rudderElement.message, null);
-    expect(mergedRudderMessageContext).toStrictEqual(rudderElement.message.context);
+    const mergedRudderMessageContext = mergeContext(htElement.message, null);
+    expect(mergedRudderMessageContext).toStrictEqual(htElement.message.context);
   });
 
   it('Should context object remain intact if non object type options provided', () => {
-    const mergedRudderMessageContext = mergeContext(rudderElement.message, 'options');
-    expect(mergedRudderMessageContext).toStrictEqual(rudderElement.message.context);
+    const mergedRudderMessageContext = mergeContext(htElement.message, 'options');
+    expect(mergedRudderMessageContext).toStrictEqual(htElement.message.context);
   });
 
-  it('Should mutate the top level context in rudder element if provided in options', () => {
-    mergeTopLevelElementsMutator(rudderElement.message, optionsWithTopLevelContext);
-    expect(rudderElement.message).toStrictEqual(expectedRudderElementWithTopLevelElement.message);
+  it('Should mutate the top level context in ht element if provided in options', () => {
+    mergeTopLevelElementsMutator(htElement.message, optionsWithTopLevelContext);
+    expect(htElement.message).toStrictEqual(expectedHtElementWithTopLevelElement.message);
   });
 
   it('Should top level context object remain intact if no options provided', () => {
-    mergeTopLevelElementsMutator(rudderElement.message, undefined);
-    expect(rudderElement.message).toStrictEqual(rudderElement.message);
+    mergeTopLevelElementsMutator(htElement.message, undefined);
+    expect(htElement.message).toStrictEqual(htElement.message);
   });
 
   it('Should top level context object remain intact if null options provided', () => {
-    mergeTopLevelElementsMutator(rudderElement.message, null);
-    expect(rudderElement.message).toStrictEqual(rudderElement.message);
+    mergeTopLevelElementsMutator(htElement.message, null);
+    expect(htElement.message).toStrictEqual(htElement.message);
   });
 
   it('Should top level context object remain intact if non object type options provided', () => {
-    mergeTopLevelElementsMutator(rudderElement.message, 'options');
-    expect(rudderElement.message).toStrictEqual(rudderElement.message);
+    mergeTopLevelElementsMutator(htElement.message, 'options');
+    expect(htElement.message).toStrictEqual(htElement.message);
   });
 
   it('Should not override library info in context if provided in options', () => {
-    const mergedRudderMessageContext = mergeContext(rudderElement.message, optionsWithLibraryInfo);
+    const mergedRudderMessageContext = mergeContext(htElement.message, optionsWithLibraryInfo);
     expect(mergedRudderMessageContext).toStrictEqual(
-      expectedRudderElementWithLibraryInfo.message.context,
+      expectedHtElementWithLibraryInfo.message.context,
     );
   });
 
   it('Should not merge null context if provided in options', () => {
-    const mergedRudderMessageContext = mergeContext(rudderElement.message, optionsWithNullContext);
-    expect(mergedRudderMessageContext).toStrictEqual(expectedRudderElement.message.context);
+    const mergedRudderMessageContext = mergeContext(htElement.message, optionsWithNullContext);
+    expect(mergedRudderMessageContext).toStrictEqual(expectedHtElement.message.context);
   });
 });

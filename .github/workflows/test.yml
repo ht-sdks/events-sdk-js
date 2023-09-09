@@ -1,4 +1,4 @@
-name: 'Unit Tests, Coverage & Sonar'
+name: 'Unit Tests & Coverage'
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ jobs:
           npm run test:ci
           npm run check:lint
 
-      # - name: Fix filesystem paths in generated reports
-      #   run: |
-      #     sed -i 's+home/runner/work/rudder-sdk-js/rudder-sdk-js+/github/workspace+g' reports/coverage/lcov.info
-      #     sed -i 's+/home/runner/work/rudder-sdk-js/rudder-sdk-js+/github/workspace+g' reports/eslint.json
+      - name: Fix filesystem paths in generated reports
+        run: |
+          sed -i 's+home/runner/work/events-sdk-js/events-sdk-js+/github/workspace+g' reports/coverage/lcov.info
+          sed -i 's+/home/runner/work/events-sdk-js/events-sdk-js+/github/workspace+g' reports/eslint.json

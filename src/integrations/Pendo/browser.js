@@ -61,11 +61,11 @@ class Pendo {
    *any further upcoming calls are done taking user info from local.
    * To track user pendo maps user to Visitor in Pendo.
    */
-  identify(rudderElement) {
+  identify(htElement) {
     let visitorObj = {};
     let accountObj = {};
     const { groupId } = this.analytics;
-    const { userId, anonymousId } = rudderElement.message;
+    const { userId, anonymousId } = htElement.message;
     const id = userId || this.constructPendoAnonymousId(anonymousId);
     visitorObj = {
       id,
@@ -83,10 +83,10 @@ class Pendo {
    *Group call maps to an account for which visitor belongs.
    *It is same as identify call but here we send account object.
    */
-  group(rudderElement) {
+  group(htElement) {
     let accountObj = {};
     let visitorObj = {};
-    const { userId, traits, context } = rudderElement.message;
+    const { userId, traits, context } = htElement.message;
     accountObj.id = this.analytics.getGroupId() || this.analytics.getAnonymousId();
     accountObj = {
       ...accountObj,
@@ -105,8 +105,8 @@ class Pendo {
 
   /* Once user is identified Pendo makes Track call to track user activity.
    */
-  track(rudderElement) {
-    const { event, properties } = rudderElement.message;
+  track(htElement) {
+    const { event, properties } = htElement.message;
     if (!event) {
       logger.error('Cannot call un-named track event');
       return;

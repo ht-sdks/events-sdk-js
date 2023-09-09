@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 
 import Queue from '@segment/localstorage-retry';
-import RudderElement from './RudderElement';
+import HtElement from './HtElement';
 
 /**
  * Keeping maxAttempts to Infinity to retry cloud mode events and throw an error until processQueueElements flag is not set to true
@@ -28,7 +28,7 @@ class PreProcessQueue {
       this.callback = callback;
     }
     this.payloadQueue = new Queue('rs_events', queueOptions, (item, done) => {
-      this.processQueueElement(item.type, item.rudderElement, (err, res) => {
+      this.processQueueElement(item.type, item.htElement, (err, res) => {
         if (err) {
           return done(err);
         }
@@ -43,11 +43,11 @@ class PreProcessQueue {
     this.processQueueElements = true;
   }
 
-  processQueueElement(type, rudderElement, queueFn) {
+  processQueueElement(type, htElement, queueFn) {
     try {
       if (this.processQueueElements) {
-        Object.setPrototypeOf(rudderElement, RudderElement.prototype);
-        this.callback(type, rudderElement);
+        Object.setPrototypeOf(htElement, HtElement.prototype);
+        this.callback(type, htElement);
         queueFn(null);
       } else {
         queueFn(new Error('The queue elements are not ready to be processed yet'));
@@ -57,9 +57,9 @@ class PreProcessQueue {
     }
   }
 
-  enqueue(type, rudderElement) {
+  enqueue(type, htElement) {
     // add items to the queue
-    this.payloadQueue.addItem({ type, rudderElement });
+    this.payloadQueue.addItem({ type, htElement });
   }
 }
 

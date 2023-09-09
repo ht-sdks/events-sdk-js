@@ -78,14 +78,14 @@ class Amplitude {
     return !!window?.amplitude?.getInstance()?.options;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Amplitude identify');
 
-    this.setDeviceId(rudderElement);
+    this.setDeviceId(htElement);
 
-    // rudderElement.message.context will always be present as part of identify event payload.
-    const { traits } = rudderElement.message.context;
-    const { userId } = rudderElement.message;
+    // htElement.message.context will always be present as part of identify event payload.
+    const { traits } = htElement.message.context;
+    const { userId } = htElement.message;
 
     if (userId) {
       window.amplitude.getInstance().setUserId(userId);
@@ -113,17 +113,17 @@ class Amplitude {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Amplitude track');
-    this.setDeviceId(rudderElement);
+    this.setDeviceId(htElement);
 
-    const { properties } = rudderElement.message;
+    const { properties } = htElement.message;
 
     // message.properties will always be present as part of track event.
     const { products } = properties;
 
     const clonedTrackEvent = {};
-    Object.assign(clonedTrackEvent, rudderElement.message);
+    Object.assign(clonedTrackEvent, htElement.message);
 
     // For track products once, we will send the products in a single call.
     if (this.trackProductsOnce) {
@@ -214,11 +214,11 @@ class Amplitude {
    *
    * @memberof Amplitude
    */
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Amplitude page');
-    this.setDeviceId(rudderElement);
+    this.setDeviceId(htElement);
 
-    const { properties, name, category, integrations } = rudderElement.message;
+    const { properties, name, category, integrations } = htElement.message;
     const useNewPageEventNameFormat = integrations?.AM?.useNewPageEventNameFormat || false;
     // all pages
     if (this.trackAllPages) {
@@ -243,12 +243,12 @@ class Amplitude {
     }
   }
 
-  group(rudderElement) {
+  group(htElement) {
     logger.debug('in Amplitude group');
 
-    this.setDeviceId(rudderElement);
+    this.setDeviceId(htElement);
 
-    const { groupId, traits } = rudderElement.message;
+    const { groupId, traits } = htElement.message;
 
     const { groupTypeTrait } = this;
     const { groupValueTrait } = this;
@@ -271,8 +271,8 @@ class Amplitude {
     // no other api for setting group properties for javascript
   }
 
-  setDeviceId(rudderElement) {
-    const { anonymousId } = rudderElement.message;
+  setDeviceId(htElement) {
+    const { anonymousId } = htElement.message;
     if (this.preferAnonymousIdForDeviceId && anonymousId) {
       window.amplitude.getInstance().setDeviceId(anonymousId);
     }

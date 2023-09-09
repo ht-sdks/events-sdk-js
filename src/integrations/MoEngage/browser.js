@@ -66,14 +66,14 @@ class MoEngage {
     return !!window.moeBannerText;
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('inside track');
     // Check if the user id is same as previous session if not a new session will start
-    if (!rudderElement.message) {
+    if (!htElement.message) {
       logger.error('Payload not correct');
       return;
     }
-    const { event, properties, userId } = rudderElement.message;
+    const { event, properties, userId } = htElement.message;
     if (userId && this.initialUserId !== userId) {
       this.reset();
     }
@@ -96,9 +96,9 @@ class MoEngage {
     this.moeClient.destroy_session();
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     const self = this;
-    const { userId, context } = rudderElement.message;
+    const { userId, context } = htElement.message;
     let traits = null;
     if (context) {
       traits = context.traits;

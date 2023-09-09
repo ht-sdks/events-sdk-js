@@ -46,8 +46,8 @@ class Heap {
 
   // DOC: https://developers.heap.io/reference#identify
 
-  identify(rudderElement) {
-    const { userId, context } = rudderElement.message;
+  identify(htElement) {
+    const { userId, context } = htElement.message;
     if (userId) {
       window.heap.identify(userId);
     }
@@ -58,8 +58,8 @@ class Heap {
 
   // DOC: https://developers.heap.io/reference#track
 
-  track(rudderElement) {
-    const { event, properties } = rudderElement.message;
+  track(htElement) {
+    const { event, properties } = htElement.message;
     window.heap.track(event, processHeapProperties(properties));
   }
 }

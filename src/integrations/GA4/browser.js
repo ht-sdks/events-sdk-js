@@ -146,12 +146,12 @@ export default class GA4 {
 
   /**
    *
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('In Google Analytics 4 Identify');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { traits } = message.context;
     window.gtag('set', 'user_properties', flattenJsonPayload(traits));
 
@@ -163,9 +163,9 @@ export default class GA4 {
 
   /**
    *
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  track(rudderElement) {
+  track(htElement) {
     // if Hybrid mode is enabled, don't send data to the device-mode
     if (this.isHybridModeEnabled) {
       return;
@@ -173,7 +173,7 @@ export default class GA4 {
 
     logger.debug('In Google Analytics 4 Track');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
 
     const eventName = formatAndValidateEventName(message?.event);
     if (!eventName) {
@@ -187,24 +187,24 @@ export default class GA4 {
     }
 
     const { params, event } = data;
-    const parameters = this.addSendToAndMeasurementIdToPayload(params, rudderElement);
+    const parameters = this.addSendToAndMeasurementIdToPayload(params, htElement);
 
     window.gtag('event', event, parameters);
   }
 
   /**
    *
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('In Google Analytics 4 Page');
 
     if (this.capturePageView === 'rs') {
-      const { message } = rudderElement;
+      const { message } = htElement;
       const { properties } = message;
 
       let payload = constructPayload(message, eventsConfig.PAGE.mapping);
-      payload = this.addSendToAndMeasurementIdToPayload(payload, rudderElement);
+      payload = this.addSendToAndMeasurementIdToPayload(payload, htElement);
 
       if (this.extendPageViewParams) {
         window.gtag('event', 'page_view', {
@@ -219,19 +219,19 @@ export default class GA4 {
 
   /**
    *
-   * @param {*} rudderElement
+   * @param {*} htElement
    * @returns
    */
-  group(rudderElement) {
+  group(htElement) {
     if (this.isHybridModeEnabled) {
       return;
     }
 
     logger.debug('In Google Analytics 4 Group');
 
-    const { groupId, traits } = rudderElement.message;
+    const { groupId, traits } = htElement.message;
     let payload = traits;
-    payload = this.addSendToAndMeasurementIdToPayload(payload, rudderElement);
+    payload = this.addSendToAndMeasurementIdToPayload(payload, htElement);
 
     const eventData = {
       group_id: groupId,
@@ -241,8 +241,8 @@ export default class GA4 {
     window.gtag('event', 'join_group', eventData);
   }
 
-  addSendToAndMeasurementIdToPayload(params, rudderElement) {
-    const { message } = rudderElement;
+  addSendToAndMeasurementIdToPayload(params, htElement) {
+    const { message } = htElement;
     const { userId } = message;
     const parameters = params;
     parameters.send_to = this.measurementId;

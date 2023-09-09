@@ -37,15 +37,15 @@ class RedditPixel {
     return !!(window.rdt && window.rdt.advertiserId === this.advertiserId);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In RedditPixel identify===');
     window.rdt('track', 'SignUp');
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In RedditPixel track===');
 
-    const { event } = rudderElement.message;
+    const { event } = htElement.message;
     if (!event) {
       logger.error('Event name is not present');
       return;
@@ -89,7 +89,7 @@ class RedditPixel {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In RedditPixel page===');
     window.rdt('track', 'PageVisit');
   }

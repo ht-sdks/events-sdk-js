@@ -93,10 +93,10 @@ class SnapPixel {
     return !!window.snaptr;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In SnapPixel identify');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
 
     const userEmail = get(message, 'context.traits.email');
     const userPhoneNumber = get(message, 'context.traits.phone');
@@ -117,10 +117,10 @@ class SnapPixel {
     window.snaptr('init', this.pixelId, payload);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In SnapPixel track===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
     const eventMappingFromConfigMap = getHashFromArrayWithDuplicate(
       this.eventMappingFromConfig,
@@ -221,10 +221,10 @@ class SnapPixel {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In SnapPixel page===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     sendEvent('PAGE_VIEW', eventPayload(message, this.deduplicationKey, this.enableDeduplication));
   }
 }

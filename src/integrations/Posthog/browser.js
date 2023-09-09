@@ -75,8 +75,8 @@ class Posthog {
    * Once we call the posthog.register api, the corresponding property will be sent along with subsequent capture calls.
    * To remove the superproperties, we call unregister api.
    */
-  processSuperProperties(rudderElement) {
-    const { integrations } = rudderElement.message;
+  processSuperProperties(htElement) {
+    const { integrations } = htElement.message;
     if (integrations?.POSTHOG) {
       const { superProperties, setOnceProperties, unsetProperties } = integrations.POSTHOG;
       if (superProperties && Object.keys(superProperties).length > 0) {
@@ -95,26 +95,26 @@ class Posthog {
     }
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Posthog identify');
 
-    // rudderElement.message.context will always be present as part of identify event payload.
-    const { traits } = rudderElement.message.context;
-    const { userId } = rudderElement.message;
+    // htElement.message.context will always be present as part of identify event payload.
+    const { traits } = htElement.message.context;
+    const { userId } = htElement.message;
 
     if (userId) {
       posthog.identify(userId, traits);
     }
 
-    this.processSuperProperties(rudderElement);
+    this.processSuperProperties(htElement);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Posthog track');
 
-    const { event, properties } = rudderElement.message;
+    const { event, properties } = htElement.message;
 
-    this.processSuperProperties(rudderElement);
+    this.processSuperProperties(htElement);
 
     posthog.capture(event, properties);
   }
@@ -124,18 +124,18 @@ class Posthog {
    *
    * @memberof Posthog
    */
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Posthog page');
 
-    this.processSuperProperties(rudderElement);
+    this.processSuperProperties(htElement);
 
     posthog.capture('$pageview');
   }
 
-  group(rudderElement) {
+  group(htElement) {
     logger.debug('in Posthog group');
-    const traits = get(rudderElement.message, 'traits');
-    const groupKey = get(rudderElement.message, 'groupId');
+    const traits = get(htElement.message, 'traits');
+    const groupKey = get(htElement.message, 'groupId');
     let groupType;
     if (traits) {
       groupType = get(traits, 'groupType');
@@ -147,7 +147,7 @@ class Posthog {
     }
     posthog.group(groupType, groupKey, traits);
 
-    this.processSuperProperties(rudderElement);
+    this.processSuperProperties(htElement);
   }
 }
 

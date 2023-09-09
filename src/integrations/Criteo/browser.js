@@ -56,10 +56,10 @@ class Criteo {
     return !!(window.criteo_q && window.criteo_q.push !== Array.prototype.push);
   }
 
-  page(rudderElement) {
-    const { name, properties } = rudderElement.message;
+  page(htElement) {
+    const { name, properties } = htElement.message;
 
-    const finalPayload = handleCommonFields(rudderElement, this.hashMethod);
+    const finalPayload = handleCommonFields(htElement, this.hashMethod);
 
     if (
       name === 'home' ||
@@ -76,7 +76,7 @@ class Criteo {
       return;
     }
 
-    const extraDataObject = generateExtraData(rudderElement, this.fieldMapping);
+    const extraDataObject = generateExtraData(htElement, this.fieldMapping);
     if (Object.keys(extraDataObject).length > 0) {
       finalPayload.push({ event: 'setData', ...extraDataObject });
     }
@@ -99,10 +99,10 @@ class Criteo {
     // );
   }
 
-  track(rudderElement) {
-    const { event, properties } = rudderElement.message;
+  track(htElement) {
+    const { event, properties } = htElement.message;
 
-    const finalPayload = handleCommonFields(rudderElement, this.hashMethod);
+    const finalPayload = handleCommonFields(htElement, this.hashMethod);
 
     if (!event) {
       logger.debug('[Criteo] Event name from track call is missing!!===');
@@ -131,21 +131,21 @@ class Criteo {
     events.forEach((eventType) => {
       switch (eventType) {
         case 'product viewed':
-          handleProductView(rudderElement.message, finalPayload);
+          handleProductView(htElement.message, finalPayload);
           break;
         case 'cart viewed':
         case 'order completed':
-          handlingEventDuo(rudderElement.message, finalPayload);
+          handlingEventDuo(htElement.message, finalPayload);
           break;
         case 'product list viewed':
-          handleListView(rudderElement.message, finalPayload, this.OPERATOR_LIST);
+          handleListView(htElement.message, finalPayload, this.OPERATOR_LIST);
           break;
         default:
           break;
       }
     });
 
-    const extraDataObject = generateExtraData(rudderElement, this.fieldMapping);
+    const extraDataObject = generateExtraData(htElement, this.fieldMapping);
     if (Object.keys(extraDataObject).length > 0) {
       finalPayload.push({ event: 'setData', ...extraDataObject });
     }

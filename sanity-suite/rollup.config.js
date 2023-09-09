@@ -14,7 +14,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const serverPort = 3001;
-const prodCDNURL = 'https://cdn.rudderlabs.com';
+const prodCDNURL = 'https://d1xt4zx4uzh8tq.cloudfront.net';
 const defaultVersion = 'v1.1';
 // TODO: get this lst from public folder subfolders
 const featuresList = ['eventFiltering', 'preloadBuffer'];
@@ -115,7 +115,8 @@ const getBuildConfig = (featureName) => ({
       FEATURE_PRELOAD_BUFFER_WRITE_KEY: process.env.FEATURE_PRELOAD_BUFFER_WRITE_KEY,
       FEATURE_EVENT_FILTERING_WRITE_KEY: process.env.FEATURE_EVENT_FILTERING_WRITE_KEY,
       DATA_PLANE_URL: process.env.DATAPLANE_URL,
-      CONFIG_SERVER_HOST: process.env.CONFIG_SERVER_HOST || 'https://api.dev.rudderlabs.com',
+      CONFIG_SERVER_HOST:
+        process.env.CONFIG_SERVER_HOST || 'https://events.us-east-1.hightouch.com',
       DESTINATIONS_SDK_BASE_URL: getDestinationsURL(),
       CDN_VERSION_PATH:
         `${process.env.CDN_VERSION_PATH}/${process.env.STAGING ? 'staging/' : ''}` || '',
@@ -151,7 +152,8 @@ const getBuildConfig = (featureName) => ({
         __FEATURE_PRELOAD_BUFFER_WRITE_KEY__: process.env.FEATURE_PRELOAD_BUFFER_WRITE_KEY,
         __FEATURE_EVENT_FILTERING_WRITE_KEY__: process.env.FEATURE_EVENT_FILTERING_WRITE_KEY,
         __DATAPLANE_URL__: process.env.DATAPLANE_URL,
-        __CONFIG_SERVER_HOST__: process.env.CONFIG_SERVER_HOST || 'https://api.dev.rudderlabs.com',
+        __CONFIG_SERVER_HOST__:
+          process.env.CONFIG_SERVER_HOST || 'https://events.us-east-1.hightouch.com',
         __DEST_SDK_BASE_URL__: getDestinationsURL(),
         __CDN_VERSION_PATH__:
           `${process.env.CDN_VERSION_PATH}/${process.env.STAGING ? 'staging/' : ''}` || '',
@@ -180,7 +182,7 @@ const getBuildConfig = (featureName) => ({
         ? `${getDistPath()}/testBook.js`
         : `${getDistPath()}/${featureName}/testBook.js`,
       format: 'iife',
-      name: 'RudderSanityTestBook',
+      name: 'EventsSanityTestBook',
       sourcemap: 'inline',
       generatedCode: {
         preset: 'es5',

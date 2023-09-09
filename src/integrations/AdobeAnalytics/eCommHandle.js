@@ -1,48 +1,48 @@
 import * as utils from './util';
 
-const productViewHandle = (rudderElement, pageName) => {
+const productViewHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  utils.processEvent(rudderElement, 'prodView', pageName);
+  utils.processEvent(htElement, 'prodView', pageName);
 };
 
-const productAddedHandle = (rudderElement, pageName) => {
+const productAddedHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  utils.processEvent(rudderElement, 'scAdd', pageName);
+  utils.processEvent(htElement, 'scAdd', pageName);
 };
 
-const productRemovedHandle = (rudderElement, pageName) => {
+const productRemovedHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  utils.processEvent(rudderElement, 'scRemove', pageName);
+  utils.processEvent(htElement, 'scRemove', pageName);
 };
 
-const orderCompletedHandle = (rudderElement, pageName) => {
+const orderCompletedHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const { purchaseId, transactionId, order_id: orderId } = properties;
   utils.updateWindowSKeys(purchaseId || orderId, 'purchaseID');
   utils.updateWindowSKeys(transactionId || orderId, 'transactionID');
 
-  utils.processEvent(rudderElement, 'purchase', pageName);
+  utils.processEvent(htElement, 'purchase', pageName);
 };
 
-const checkoutStartedHandle = (rudderElement, pageName) => {
+const checkoutStartedHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const { purchaseId, transactionId, order_id: orderId } = properties;
   utils.updateWindowSKeys(purchaseId || orderId, 'purchaseID');
   utils.updateWindowSKeys(transactionId || orderId, 'transactionID');
 
-  utils.processEvent(rudderElement, 'scCheckout', pageName);
+  utils.processEvent(htElement, 'scCheckout', pageName);
 };
 
-const cartViewedHandle = (rudderElement, pageName) => {
+const cartViewedHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  utils.processEvent(rudderElement, 'scView', pageName);
+  utils.processEvent(htElement, 'scView', pageName);
 };
 
-const cartOpenedHandle = (rudderElement, pageName) => {
+const cartOpenedHandle = (htElement, pageName) => {
   utils.clearWindowSKeys(utils.getDynamicKeys());
-  utils.processEvent(rudderElement, 'scOpen', pageName);
+  utils.processEvent(htElement, 'scOpen', pageName);
 };
 
 export {

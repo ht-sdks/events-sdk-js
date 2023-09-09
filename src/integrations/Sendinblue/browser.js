@@ -44,9 +44,9 @@ class Sendinblue {
     return !!window.sendinblue;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Sendinblue identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { email, phone } = getDefinedTraits(message);
 
     if (!email) {
@@ -72,9 +72,9 @@ class Sendinblue {
     });
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Sendinblue track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
     if (!event) {
       logger.error('[Sendinblue]:: event is required for track call');
@@ -99,9 +99,9 @@ class Sendinblue {
     window.sendinblue.track(event, userTraits, eventData);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Sendinblue page===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { name } = message;
     const payload = preparePagePayload(message);
     window.sendinblue.page(name, payload);

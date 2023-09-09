@@ -183,10 +183,10 @@ class Optimizely {
     registerFutureActiveCampaigns();
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Optimizely web track');
-    const eventProperties = rudderElement.message.properties;
-    const { event } = rudderElement.message;
+    const eventProperties = htElement.message.properties;
+    const { event } = htElement.message;
     if (eventProperties.revenue && this.revenueOnlyOnOrderCompleted) {
       if (event === 'Order Completed') {
         eventProperties.revenue = Math.round(eventProperties.revenue * 100);
@@ -204,25 +204,25 @@ class Optimizely {
     window.optimizely.push(payload);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Optimizely web page');
 
-    const clonedRudderElement = rudderElement;
-    const { category } = clonedRudderElement.message.properties;
-    const { name } = clonedRudderElement.message;
+    const clonedHtElement = htElement;
+    const { category } = clonedHtElement.message.properties;
+    const { name } = clonedHtElement.message;
 
     // categorized pages
     if (category && this.trackCategorizedPages) {
-      clonedRudderElement.message.event = `Viewed ${category} page`;
-      clonedRudderElement.message.type = 'track';
-      this.track(clonedRudderElement);
+      clonedHtElement.message.event = `Viewed ${category} page`;
+      clonedHtElement.message.type = 'track';
+      this.track(clonedHtElement);
     }
 
     // named pages
     if (name && this.trackNamedPages) {
-      clonedRudderElement.message.event = `Viewed ${name} page`;
-      clonedRudderElement.message.type = 'track';
-      this.track(clonedRudderElement);
+      clonedHtElement.message.event = `Viewed ${name} page`;
+      clonedHtElement.message.type = 'track';
+      this.track(clonedHtElement);
     }
   }
 }

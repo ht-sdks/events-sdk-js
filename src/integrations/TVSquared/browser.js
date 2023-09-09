@@ -45,7 +45,7 @@ class TVSquared {
     return !!(window._tvq && window._tvq.push !== Array.prototype.push);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     window._tvq.push([
       function () {
         this.deleteCustomVariable(5, 'page');
@@ -54,8 +54,8 @@ class TVSquared {
     window._tvq.push(['trackPageView']);
   }
 
-  track(rudderElement) {
-    const { message } = rudderElement;
+  track(htElement) {
+    const { message } = htElement;
     const { event, userId, anonymousId } = message;
 
     const whitelistEvents = this.eventWhiteList.filter((wl) => wl.event !== '');

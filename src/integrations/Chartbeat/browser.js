@@ -55,9 +55,9 @@ class Chartbeat {
     return !!window.pSUPERFLY;
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Chartbeat page');
-    this.loadConfig(rudderElement);
+    this.loadConfig(htElement);
 
     if (!this.isFirstPageCallMade) {
       this.isFirstPageCallMade = true;
@@ -70,19 +70,19 @@ class Chartbeat {
       }
       if (!this.isLoaded() && !this.failed) {
         logger.debug('===pushing to replay queue for chartbeat===');
-        this.replayEvents.push(['page', rudderElement]);
+        this.replayEvents.push(['page', htElement]);
         return;
       }
       logger.debug('===processing page event in chartbeat===');
-      const { properties } = rudderElement.message;
+      const { properties } = htElement.message;
       window.pSUPERFLY.virtualPage(properties.path);
     }
   }
 
-  loadConfig(rudderElement) {
-    const { properties } = rudderElement.message;
+  loadConfig(htElement) {
+    const { properties } = htElement.message;
     const category = properties ? properties.category : undefined;
-    const { name } = rudderElement.message;
+    const { name } = htElement.message;
     const author = properties ? properties.author : undefined;
     let title;
     if (this.sendNameAndCategoryAsTitle) {

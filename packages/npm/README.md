@@ -23,7 +23,7 @@ export { analytics };
 You can also do this with **ES5** using the `require` method, as shown:
 
 ```javascript
-var analytics = require("rudder-sdk-js");
+var analytics = require("@ht-sdks/events-sdk-js");
 analytics.load(<WRITE_KEY>, <DATA_PLANE_URL>, {config:Url: <CONTROL_PLANE_URL>});
 exports.analytics = analytics;
 ```

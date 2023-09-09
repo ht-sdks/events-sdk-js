@@ -39,9 +39,9 @@ class QuoraPixel {
     return !!(window.qp && window.qp.push !== Array.prototype.push);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Quora Pixel track===');
-    const { event } = rudderElement.message;
+    const { event } = htElement.message;
     const eventsMapping = getHashFromArrayWithDuplicate(this.eventsToQPEvents);
     const trimmedEvent = event.toLowerCase().trim();
     const events = eventsMapping[trimmedEvent] || [];

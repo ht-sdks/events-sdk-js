@@ -35,10 +35,10 @@ class HubSpot {
     return !!(window._hsq && window._hsq.push !== Array.prototype.push);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in HubSpotAnalyticsManager identify');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { traits } = message.context;
 
     const { userId, email } = getDefinedTraits(message);
@@ -69,10 +69,10 @@ class HubSpot {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in HubSpotAnalyticsManager track');
 
-    const { properties, event } = rudderElement.message;
+    const { properties, event } = htElement.message;
     const eventValue = {
       name: event,
       properties: properties || {},
@@ -81,10 +81,10 @@ class HubSpot {
     window._hsq.push(['trackCustomBehavioralEvent', eventValue]);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in HubSpotAnalyticsManager page');
 
-    const { properties } = rudderElement.message;
+    const { properties } = htElement.message;
     const { path } = properties;
     if (path) {
       window._hsq.push(['setPath', path]);

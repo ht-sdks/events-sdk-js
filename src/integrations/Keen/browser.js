@@ -54,10 +54,10 @@ class Keen {
     return !!(this.client != null);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Keen identify');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     let { userId } = message;
     const { context, anonymousId } = message;
     const { traits } = context;
@@ -72,20 +72,20 @@ class Keen {
     this.client.extendEvents(properties);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Keen track');
 
-    const { event } = rudderElement.message;
-    let { properties } = rudderElement.message;
+    const { event } = htElement.message;
+    let { properties } = htElement.message;
     properties = this.getAddOn(properties);
     this.client.recordEvent(event, properties);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Keen page');
 
-    let { properties } = rudderElement.message;
-    const pageName = rudderElement.message.name;
+    let { properties } = htElement.message;
+    const pageName = htElement.message.name;
     const pageCategory = properties.category || undefined;
     let name = 'Loaded a Page';
     if (pageName) {

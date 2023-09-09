@@ -47,9 +47,9 @@ class Mouseflow {
    * Ref: https://js-api-docs.mouseflow.com/#setting-a-custom-variable
    * @param {Identify} identify
    */
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In mouseflow Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { context, traits: rootLevelTraits, anonymousId } = message;
     const { traits } = context;
     const email = traits?.email || rootLevelTraits?.email;
@@ -69,9 +69,9 @@ class Mouseflow {
    * Ref: https://js-api-docs.mouseflow.com/#setting-a-custom-variable
    * @param {Track} track
    */
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In mouseflow Track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, properties } = message;
     if (!event) {
       logger.error('[mouseflow]: Event name from track call is missing!!===');
@@ -88,9 +88,9 @@ class Mouseflow {
    * Ref: https://js-api-docs.mouseflow.com/#setting-a-virtual-path
    * @param {Page} page
    */
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In mouseflow Page===');
-    const tabPath = rudderElement.message.properties.path || rudderElement.message.context.path;
+    const tabPath = htElement.message.properties.path || htElement.message.context.path;
     if (tabPath) window._mfq.push(['newPageView', tabPath]);
   }
 }

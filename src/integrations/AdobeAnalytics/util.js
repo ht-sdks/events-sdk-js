@@ -30,7 +30,7 @@ const topLevelProperties = ['messageId', 'anonymousId', 'event'];
 /* eslint-disable camelcase */
 /**
  *
- * @param {} rudderElement
+ * @param {} htElement
  * Quality of experience tracking includes quality of service (QoS) and error tracking, both are optional elements
  *  and are not required for core media tracking implementations.
  *
@@ -38,9 +38,9 @@ const topLevelProperties = ['messageId', 'anonymousId', 'event'];
  * DOC: https://experienceleague.adobe.com/docs/media-analytics/using/sdk-implement/track-qos/track-qos-js/track-qos-js.html?lang=en
  */
 
-const createQos = (rudderElement) => {
+const createQos = (htElement) => {
   const { va } = window.ADB;
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const { bitrate, startupTime, fps, droppedFrames } = properties;
 
   const qosData = va.MediaHeartbeat.createQoSObject(
@@ -54,15 +54,15 @@ const createQos = (rudderElement) => {
 
 /**
  *
- * @param {*} rudderElement
+ * @param {*} htElement
  * @param {*} mediaObj
  *
  * DOC: https://experienceleague.adobe.com/docs/media-analytics/using/sdk-implement/track-ads/impl-std-ad-metadata/impl-std-ad-md-js/impl-std-ad-metadata-js.html?lang=en
  */
 
-const standardVideoMetadata = (rudderElement, mediaObj) => {
+const standardVideoMetadata = (htElement, mediaObj) => {
   const { va } = window.ADB;
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const metaKeys = va.MediaHeartbeat.VideoMetadataKeys;
   const { SHOW, SEASON, EPISODE, ASSET_ID, GENRE, FIRST_AIR_DATE, ORIGINATOR, NETWORK, RATING } =
     metaKeys;
@@ -87,9 +87,9 @@ const standardVideoMetadata = (rudderElement, mediaObj) => {
   mediaObj.setValue(va.MediaHeartbeat.MediaObjectKey.StandardVideoMetadata, stdVidMeta);
 };
 
-const standardAdMetadata = (rudderElement, adObj) => {
+const standardAdMetadata = (htElement, adObj) => {
   const { va } = window.ADB;
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const metaKeys = va.MediaHeartbeat.AdMetadataKeys;
   const stdAdMeta = {};
   const rudderAdbMap = {
@@ -126,15 +126,15 @@ const updateWindowSKeys = (value, key) => {
 
 // update all the keys for adobe analytics which are common for all calls.
 
-const updateCommonWindowSKeys = (rudderElement, pageName) => {
-  const { properties, type, context } = rudderElement.message;
+const updateCommonWindowSKeys = (htElement, pageName) => {
+  const { properties, type, context } = htElement.message;
   let campaign;
   if (context && context.campaign) {
     campaign = context.campaign.name;
   } else {
     campaign = properties.campaign;
   }
-  const channel = rudderElement.message.channel || properties.channel;
+  const channel = htElement.message.channel || properties.channel;
   const zip = context.traits.zip || properties.zip;
   const state = context.traits.state || properties.state;
 
@@ -151,8 +151,8 @@ const updateCommonWindowSKeys = (rudderElement, pageName) => {
 // TODO: Need to check why timestamp not setting
 // DOC: https://experienceleague.adobe.com/docs/analytics/implementation/vars/page-vars/timestamp.html?lang=en
 
-const calculateTimestamp = (rudderElement) => {
-  const { properties, originalTimestamp, timestamp } = rudderElement.message;
+const calculateTimestamp = (htElement) => {
+  const { properties, originalTimestamp, timestamp } = htElement.message;
   let timestampVal =
     originalTimestamp || timestamp || properties.originalTimestamp || properties.timestamp;
   // The s.timestamp variable is a string containing the date and time of the hit. Valid timestamp formats include ISO 8601 and Unix time.
@@ -171,21 +171,21 @@ const calculateTimestamp = (rudderElement) => {
 
 /**
  * @param  {} contextMap { "page.name" : "pName", "page.url": "pUrl"}
- * @param  {} rudderElement
+ * @param  {} htElement
  *  Find page.name, page.url from context/properties of rudder message.
  *  If key is one of anonymousId/userId/messageId it will fetch from message.
  *  If context = {"page": {"name": "Home Page", "url":"https://example.com"},{"path", "/page1"}}
  * @param  {} return a hash map of {"pName": "Home Page", "pUrl": "https://example.com"}
  */
 
-const getDataFromContext = (contextMap, rudderElement) => {
-  const { context, properties } = rudderElement.message;
+const getDataFromContext = (contextMap, htElement) => {
+  const { context, properties } = htElement.message;
   const contextDataMap = {};
   Object.keys(contextMap).forEach((value) => {
     let val;
     if (value) {
       if (topLevelProperties.includes(value)) {
-        val = rudderElement.message[value];
+        val = htElement.message[value];
       } else {
         val = get(context, value) ? get(context, value) : get(properties, value);
       }
@@ -216,14 +216,14 @@ const setContextData = (contextDataKey, contextDataValue, video = false) => {
 };
 
 /**
- * @param  {} rudderElement
+ * @param  {} htElement
  * Context data variables let you define custom variables on each page that processing rules can read.
  * DOC: https://experienceleague.adobe.com/docs/analytics/implementation/vars/page-vars/contextdata.html?lang=en
  */
 
-const handleContextData = (rudderElement) => {
+const handleContextData = (htElement) => {
   window.s.contextData = {};
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const contextDataPrefixValue = config.contextDataPrefix ? `${config.contextDataPrefix}.` : '';
   if (properties) {
     each((value, key) => {
@@ -237,7 +237,7 @@ const handleContextData = (rudderElement) => {
     'to',
     false,
   );
-  const keyValueContextData = getDataFromContext(contextDataMappingHashmap, rudderElement);
+  const keyValueContextData = getDataFromContext(contextDataMappingHashmap, htElement);
   if (keyValueContextData) {
     each((value, key) => {
       if (isDefinedAndNotNullAndNotEmpty(key)) {
@@ -248,14 +248,14 @@ const handleContextData = (rudderElement) => {
 };
 
 /**
- * @param  {} rudderElement
+ * @param  {} htElement
  * eVars are custom variables that you can use however you’d like.
  * Updates eVar variable of window.s
  * DOC: https://experienceleague.adobe.com/docs/analytics/implementation/vars/page-vars/evar.html?lang=en
  */
 
-const handleEVars = (rudderElement) => {
-  const { properties } = rudderElement.message;
+const handleEVars = (htElement) => {
+  const { properties } = htElement.message;
   const eVarMappingHashmap = getHashFromArray(config.eVarMapping, 'from', 'to', false);
   const eVarHashmapMod = {};
   Object.keys(eVarMappingHashmap).forEach((value) => {
@@ -270,15 +270,15 @@ const handleEVars = (rudderElement) => {
   }
 };
 /**
- * @param  {} rudderElement
+ * @param  {} htElement
  * Hierarchy variables are custom variables that let you see a site’s structure.
  * Updates hier varaible of window.s
  *
  * DOC: https://experienceleague.adobe.com/docs/analytics/implementation/vars/page-vars/hier.html?lang=en
  */
 
-const handleHier = (rudderElement) => {
-  const { properties } = rudderElement.message;
+const handleHier = (htElement) => {
+  const { properties } = htElement.message;
   const hierMappingHashmap = getHashFromArray(config.hierMapping, 'from', 'to', false);
   const hierHashmapMod = {};
   Object.keys(hierMappingHashmap).forEach((value) => {
@@ -294,7 +294,7 @@ const handleHier = (rudderElement) => {
 };
 
 /**
- * @param  {} rudderElement
+ * @param  {} htElement
  * List variables are custom variables that you can use however you’d like.
  * They work similarly to eVars, except they can contain multiple values in the same hit.
  *
@@ -305,8 +305,8 @@ const handleHier = (rudderElement) => {
  * DOC: https://experienceleague.adobe.com/docs/analytics/implementation/vars/page-vars/list.html?lang=en
  */
 
-const handleLists = (rudderElement) => {
-  const { properties } = rudderElement.message;
+const handleLists = (htElement) => {
+  const { properties } = htElement.message;
   const listMappingHashmap = getHashFromArray(config.listMapping, 'from', 'to', false);
   let listDelimiterHashmap = getHashFromArray(config.listMapping, 'from', 'delimiter', false);
   // Keeping listDelimiter usage as a fallback until transformer and integrations-config releases are done to reflect the latest config structure
@@ -334,15 +334,15 @@ const handleLists = (rudderElement) => {
 };
 
 /**
- * @param  {} rudderElement
+ * @param  {} htElement
  * @description Props are custom variables that you can use however you’d like.
  * They do not persist beyond the hit that they are set.
  * prop variable of window.s is updated
  * DOC: https://experienceleague.adobe.com/docs/analytics/implementation/vars/page-vars/prop.html?lang=en
  */
 
-const handleCustomProps = (rudderElement) => {
-  const { properties } = rudderElement.message;
+const handleCustomProps = (htElement) => {
+  const { properties } = htElement.message;
   const customPropsMappingHashmap = getHashFromArray(
     config.customPropsMapping,
     'from',
@@ -578,16 +578,16 @@ const setProductString = (event, properties) => {
 };
 
 /**
- * @param  {} rudderElement
+ * @param  {} htElement
  * @param  {} adobeEventName
  *
  * Update window variables and do adobe track calls
  */
-const processEvent = (rudderElement, adobeEventName, pageName) => {
-  const { properties, event } = rudderElement.message;
+const processEvent = (htElement, adobeEventName, pageName) => {
+  const { properties, event } = htElement.message;
   const { currency } = properties;
-  updateCommonWindowSKeys(rudderElement, pageName);
-  calculateTimestamp(rudderElement);
+  updateCommonWindowSKeys(htElement, pageName);
+  calculateTimestamp(htElement);
   // useful for setting evar as amount value if this is set
   if (currency !== 'USD') {
     updateWindowSKeys(currency, 'currencyCode');
@@ -596,11 +596,11 @@ const processEvent = (rudderElement, adobeEventName, pageName) => {
   setEventsString(event, properties, adobeEventName);
   setProductString(event, properties);
 
-  handleContextData(rudderElement);
-  handleEVars(rudderElement);
-  handleHier(rudderElement);
-  handleLists(rudderElement);
-  handleCustomProps(rudderElement);
+  handleContextData(htElement);
+  handleEVars(htElement);
+  handleHier(htElement);
+  handleLists(htElement);
+  handleCustomProps(htElement);
 
   /**
    * The s.linkTrackVars variable is a string containing a comma-delimited list of variables that you want to
@@ -619,9 +619,9 @@ const processEvent = (rudderElement, adobeEventName, pageName) => {
   window.s.tl(true, 'o', event);
 };
 
-const handleVideoContextData = (rudderElement) => {
+const handleVideoContextData = (htElement) => {
   let contextData;
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
   const contextDataPrefixValue = config.contextDataPrefix ? `${config.contextDataPrefix}.` : '';
   if (properties) {
     each((value, key) => {
@@ -637,7 +637,7 @@ const handleVideoContextData = (rudderElement) => {
     'to',
     false,
   );
-  const keyValueContextData = getDataFromContext(contextDataMappingHashmap, rudderElement);
+  const keyValueContextData = getDataFromContext(contextDataMappingHashmap, htElement);
   if (keyValueContextData) {
     each((value, key) => {
       if (isDefinedAndNotNullAndNotEmpty(key)) {

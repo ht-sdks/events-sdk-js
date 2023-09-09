@@ -35,24 +35,24 @@ class Lemnisk {
     return !!window.lmSMTObj;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Lemnisk Marketing Automation identify===');
 
-    const userId = rudderElement.message.userId || rudderElement.message.anonymousId;
+    const userId = htElement.message.userId || htElement.message.anonymousId;
     if (!userId) {
       logger.debug('[Lemnisk] identify:: user id is required');
       return;
     }
-    const { message } = rudderElement;
+    const { message } = htElement;
     const context = message?.context || {};
     const traits = context?.traits || {};
     traits.isRudderEvents = true;
     window.lmSMTObj.identify(userId, traits);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Lemnisk Marketing Automation track===');
-    const { event, properties } = rudderElement.message;
+    const { event, properties } = htElement.message;
 
     if (!event) {
       logger.error('[Lemnisk] track:: Event name is missing!');
@@ -66,9 +66,9 @@ class Lemnisk {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Lemnisk Marketing Automation page===');
-    const { name, properties } = rudderElement.message;
+    const { name, properties } = htElement.message;
     if (name && !properties) {
       window.lmSMTObj.page(name, { isRudderEvents: true });
     } else if (!name && properties) {

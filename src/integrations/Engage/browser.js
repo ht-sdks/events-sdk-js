@@ -45,10 +45,10 @@ class Engage {
     return !!window.Engage;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Engage identify');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const engageId = getDestinationExternalID(message, 'engageId');
     const { userIdOnly, firstName, phone, lastName } = getDefinedTraits(message);
     if (!engageId && !userIdOnly) {
@@ -69,9 +69,9 @@ class Engage {
     window.Engage.identify(payload);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Engage track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, properties, originalTimestamp } = message;
     let engageId = getDestinationExternalID(message, 'engageId');
     if (!engageId) {
@@ -95,9 +95,9 @@ class Engage {
     });
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Engage page===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { name, properties, originalTimestamp, category } = message;
     let engageId = getDestinationExternalID(message, 'engageId');
     if (!engageId) {

@@ -43,9 +43,9 @@ class Adroll {
     return !!window.__adroll;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Adroll Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const email = get(message, 'context.traits.email') || get(message, 'traits.email');
 
     if (!email) {
@@ -57,8 +57,8 @@ class Adroll {
   }
   // record_adroll_email is used to attach a image pixel to the page connected to the user identified
 
-  track(rudderElement) {
-    const { message } = rudderElement;
+  track(htElement) {
+    const { message } = htElement;
     const { userId, event, properties } = message;
     const eventsHashmap = getHashFromArray(this.eventsMap);
     let data;
@@ -89,9 +89,9 @@ class Adroll {
   // record_user fires the correct pixel in accordance with the event configured in the dashboard
   // and the segment associated in adroll
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('=== In Adroll Page ===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const eventsHashmap = getHashFromArray(this.eventsMap);
     let pageFullName;
     if (!message.name && !message.category) {

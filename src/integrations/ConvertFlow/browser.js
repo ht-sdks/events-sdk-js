@@ -44,9 +44,9 @@ class ConvertFlow {
     return !!window.convertflow;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In convertflow Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const email = message.context.traits?.email || message.traits?.email;
     if (!email) {
       logger.error('email is required for identify call');

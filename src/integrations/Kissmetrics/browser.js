@@ -156,10 +156,10 @@ class Kissmetrics {
     return prefixed;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in KissMetrics identify');
 
-    const { userId, context } = rudderElement.message;
+    const { userId, context } = htElement.message;
     const { traits } = context;
     const userTraits = this.clean(traits);
 
@@ -171,11 +171,11 @@ class Kissmetrics {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in KissMetrics track');
 
-    const { event } = rudderElement.message;
-    let properties = JSON.parse(JSON.stringify(rudderElement.message.properties));
+    const { event } = htElement.message;
+    let properties = JSON.parse(JSON.stringify(htElement.message.properties));
     const timestamp = this.toUnixTimestamp(new Date());
 
     const revenue = getRevenue(properties);
@@ -211,11 +211,11 @@ class Kissmetrics {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in KissMetrics page');
 
-    let { properties } = rudderElement.message;
-    const pageName = rudderElement.message.name;
+    let { properties } = htElement.message;
+    const pageName = htElement.message.name;
     const pageCategory = properties.category || undefined;
     let name = 'Loaded a Page';
     if (pageName) {
@@ -232,17 +232,17 @@ class Kissmetrics {
     window._kmq.push(['record', name, properties]);
   }
 
-  alias(rudderElement) {
+  alias(htElement) {
     logger.debug('in KissMetrics alias');
 
-    const { previousId, userId } = rudderElement.message;
+    const { previousId, userId } = htElement.message;
     window._kmq.push(['alias', userId, previousId]);
   }
 
-  group(rudderElement) {
+  group(htElement) {
     logger.debug('in KissMetrics group');
 
-    const { groupId, traits } = rudderElement.message;
+    const { groupId, traits } = htElement.message;
     const groupTraits = this.prefix('Group', traits);
     if (groupId) {
       groupTraits['Group - id'] = groupId;

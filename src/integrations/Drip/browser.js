@@ -54,10 +54,10 @@ class Drip {
     return !!window._dcq;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Drip identify===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { context } = message;
     if (!context?.traits) {
       logger.error('user context or traits not present');
@@ -127,10 +127,10 @@ class Drip {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Drip track===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
 
     if (!event) {

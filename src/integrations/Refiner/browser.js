@@ -40,9 +40,9 @@ class Refiner {
     return !!this._refiner;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Refiner Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId, traits, context } = message;
     const email = traits?.email || context?.traits?.email;
     if (!userId && !email) {
@@ -61,9 +61,9 @@ class Refiner {
     });
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Refiner track===');
-    const { event } = rudderElement.message;
+    const { event } = htElement.message;
 
     if (!event) {
       logger.error('Event name not present');
@@ -78,9 +78,9 @@ class Refiner {
     this._refiner('trackEvent', event);
   }
 
-  group(rudderElement) {
+  group(htElement) {
     logger.debug('===In Refiner Group===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId, groupId, traits, context } = message;
     const userEmail = context?.traits?.email;
     if (!userId && !userEmail) {
@@ -99,9 +99,9 @@ class Refiner {
     });
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Refiner page===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     let pageFullName;
     if (!message.name && !message.category) {
       pageFullName = `pageView`;

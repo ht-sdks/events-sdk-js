@@ -94,13 +94,13 @@ class Braze {
    * });                                                                                             });
    * As both payload have same userId so it will deeply check all other attributes and pass the unique fields
    * or the updated fields.
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Braze identify');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId } = message;
     const { context } = message;
     const email = context?.traits?.email;
@@ -231,11 +231,11 @@ class Braze {
     }
   }
 
-  track(rudderElement) {
-    const { userId } = rudderElement.message;
-    const eventName = rudderElement.message.event;
-    let { properties } = rudderElement.message;
-    const { anonymousId } = rudderElement.message;
+  track(htElement) {
+    const { userId } = htElement.message;
+    const eventName = htElement.message.event;
+    let { properties } = htElement.message;
+    const { anonymousId } = htElement.message;
     let canSendCustomEvent = false;
     if (userId) {
       window.braze.changeUser(userId);
@@ -254,11 +254,11 @@ class Braze {
     }
   }
 
-  page(rudderElement) {
-    const { userId } = rudderElement.message;
-    const eventName = rudderElement.message.name;
-    let { properties } = rudderElement.message;
-    const { anonymousId } = rudderElement.message;
+  page(htElement) {
+    const { userId } = htElement.message;
+    const eventName = htElement.message.name;
+    let { properties } = htElement.message;
+    const { anonymousId } = htElement.message;
     if (userId) {
       window.braze.changeUser(userId);
     } else if (this.trackAnonymousUser) {

@@ -68,10 +68,10 @@ class Iterable {
     return !!window[iterableWebSdk];
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In identify Iterable');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { integrations, traits, context, userId } = message;
     const userEmail = traits?.email || context?.traits?.email;
 
@@ -123,10 +123,10 @@ class Iterable {
     this.fetchAppEvents = request;
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In track Iterable===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, properties } = message;
     const eventPayload = removeUndefinedAndNullValues(properties);
     const userEmail = get(message, 'context.traits.email');

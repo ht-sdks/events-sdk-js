@@ -72,9 +72,9 @@ class RollBar {
     return !!window.Rollbar;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In RollBar Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId, context } = message;
     const { traits } = context;
 

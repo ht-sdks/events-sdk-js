@@ -7,7 +7,7 @@ import {
   mergeDeepRightObjectArrays,
   stringifyWithoutCircular,
 } from '../../src/utils/ObjectUtils';
-import RudderElement from '../../src/utils/RudderElement';
+import HtElement from '../../src/utils/HtElement';
 
 const identifyTraitsPayloadMock = {
   firstName: 'Dummy Name',
@@ -172,7 +172,7 @@ describe('Object utilities', () => {
   it('should detect if value is an Object literal and not null', () => {
     const nullCheck = isObjectLiteralAndNotNull(null);
     const objCheck = isObjectLiteralAndNotNull({});
-    const classInstanceCheck = isObjectLiteralAndNotNull(new RudderElement());
+    const classInstanceCheck = isObjectLiteralAndNotNull(new HtElement());
     const arrayCheck = isObjectLiteralAndNotNull([]);
     const functionCheck = isObjectLiteralAndNotNull(() => {});
     const dateCheck = isObjectLiteralAndNotNull(new Date());

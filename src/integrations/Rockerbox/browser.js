@@ -38,9 +38,9 @@ class Rockerbox {
     return !!window.RB;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Rockerbox Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId, anonymousId, traits, context } = message;
     if (!userId) {
       logger.debug('userId is needed. A primary identifier is expected by RockerBox');
@@ -54,7 +54,7 @@ class Rockerbox {
     });
   }
 
-  track(rudderElement) {
+  track(htElement) {
     if (this.connectionMode === 'hybrid') {
       logger.info(
         'The connectionMode is set to hybrid. Track call will not be sent via device mode.',
@@ -63,7 +63,7 @@ class Rockerbox {
     }
     logger.debug('===In Rockerbox track===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, anonymousId, properties } = message;
     if (!event) {
       logger.error('Event name not present');
@@ -78,9 +78,9 @@ class Rockerbox {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('=== In Rockerbox Page ===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { anonymousId, properties } = message;
     window.RB.track('view', { ...properties, anonymousId });
   }

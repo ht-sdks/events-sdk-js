@@ -1,5 +1,5 @@
 /**
- * A helper function that will take rudderEelement as an event and generate
+ * A helper function that will take htElement as an event and generate
  * a batch payload that will be sent to transformation server
  *
  */

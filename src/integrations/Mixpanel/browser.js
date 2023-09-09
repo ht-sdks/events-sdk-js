@@ -98,21 +98,21 @@ class Mixpanel {
 
   /**
    * Identify
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Mixpanel identify');
 
     let peopleProperties = parseConfigArray(this.peopleProperties, 'property');
     peopleProperties = extendTraits(peopleProperties);
     const superProperties = parseConfigArray(this.superProperties, 'property');
 
-    let userId = rudderElement.message.userId || rudderElement.message.anonymousId;
+    let userId = htElement.message.userId || htElement.message.anonymousId;
     if (this.identityMergeApi === 'simplified') {
       // calling mixpanel .identify() only for known users
-      userId = rudderElement.message.userId;
+      userId = htElement.message.userId;
     }
-    let traits = formatTraits(rudderElement.message);
+    let traits = formatTraits(htElement.message);
     const { email, username } = traits;
     // id
     if (userId) window.mixpanel.identify(userId);
@@ -167,11 +167,11 @@ class Mixpanel {
 
   /**
    * Page
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Mixpanel page');
-    const { name, properties } = rudderElement.message;
+    const { name, properties } = htElement.message;
     const { category } = properties;
     // consolidated Page Calls
     if (this.consolidatedPageCalls) {
@@ -200,11 +200,11 @@ class Mixpanel {
    * Track
    * https://mixpanel.com/help/reference/javascript#sending-events
    * https://mixpanel.com/help/reference/javascript#tracking-revenue
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Mixpanel track');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const eventIncrements = parseConfigArray(this.eventIncrements, 'property');
     const propIncrements = parseConfigArray(this.propIncrements, 'property');
     const event = get(message, 'event');
@@ -265,11 +265,11 @@ class Mixpanel {
   }
 
   /**
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  group(rudderElement) {
+  group(htElement) {
     logger.debug('in Mixpanel group');
-    const { userId, groupId, traits } = rudderElement.message;
+    const { userId, groupId, traits } = htElement.message;
     if (!userId) {
       logger.debug('===Mixpanel: valid userId is required for group===');
       return;
@@ -296,16 +296,16 @@ class Mixpanel {
 
   /**
    * https://github.com/mixpanel/mixpanel-js/blob/master/doc/readme.io/javascript-full-api-reference.md#mixpanelalias
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  alias(rudderElement) {
+  alias(htElement) {
     logger.debug('in Mixpanel alias');
     if (this.identityMergeApi === 'simplified') {
       logger.debug("===Mixpanel: Alias call is deprecated in 'Simplified ID Merge'===");
       return;
     }
 
-    const { previousId, userId } = rudderElement.message;
+    const { previousId, userId } = htElement.message;
     const newId = userId;
     if (!previousId) {
       logger.debug('===Mixpanel: previousId is required for alias call===');

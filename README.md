@@ -6,7 +6,7 @@ To integrate the JavaScript SDK with your website, place the following code snip
 
 ```javascript
 <script type="text/javascript">
-!function(){var e=window.hightouchevents=window.hightouchevents||[];e.methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],e.factory=function(t){return function(){e.push([t].concat(Array.prototype.slice.call(arguments)))}};for(var t=0;t<e.methods.length;t++){var r=e.methods[t];e[r]=e.factory(r)}e.loadJS=function(e,t){var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://d1xt4zx4uzh8tq.cloudfront.net/v0.1/events.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a)},e.loadJS(),
+!function(){var e=window.hightouchevents=window.hightouchevents||[];e.methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],e.factory=function(t){return function(){e.push([t].concat(Array.prototype.slice.call(arguments)))}};for(var t=0;t<e.methods.length;t++){var r=e.methods[t];e[r]=e.factory(r)}e.loadJS=function(e,t){var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://d1xt4zx4uzh8tq.cloudfront.net/latest/events.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a)},e.loadJS(),
 e.load(<WRITE_KEY>,<DATA_PLANE_URL>,{configUrl: <CONTROL_PLANE_URL>}),
 e.page()}();
 </script>
@@ -23,7 +23,7 @@ To load `hightouch-events.js` on to your page synchronously, you can refer to th
   hightouchevents=window.hightouchevents=[];for(var methods=["load","page","track","identify","alias","group","ready","reset","getAnonymousId","setAnonymousId"],i=0;i<methods.length;i++){var method=methods[i];hightouchevents[method]=function(a){return function(){hightouchevents.push([a].concat(Array.prototype.slice.call(arguments)))}}(method)}hightouchevents.load(<WRITE_KEY>,<DATA_PLANE_URL>, {configUrl: <CONTROL_PLANE_URL>}),hightouchevents.page();
 </script>
 
-<script src="https://d1xt4zx4uzh8tq.cloudfront.net/v0.1/events.min.js"></script>
+<script src="https://d1xt4zx4uzh8tq.cloudfront.net/latest/events.min.js"></script>
 ```
 
 ### Non-minified code
@@ -63,7 +63,7 @@ To load `hightouch-events.js` on to your page synchronously, you can refer to th
   hightouchevents.page();
 </script>
 
-<script src="https://d1xt4zx4uzh8tq.cloudfront.net/v0.1/events.min.js"></script>
+<script src="https://d1xt4zx4uzh8tq.cloudfront.net/latest/events.min.js"></script>
 ```
 
 In all the above versions, there is an explicit `page` call at the end. This is added to ensure that whenever the SDK loads in a page, a `page` call is sent. You can remove this call completely or modify it with the extra page properties to suit your requirement. You can also add `page` calls in your application in places not tied directly to page load, e.g., virtual page views, page renders on route change such as in SPAs, etc.

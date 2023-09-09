@@ -32,29 +32,25 @@ class XHRQueue {
       // TODO: add checks for value - has to be +ve?
       Object.assign(queueOptions, options);
     }
-    this.payloadQueue = new Queue(
-      'rudder',
-      queueOptions,
-      ((item, done) => {
-        // apply sentAt at flush time and reset on each retry
-        item.message.sentAt = getCurrentTimeFormatted();
-        // send this item for processing, with a callback to enable queue to get the done status
-        // eslint-disable-next-line no-use-before-define
-        this.processQueueElement(
-          item.url,
-          item.headers,
-          item.message,
-          10 * 1000,
-          // eslint-disable-next-line consistent-return
-          (err, res) => {
-            if (err) {
-              return done(err);
-            }
-            done(null, res);
-          },
-        );
-      }),
-    );
+    this.payloadQueue = new Queue('htevents', queueOptions, (item, done) => {
+      // apply sentAt at flush time and reset on each retry
+      item.message.sentAt = getCurrentTimeFormatted();
+      // send this item for processing, with a callback to enable queue to get the done status
+      // eslint-disable-next-line no-use-before-define
+      this.processQueueElement(
+        item.url,
+        item.headers,
+        item.message,
+        10 * 1000,
+        // eslint-disable-next-line consistent-return
+        (err, res) => {
+          if (err) {
+            return done(err);
+          }
+          done(null, res);
+        },
+      );
+    });
 
     // start queue
     this.payloadQueue.start();

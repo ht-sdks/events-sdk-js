@@ -53,9 +53,9 @@ class SnapEngage {
     return !!window.SnapEngage;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In SnapEngage Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const email = get(message, 'context.traits.email') || get(message, 'traits.email');
 
     if (!email) {

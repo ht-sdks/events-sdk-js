@@ -45,10 +45,10 @@ class Bugsnag {
     return !!window.bugsnagClient;
   }
 
-  identify(rudderElement) {
-    const { traits } = rudderElement.message.context;
+  identify(htElement) {
+    const { traits } = htElement.message.context;
     const traitsFinal = {
-      id: rudderElement.message.userId || rudderElement.message.anonymousId,
+      id: htElement.message.userId || htElement.message.anonymousId,
       name: traits.name,
       email: traits.email,
     };

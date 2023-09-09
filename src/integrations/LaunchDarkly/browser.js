@@ -42,8 +42,8 @@ class LaunchDarkly {
     return this.isLoaded();
   }
 
-  identify(rudderElement) {
-    const { message } = rudderElement;
+  identify(htElement) {
+    const { message } = htElement;
     const anonymousUsersSharedKey =
       get(message, `integrations.${NAME}.key`) || this.anonymousUsersSharedKey;
     this.launchDarklyUser = createUser(message, anonymousUsersSharedKey);
@@ -55,15 +55,15 @@ class LaunchDarkly {
     }
   }
 
-  track(rudderElement) {
-    const { event, properties } = rudderElement.message;
+  track(htElement) {
+    const { event, properties } = htElement.message;
     if (window.ldclient) {
       window.ldclient.track(event, properties);
     } else logger.error('=== In LaunchDarkly, track is not supported before identify ===');
   }
 
-  alias(rudderElement) {
-    const { message } = rudderElement;
+  alias(htElement) {
+    const { message } = htElement;
     const newUser = { key: message.userId };
 
     if (window.ldclient) {

@@ -61,14 +61,14 @@
     <button data-testid="group-btn" onclick="group()">Group</button>
 
     <p data-testid="action" id="action"></p>
-    <p data-testid="payload" id="rudderElement"></p>
+    <p data-testid="payload" id="htElement"></p>
 
     <script>
       function page() {
-        hightouchevents.page('Cart viewed', function (rudderElement) {
+        hightouchevents.page('Cart viewed', function (htElement) {
           console.log('in page call');
           document.getElementById('action').innerHTML = 'Page called';
-          document.getElementById('rudderElement').innerHTML = JSON.stringify(rudderElement);
+          document.getElementById('htElement').innerHTML = JSON.stringify(htElement);
         });
       }
 
@@ -85,10 +85,10 @@
             custom_date: Date.now(),
           },
           {},
-          function (rudderElement) {
+          function (htElement) {
             console.log('in identify call');
             document.getElementById('action').innerHTML = 'Identify called';
-            document.getElementById('rudderElement').innerHTML = JSON.stringify(rudderElement);
+            document.getElementById('htElement').innerHTML = JSON.stringify(htElement);
           },
         );
       }
@@ -101,19 +101,19 @@
             currency: 'USD',
             user_actual_id: 12345,
           },
-          function (rudderElement) {
+          function (htElement) {
             console.log('in track call');
             document.getElementById('action').innerHTML = 'Track called';
-            document.getElementById('rudderElement').innerHTML = JSON.stringify(rudderElement);
+            document.getElementById('htElement').innerHTML = JSON.stringify(htElement);
           },
         );
       }
 
       function alias() {
-        hightouchevents.alias('alias-user-id', function (rudderElement) {
+        hightouchevents.alias('alias-user-id', function (htElement) {
           console.log('alias call');
           document.getElementById('action').innerHTML = 'Alias called';
-          document.getElementById('rudderElement').innerHTML = JSON.stringify(rudderElement);
+          document.getElementById('htElement').innerHTML = JSON.stringify(htElement);
         });
       }
 
@@ -124,10 +124,10 @@
             name: 'Apple Inc.',
             location: 'USA',
           },
-          function (rudderElement) {
+          function (htElement) {
             console.log('group call');
             document.getElementById('action').innerHTML = 'Group called';
-            document.getElementById('rudderElement').innerHTML = JSON.stringify(rudderElement);
+            document.getElementById('htElement').innerHTML = JSON.stringify(htElement);
           },
         );
       }

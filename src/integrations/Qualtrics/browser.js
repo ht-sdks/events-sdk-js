@@ -46,9 +46,9 @@ class Qualtrics {
     return !!(window._qsie && window.QSI && window.QSI.API);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===in Qualtrics page===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     if (!message) {
       logger.debug('Message field is missing');
       return;
@@ -72,9 +72,9 @@ class Qualtrics {
     window._qsie.push(dynamicTitle);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===in Qualtrics track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     if (!message) {
       logger.debug('Message field is missing');
       return;

@@ -40,9 +40,9 @@ class LinkedInInsightTag {
     return !!window._linkedin_data_partner_id;
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In LinkedIn Insight Tag Track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
     if (!event) {
       logger.error('[LinkedIn Insight Tag]: Event name is missing for track call.');

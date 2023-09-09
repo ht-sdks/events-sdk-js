@@ -40,9 +40,9 @@ class MicrosoftClarity {
     return !!window.clarity;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Microsoft Clarity Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId, context } = message;
     if (!userId) {
       logger.error('[Microsoft Clarity] :: userId is required for an identify call');

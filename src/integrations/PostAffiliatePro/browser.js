@@ -71,17 +71,17 @@ class PostAffiliatePro {
     return false;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Post Affiliate Pro identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const visitorId = get(message, 'userId');
     window.PostAffTracker.setVisitorId(visitorId);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Post Affiliate Pro track===');
     const clickEventsArr = this.clickEvents ? this.clickEvents.split(',') : null;
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
     const { properties } = message;
 

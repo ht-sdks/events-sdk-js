@@ -73,9 +73,9 @@ class Podsights {
    * Track - tracks an event for an user
    * @param {Track} track
    */
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Podsights Track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, properties } = message;
     if (!event) {
       logger.error('[Podsights]: event name from track call is missing.');
@@ -158,8 +158,8 @@ class Podsights {
    * for supporting path of Page
    * @param {Page} page
    */
-  page(rudderElement) {
-    const { properties, context } = rudderElement.message;
+  page(htElement) {
+    const { properties, context } = htElement.message;
     logger.debug('===In Podsights Page===');
     const { page } = context;
     let payload = properties;

@@ -45,21 +45,21 @@ class BingAds {
     Ecomm parameters ref - https://help.ads.microsoft.com/#apex/ads/en/60118/-1
   */
 
-  track = (rudderElement) => {
-    const { type, properties } = rudderElement.message;
+  track = (htElement) => {
+    const { type, properties } = htElement.message;
     const eventToSend = properties?.event_action || type;
     if (!eventToSend) {
       logger.error('Event type not present');
       return;
     }
     let payload = {
-      ...buildCommonPayload(rudderElement.message),
-      ...buildEcommPayload(rudderElement.message),
+      ...buildCommonPayload(htElement.message),
+      ...buildEcommPayload(htElement.message),
     };
 
     // We can pass unmapped UET parameters through custom properties
     const customProperties = extractCustomFields(
-      rudderElement.message,
+      htElement.message,
       {},
       ['properties'],
       EXCLUSION_KEYS,

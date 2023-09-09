@@ -100,12 +100,12 @@ class VWO {
     logger.debug('[VWO] identify:: method not supported');
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In VWO track===');
-    const eventName = rudderElement.message.event;
+    const eventName = htElement.message.event;
     if (eventName === 'Order Completed') {
-      const total = rudderElement.message.properties
-        ? rudderElement.message.properties.total || rudderElement.message.properties.revenue
+      const total = htElement.message.properties
+        ? htElement.message.properties.total || htElement.message.properties.revenue
         : 0;
       logger.debug('Revenue', total);
       window.VWO = window.VWO || [];

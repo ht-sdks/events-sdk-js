@@ -91,8 +91,8 @@ class Sentry {
     return false;
   }
 
-  identify(rudderElement) {
-    const { message } = rudderElement;
+  identify(htElement) {
+    const { message } = htElement;
     const { traits } = message.context;
     const { email, name } = getDefinedTraits(message); // userId sent as id and username sent as name
     const userId = get(message, 'userId');

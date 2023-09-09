@@ -56,23 +56,23 @@ class Woopra {
     return !!window.Woopra;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Woopra Identify===');
-    const { traits } = rudderElement.message.context;
+    const { traits } = htElement.message.context;
     if (traits) {
       window.Woopra.identify(traits).push();
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Woopra Track===');
-    const { event, properties } = rudderElement.message;
+    const { event, properties } = htElement.message;
     window.Woopra.track(event, properties);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Woopra Page ===');
-    const { name, properties, category } = rudderElement.message;
+    const { name, properties, category } = htElement.message;
     const pageCat = category ? `${category} ` : '';
     const pageName = name ? `${name} ` : '';
     const eventName = `Viewed ${pageCat}${pageName}Page`;

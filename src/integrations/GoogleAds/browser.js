@@ -84,10 +84,10 @@ class GoogleAds {
   }
 
   // https://developers.google.com/gtagjs/reference/event
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in GoogleAdsAnalyticsManager track');
 
-    const { event } = rudderElement.message;
+    const { event } = htElement.message;
     const conversionData = getConversionData(
       this.clickEventConversions,
       event,
@@ -108,9 +108,9 @@ class GoogleAds {
       const sendToValue = `${this.conversionId}/${conversionLabel}`;
 
       let properties = {
-        value: rudderElement.message?.properties?.revenue,
-        currency: rudderElement.message?.properties?.currency,
-        transaction_id: rudderElement.message?.properties?.order_id,
+        value: htElement.message?.properties?.revenue,
+        currency: htElement.message?.properties?.currency,
+        transaction_id: htElement.message?.properties?.order_id,
         send_to: sendToValue,
       };
       properties = removeUndefinedAndNullValues(properties);
@@ -141,7 +141,7 @@ class GoogleAds {
         false,
       );
 
-      const { properties } = rudderElement.message;
+      const { properties } = htElement.message;
       const payload = properties || {};
       const sendToValue = this.conversionId;
 
@@ -157,10 +157,10 @@ class GoogleAds {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in GoogleAdsAnalyticsManager page');
 
-    const { name } = rudderElement.message;
+    const { name } = htElement.message;
     const conversionData = getConversionData(
       this.clickEventConversions,
       name,
@@ -200,7 +200,7 @@ class GoogleAds {
       )
     ) {
       const event = name;
-      const { properties } = rudderElement.message;
+      const { properties } = htElement.message;
       const sendToValue = this.conversionId;
       const payload = properties || {};
       payload.send_to = sendToValue;

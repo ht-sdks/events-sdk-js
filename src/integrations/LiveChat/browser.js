@@ -53,9 +53,9 @@ class LiveChat {
     return !!window.LiveChatWidget;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In LiveChat Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId, context } = message;
     const { traits } = context;
     const email = get(message, 'context.traits.email');

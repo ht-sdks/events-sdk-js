@@ -124,9 +124,9 @@ class Matomo {
     return false;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Matomo Identify===');
-    const { anonymousId, userId } = rudderElement.message;
+    const { anonymousId, userId } = htElement.message;
     const matomoUserId = userId || anonymousId;
     if (!matomoUserId) {
       logger.error('User parameter (anonymousId or userId) is required for identify call');
@@ -135,10 +135,10 @@ class Matomo {
     window._paq.push(['setUserId', matomoUserId]);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Matomo track===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
     const goalListMap = getHashFromArrayWithDuplicate(this.eventsMapToGoalId);
     const standardEventsMap = getHashFromArrayWithDuplicate(this.eventsToStandard);
@@ -179,7 +179,7 @@ class Matomo {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('=== In Matomo Page ===');
     window._paq.push(['trackPageView']);
   }

@@ -40,7 +40,7 @@ class ProfitWell {
     return !!(window.profitwell && window.profitwell.length > 0);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In ProfitWell identify===');
 
     if (this.siteType === 'marketing') {
@@ -48,7 +48,7 @@ class ProfitWell {
       return;
     }
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const email = get(message, 'context.traits.email');
     if (email) {
       window.profitwell('start', {

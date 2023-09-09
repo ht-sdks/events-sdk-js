@@ -4,7 +4,7 @@ import { SYSTEM_KEYWORDS } from './constants';
 
 const defaultTopLevelElements = ['integrations', 'anonymousId', 'originalTimestamp'];
 
-const mergeTopLevelElementsMutator = (rudderElementMessage, options = {}) => {
+const mergeTopLevelElementsMutator = (htElementMessage, options = {}) => {
   if (typeof options !== 'object' || options === null) {
     return;
   }
@@ -12,13 +12,13 @@ const mergeTopLevelElementsMutator = (rudderElementMessage, options = {}) => {
   Object.keys(options).forEach((key) => {
     if (defaultTopLevelElements.includes(key)) {
       // eslint-disable-next-line no-param-reassign
-      rudderElementMessage[key] = options[key];
+      htElementMessage[key] = options[key];
     }
   });
 };
 
-const mergeContext = (rudderElementMessage, options = {}) => {
-  let { context } = rudderElementMessage;
+const mergeContext = (htElementMessage, options = {}) => {
+  let { context } = htElementMessage;
 
   if (typeof options !== 'object' || options === null) {
     return context;

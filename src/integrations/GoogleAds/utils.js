@@ -101,7 +101,7 @@ function getConversionData(eventTypeConversions, eventName, defaultPageConversio
     if (eventName) {
       eventTypeConversions.forEach((eventTypeConversion) => {
         if (eventTypeConversion.name.toLowerCase() === eventName.toLowerCase()) {
-          // rudderElement["message"]["name"]
+          // htElement["message"]["name"]
           conversionData.conversionLabel = eventTypeConversion.conversionLabel;
           conversionData.eventName = eventTypeConversion.name;
         }

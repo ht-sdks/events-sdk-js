@@ -1,11 +1,11 @@
 // Class responsible for building up the individual elements in a batch
 // that is transmitted by the SDK
-import RudderElement from './RudderElement';
+import HtElement from './HtElement';
 
-class RudderElementBuilder {
+class HtElementBuilder {
   constructor() {
-    this.rudderProperty = null;
-    this.rudderUserProperty = null;
+    this.htProperty = null;
+    this.htUserProperty = null;
     this.event = null;
     this.userId = null;
     this.type = null;
@@ -17,13 +17,13 @@ class RudderElementBuilder {
   }
 
   build() {
-    const element = new RudderElement();
+    const element = new HtElement();
     element.setUserId(this.userId);
     element.setType(this.type);
     element.setEventName(this.event);
-    element.setProperty(this.rudderProperty);
-    element.setUserProperty(this.rudderUserProperty);
+    element.setProperty(this.htProperty);
+    element.setUserProperty(this.htUserProperty);
     return element;
   }
 }
-export default RudderElementBuilder;
+export default HtElementBuilder;

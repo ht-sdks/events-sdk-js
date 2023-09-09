@@ -117,8 +117,8 @@ describe('identify', () => {
     // mock the window.braze
     mockBrazeSDK();
 
-    // Create a mock rudderElement with necessary properties
-    const rudderElement = {
+    // Create a mock htElement with necessary properties
+    const htElement = {
       message: {
         userId: 'user123',
         context: {
@@ -149,7 +149,7 @@ describe('identify', () => {
     jest.spyOn(window.braze.getUser(), 'setDateOfBirth');
 
     // Call the identify method
-    braze.identify(rudderElement);
+    braze.identify(htElement);
 
     // Expect the necessary Braze methods to be called with the correct values
     expect(window.braze.changeUser).toHaveBeenCalledWith('user123');
@@ -183,8 +183,8 @@ describe('identify', () => {
     // mock the window.braze
     mockBrazeSDK();
 
-    // Create a mock rudderElement with necessary properties
-    const rudderElement = {
+    // Create a mock htElement with necessary properties
+    const htElement = {
       message: {
         userId: 'user123',
         context: {
@@ -234,7 +234,7 @@ describe('identify', () => {
     jest.spyOn(window.braze.getUser(), 'setDateOfBirth');
 
     // Call the identify method
-    braze.identify(rudderElement);
+    braze.identify(htElement);
 
     // Expect the necessary Braze methods to be called with the updated values
     expect(window.braze.getUser().setEmail).toHaveBeenCalledWith('updated@example.com');
@@ -285,8 +285,8 @@ describe('identify', () => {
     // mock the window.braze
     mockBrazeSDK();
 
-    // Create a mock rudderElement with necessary properties
-    const rudderElement = {
+    // Create a mock htElement with necessary properties
+    const htElement = {
       message: {
         userId: 'user123',
         context: {
@@ -300,7 +300,7 @@ describe('identify', () => {
     };
 
     // Call the identify method
-    braze.identify(rudderElement);
+    braze.identify(htElement);
 
     // Expect the necessary Braze methods to be called with the initial values
     expect(window.braze.changeUser).toHaveBeenCalledWith('user123');
@@ -333,8 +333,8 @@ describe('identify', () => {
     // mock the window.braze
     mockBrazeSDK();
 
-    // Create a mock rudderElement without userId
-    const rudderElement = {
+    // Create a mock htElement without userId
+    const htElement = {
       message: {
         context: {
           traits: {
@@ -348,7 +348,7 @@ describe('identify', () => {
 
     // Call the identify method and mimic the try catch of core sdk
     try {
-      braze.identify(rudderElement);
+      braze.identify(htElement);
     } catch (e) {
       expect(e.message).toEqual(
         'Braze SDK Error: changeUser requires a non-empty userId. (v4.2.1)',
@@ -378,15 +378,15 @@ describe('identify', () => {
     // mock the window.braze
     mockBrazeSDK();
 
-    // Create a mock rudderElement without context
-    const rudderElement = {
+    // Create a mock htElement without context
+    const htElement = {
       message: {
         userId: 'user123',
       },
     };
 
     // Call the identify method and mimic the try catch of core sdk
-    braze.identify(rudderElement);
+    braze.identify(htElement);
 
     // Expect the necessary Braze methods to be called with the initial values
     expect(window.braze.changeUser).toHaveBeenCalledWith('user123');
@@ -425,8 +425,8 @@ describe('identify', () => {
     // mock the window.braze
     mockBrazeSDK();
 
-    // Create a mock rudderElement without userId
-    const rudderElement = {
+    // Create a mock htElement without userId
+    const htElement = {
       message: {
         userId: 'user123',
         context: {
@@ -441,7 +441,7 @@ describe('identify', () => {
     };
 
     // Call the identify method and mimic the try catch of core sdk
-    braze.identify(rudderElement);
+    braze.identify(htElement);
 
     // Expect the necessary Braze methods to be called with the initial values
     expect(window.braze.changeUser).toHaveBeenCalledWith('user123');

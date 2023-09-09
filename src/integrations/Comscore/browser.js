@@ -45,10 +45,10 @@ class Comscore {
     return !!window.COMSCORE;
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Comscore page');
 
-    this.loadConfig(rudderElement);
+    this.loadConfig(htElement);
 
     if (!this.isFirstPageCallMade) {
       this.isFirstPageCallMade = true;
@@ -59,16 +59,16 @@ class Comscore {
         return;
       }
       if (!this.isLoaded() && !this.failed) {
-        this.replayEvents.push(['page', rudderElement]);
+        this.replayEvents.push(['page', htElement]);
         return;
       }
       window.COMSCORE.beacon(this.comScoreParams);
     }
   }
 
-  loadConfig(rudderElement) {
+  loadConfig(htElement) {
     logger.debug('=====in loadConfig=====');
-    this.comScoreParams = this.mapComscoreParams(rudderElement.message.properties);
+    this.comScoreParams = this.mapComscoreParams(htElement.message.properties);
     window._comscore = window._comscore || [];
     window._comscore.push(this.comScoreParams);
   }

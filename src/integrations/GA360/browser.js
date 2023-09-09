@@ -30,19 +30,19 @@ class GA360 extends GA {
     return super.init();
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('=========in GA 360 identify ==========');
-    return super.identify(rudderElement);
+    return super.identify(htElement);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('=========in GA 360 track ==========');
-    return super.track(rudderElement);
+    return super.track(htElement);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('=========in GA 360 page ==========');
-    return super.page(rudderElement);
+    return super.page(htElement);
   }
 
   isLoaded() {

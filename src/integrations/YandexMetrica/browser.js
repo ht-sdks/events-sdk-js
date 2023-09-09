@@ -59,10 +59,10 @@ class YandexMetrica {
   }
 
   // identify call to yandex.metrica
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In YandexMetrica Identify===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { userId } = getDefinedTraits(message);
     let payload = { UserID: userId };
     if (!message?.context?.traits) {
@@ -76,10 +76,10 @@ class YandexMetrica {
   }
 
   // track call
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In YandexMetrica track===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, properties } = message;
     const eventMappingFromConfigMap = getHashFromArrayWithDuplicate(
       this.eventNameToYandexEvent,
@@ -117,9 +117,9 @@ class YandexMetrica {
   }
 
   // page call
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In YandexMetrica Page===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     if (!message?.context?.page) {
       logger.error('page object containing page properties are not present in the payload');
       return;

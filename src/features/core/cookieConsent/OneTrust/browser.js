@@ -5,7 +5,7 @@ class OneTrust {
   isInitialized = false;
 
   constructor() {
-    // If user does not load onetrust sdk before loading rudderstack sdk
+    // If user does not load onetrust sdk before loading ht events sdk
     // we will not be filtering any of the destinations.
     if (!window.OneTrust || !window.OnetrustActiveGroups) {
       logger.error('OneTrust resources are not accessible.');

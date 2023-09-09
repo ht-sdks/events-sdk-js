@@ -119,13 +119,13 @@ class Lotame {
     return compiledUrl;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Lotame identify');
-    const { userId } = rudderElement.message;
+    const { userId } = htElement.message;
     this.syncPixel(userId);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Lotame page');
 
     logger.debug('Firing BCP Pixel URLs');
@@ -152,8 +152,8 @@ class Lotame {
       });
     }
 
-    if (rudderElement.message.userId && this.isPixelToBeSynched()) {
-      this.syncPixel(rudderElement.message.userId);
+    if (htElement.message.userId && this.isPixelToBeSynched()) {
+      this.syncPixel(htElement.message.userId);
     }
   }
 

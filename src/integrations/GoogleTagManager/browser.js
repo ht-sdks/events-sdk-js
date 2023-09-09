@@ -25,17 +25,17 @@ class GoogleTagManager {
     loadNativeSdk(this.containerID, this.serverUrl);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     // set the traits to the datalayer and put everything under the key traits
     // keeping it under the traits key as destructing might conflict with `message.properties`
-    const rudderMessage = rudderElement.message;
+    const rudderMessage = htElement.message;
     const props = { traits: rudderMessage.context.traits };
     this.sendToGTMDatalayer(props);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===in track GoogleTagManager===');
-    const rudderMessage = rudderElement.message;
+    const rudderMessage = htElement.message;
     const props = {
       event: rudderMessage.event,
       userId: rudderMessage.userId,
@@ -48,9 +48,9 @@ class GoogleTagManager {
     this.sendToGTMDatalayer(props);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===in page GoogleTagManager===');
-    const rudderMessage = rudderElement.message;
+    const rudderMessage = htElement.message;
     const pageName = rudderMessage.name;
     const pageCategory = rudderMessage.properties ? rudderMessage.properties.category : undefined;
 

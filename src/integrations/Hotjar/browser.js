@@ -36,24 +36,24 @@ class Hotjar {
     return this._ready;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Hotjar identify===');
 
-    const userId = rudderElement.message.userId || rudderElement.message.anonymousId;
+    const userId = htElement.message.userId || htElement.message.anonymousId;
     if (!userId) {
       logger.debug('[Hotjar] identify:: user id is required');
       return;
     }
 
-    const { traits } = rudderElement.message.context;
+    const { traits } = htElement.message.context;
 
-    window.hj('identify', rudderElement.message.userId, traits);
+    window.hj('identify', htElement.message.userId, traits);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Hotjar track===');
 
-    let { event } = rudderElement.message;
+    let { event } = htElement.message;
 
     if (!event) {
       logger.error('Event name is not present');

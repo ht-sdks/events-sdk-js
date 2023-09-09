@@ -42,27 +42,27 @@ class Lytics {
     return !!(window.jstag && window.jstag.push !== Array.prototype.push);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Lytics identify');
-    const userId = rudderElement.message.userId || rudderElement.message.anonymousId;
-    const { traits } = rudderElement.message.context;
+    const userId = htElement.message.userId || htElement.message.anonymousId;
+    const { traits } = htElement.message.context;
     let payload = { user_id: userId, ...traits };
     payload = this.handleName(payload);
     window.jstag.send(this.stream, payload);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Lytics page');
-    const { properties } = rudderElement.message;
-    let payload = { event: rudderElement.message.name, ...properties };
+    const { properties } = htElement.message;
+    let payload = { event: htElement.message.name, ...properties };
     payload = this.handleName(payload);
     window.jstag.pageView(this.stream, payload);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Lytics track');
-    const { properties } = rudderElement.message;
-    let payload = { _e: rudderElement.message.event, ...properties };
+    const { properties } = htElement.message;
+    let payload = { _e: htElement.message.event, ...properties };
     payload = this.handleName(payload);
     window.jstag.send(this.stream, payload);
   }

@@ -108,17 +108,17 @@ class FacebookPixel {
     return !!(window.fbq && window.fbq.callMethod);
   }
 
-  page(rudderElement) {
-    const { properties } = rudderElement.message;
+  page(htElement) {
+    const { properties } = htElement.message;
     window.fbq('track', 'PageView', properties, {
-      eventID: getEventId(rudderElement.message),
+      eventID: getEventId(htElement.message),
     });
   }
 
-  track(rudderElement) {
+  track(htElement) {
     const self = this;
-    const { event } = rudderElement.message;
-    const properties = eventHelpers.getProperties(rudderElement.message);
+    const { event } = htElement.message;
+    const properties = eventHelpers.getProperties(htElement.message);
     const {
       id,
       sku,
@@ -138,10 +138,10 @@ class FacebookPixel {
     eventHelpers.validateRevenue(revValue);
     currency = eventHelpers.getCurrency(currency);
     const payload = buildPayLoad(
-      rudderElement,
+      htElement,
       this.whitelistPiiProperties,
       this.blacklistPiiProperties,
-      getHashedStatus(rudderElement.message, this.name),
+      getHashedStatus(htElement.message, this.name),
     );
 
     const standard = this.eventsToEvents;
@@ -156,14 +156,14 @@ class FacebookPixel {
       return;
     }
     category = getContentCategory(category);
-    const derivedEventID = getEventId(rudderElement.message);
+    const derivedEventID = getEventId(htElement.message);
 
     if (event === 'Product List Viewed') {
       const { contentIds, contentType, contents } = getProductListViewedEventParams(properties);
 
       const productInfo = {
         content_ids: contentIds,
-        content_type: getContentType(rudderElement, contentType, this.categoryToContent),
+        content_type: getContentType(htElement, contentType, this.categoryToContent),
         contents,
         content_category: eventHelpers.getCategory(category),
         content_name: contentName,
@@ -186,7 +186,7 @@ class FacebookPixel {
 
       const productInfo = {
         content_ids: contentIds,
-        content_type: getContentType(rudderElement, 'product', this.categoryToContent),
+        content_type: getContentType(htElement, 'product', this.categoryToContent),
         content_name: eventHelpers.getProdName(productName, name),
         content_category: eventHelpers.getCategory(category),
         currency,
@@ -205,7 +205,7 @@ class FacebookPixel {
         value: productInfo.value,
       });
     } else if (event === 'Order Completed') {
-      const contentType = getContentType(rudderElement, 'product', this.categoryToContent);
+      const contentType = getContentType(htElement, 'product', this.categoryToContent);
       const { contents, contentIds } = getProductsContentsAndContentIds(products, quantity, price);
 
       // ref: https://developers.facebook.com/docs/meta-pixel/implementation/marketing-api#purchase
@@ -255,7 +255,7 @@ class FacebookPixel {
 
       const productInfo = {
         content_ids: contentIds,
-        content_type: getContentType(rudderElement, 'product', this.categoryToContent),
+        content_type: getContentType(htElement, 'product', this.categoryToContent),
         content_category: contentCategory,
         currency,
         value: revValue,

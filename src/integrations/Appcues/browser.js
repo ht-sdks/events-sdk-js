@@ -45,9 +45,9 @@ class Appcues {
     return !!window.Appcues;
   }
 
-  identify(rudderElement) {
-    const { traits } = rudderElement.message.context;
-    const { userId } = rudderElement.message;
+  identify(htElement) {
+    const { traits } = htElement.message.context;
+    const { userId } = htElement.message;
     if (userId) {
       window.Appcues.identify(userId, traits);
     } else {
@@ -55,9 +55,9 @@ class Appcues {
     }
   }
 
-  track(rudderElement) {
-    const eventName = rudderElement.message.event;
-    const { properties } = rudderElement.message;
+  track(htElement) {
+    const eventName = htElement.message.event;
+    const { properties } = htElement.message;
     if (eventName) {
       window.Appcues.track(eventName, properties);
     } else {
@@ -65,8 +65,8 @@ class Appcues {
     }
   }
 
-  page(rudderElement) {
-    const { properties, name } = rudderElement.message;
+  page(htElement) {
+    const { properties, name } = htElement.message;
     window.Appcues.page(name, properties);
   }
 

@@ -1,6 +1,6 @@
 import RudderMessage from './RudderMessage';
 // Individual element class containing Rudder Message
-class RudderElement {
+class HtElement {
   constructor() {
     this.message = new RudderMessage();
   }
@@ -10,12 +10,12 @@ class RudderElement {
     this.message.type = type;
   }
 
-  setProperty(rudderProperty) {
-    this.message.properties = rudderProperty;
+  setProperty(htProperty) {
+    this.message.properties = htProperty;
   }
 
-  setUserProperty(rudderUserProperty) {
-    this.message.user_properties = rudderUserProperty;
+  setUserProperty(htUserProperty) {
+    this.message.user_properties = htUserProperty;
   }
 
   setUserId(userId) {
@@ -30,4 +30,4 @@ class RudderElement {
     return this.message;
   }
 }
-export default RudderElement;
+export default HtElement;

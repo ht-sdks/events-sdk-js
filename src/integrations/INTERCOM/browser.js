@@ -32,8 +32,8 @@ class INTERCOM {
     return !!window.intercom_code;
   }
 
-  identify(rudderElement) {
-    const { context, userId } = rudderElement.message;
+  identify(htElement) {
+    const { context, userId } = htElement.message;
     const { traits, Intercom } = context;
 
     const identityVerificationProps = Intercom || null;
@@ -72,9 +72,9 @@ class INTERCOM {
     window.Intercom('update', rawPayload);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     const rawPayload = {};
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, userId, anonymousId, originalTimestamp } = message;
     const properties = message?.properties || {};
 

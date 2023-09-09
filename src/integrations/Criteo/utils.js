@@ -5,12 +5,12 @@ import logger from '../../utils/logUtil';
 /**
  * Ref : https://help.criteo.com/kb/guide/en/all-criteo-onetag-events-and-parameters-vZbzbEeY86/Steps/775825,868657,868659
  * Ref : https://help.criteo.com/kb/guide/en/all-criteo-onetag-events-and-parameters-vZbzbEeY86/Steps/775825
- * @param {*} rudderElement
+ * @param {*} htElement
  * @param {*} hashMethod
  * @returns
  */
-const handleCommonFields = (rudderElement, hashMethod) => {
-  const { message } = rudderElement;
+const handleCommonFields = (htElement, hashMethod) => {
+  const { message } = htElement;
   const { properties, userId, anonymousId } = message;
 
   const setEmail = {};
@@ -37,8 +37,8 @@ const handleCommonFields = (rudderElement, hashMethod) => {
 
   return finalRequest;
 };
-const generateExtraData = (rudderElement, fieldMapping) => {
-  const { message } = rudderElement;
+const generateExtraData = (htElement, fieldMapping) => {
+  const { message } = htElement;
   const extraData = {};
   const fieldMapHashmap = getHashFromArray(fieldMapping, 'from', 'to', false);
 

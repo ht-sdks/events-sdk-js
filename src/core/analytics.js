@@ -44,7 +44,7 @@ import {
   DEFAULT_INTEGRATIONS_CONFIG,
   DEFAULT_DATA_PLANE_EVENTS_BUFFER_TIMEOUT_MS,
 } from '../utils/constants';
-import RudderElementBuilder from '../utils/RudderElementBuilder';
+import HtElementBuilder from '../utils/HtElementBuilder';
 import Storage from '../utils/storage';
 import { EventRepository } from '../utils/EventRepository';
 import PreProcessQueue from '../utils/PreProcessQueue';
@@ -303,7 +303,7 @@ class Analytics {
 
       let suffix = ''; // default suffix
 
-      // Get the CDN base URL is rudder staging url
+      // Get the CDN base URL, if staging url
       const { isStaging } = getSDKUrlInfo();
       if (isStaging) {
         suffix = '-staging'; // stagging suffix
@@ -385,14 +385,14 @@ class Analytics {
   /**
    * A function to send single event to a destination
    * @param {instance} destination
-   * @param {Object} rudderElement
+   * @param {Object} htElement
    * @param {String} methodName
    */
-  sendDataToDestination(destination, rudderElement, methodName) {
+  sendDataToDestination(destination, htElement, methodName) {
     try {
       if (destination[methodName]) {
-        const clonedRudderElement = R.clone(rudderElement);
-        destination[methodName](clonedRudderElement);
+        const clonedHtElement = R.clone(htElement);
+        destination[methodName](clonedHtElement);
       }
     } catch (err) {
       const message = `[sendToNative]:: [Destination: ${destination.name}]:: `;
@@ -404,17 +404,17 @@ class Analytics {
    * A function that gets the transformed event and
    * depending on the response either send the transformed/untransformed event to destination or just log error.
    * @param {Array} destWithTransformation   List of device mode destination that has transformation connected
-   * @param {Object} rudderElement           Rudder event
+   * @param {Object} htElement           Rudder event
    * @param {string} methodName              Type of event page/track/identify etc.
    */
-  sendTransformedDataToDestination(destWithTransformation, rudderElement, methodName) {
+  sendTransformedDataToDestination(destWithTransformation, htElement, methodName) {
     try {
       // convert integrations object to server identified names, kind of hack now!
-      transformToServerNames(rudderElement.message.integrations);
+      transformToServerNames(htElement.message.integrations);
       const destinationIds = destWithTransformation.map((e) => e.destinationId);
       // Process Transformation
       this.transformationHandler.enqueue(
-        rudderElement,
+        htElement,
         destinationIds,
         ({ status, transformedPayload, errorMessage }) => {
           destWithTransformation.forEach((intg) => {
@@ -446,7 +446,7 @@ class Analytics {
                       if (intg.propagateEventsUntransformedOnError === true) {
                         action = 'Sending untransformed event to the destination';
                         logMethod = logger.warn;
-                        eventsToSend.push({ event: rudderElement.message });
+                        eventsToSend.push({ event: htElement.message });
                       }
 
                       const logMsg = `${msgPrefix} ${reason}. ${action}.`;
@@ -468,7 +468,7 @@ class Analytics {
                     `[DMT]:: Transformation server access is denied. The configuration data seems to be out of sync. Sending untransformed event to the destination.`,
                   );
                   // send untransformed event to destination
-                  this.sendDataToDestination(intg, rudderElement, methodName);
+                  this.sendDataToDestination(intg, htElement, methodName);
                   break;
                 }
                 // For any other cases
@@ -478,7 +478,7 @@ class Analytics {
                       `[DMT]::[Destination: ${intg.name}] :: Transformation request failed with status: ${status} ${errorMessage}. Sending untransformed event.`,
                     );
                     // send untransformed event to destination
-                    this.sendDataToDestination(intg, rudderElement, methodName);
+                    this.sendDataToDestination(intg, htElement, methodName);
                   } else {
                     logger.error(
                       `[DMT]::[Destination: ${intg.name}] :: Transformation request failed with status: ${status} ${errorMessage}. Dropping the event.`,
@@ -507,17 +507,17 @@ class Analytics {
   /**
    * A function to process and send events to device mode destinations
    * @param {instance} destinations
-   * @param {Object} rudderElement
+   * @param {Object} htElement
    * @param {String} methodName
    */
-  processAndSendEventsToDeviceMode(destinations, rudderElement, methodName) {
+  processAndSendEventsToDeviceMode(destinations, htElement, methodName) {
     const destWithoutTransformation = [];
     const destWithTransformation = [];
 
     // Depending on transformation is connected or not
     // create two sets of destinations
     destinations.forEach((intg) => {
-      const sendEvent = !this.IsEventBlackListed(rudderElement.message.event, intg.name);
+      const sendEvent = !this.IsEventBlackListed(htElement.message.event, intg.name);
 
       // Block the event if it is blacklisted for the device-mode destination
       if (sendEvent) {
@@ -531,29 +531,29 @@ class Analytics {
     // loop through destinations that doesn't have
     // transformation connected with it and send events
     destWithoutTransformation.forEach((intg) => {
-      this.sendDataToDestination(intg, rudderElement, methodName);
+      this.sendDataToDestination(intg, htElement, methodName);
     });
 
     if (destWithTransformation.length > 0) {
-      this.sendTransformedDataToDestination(destWithTransformation, rudderElement, methodName);
+      this.sendTransformedDataToDestination(destWithTransformation, htElement, methodName);
     }
   }
 
   /**
    *
    * @param {*} type
-   * @param {*} rudderElement
+   * @param {*} htElement
    * Sends cloud mode events to server
    */
-  queueEventForDataPlane(type, rudderElement) {
+  queueEventForDataPlane(type, htElement) {
     // if not specified at event level, All: true is default
-    const clientSuppliedIntegrations = rudderElement.message.integrations || { All: true };
-    rudderElement.message.integrations = getMergedClientSuppliedIntegrations(
+    const clientSuppliedIntegrations = htElement.message.integrations || { All: true };
+    htElement.message.integrations = getMergedClientSuppliedIntegrations(
       this.integrationsData,
       clientSuppliedIntegrations,
     );
-    // self analytics process, send to rudder
-    this.eventRepository.enqueue(rudderElement, type);
+    // self analytics process, send to ht events
+    this.eventRepository.enqueue(htElement, type);
   }
 
   /**
@@ -688,20 +688,20 @@ class Analytics {
     let clonedProperties = R.clone(properties);
     const clonedOptions = R.clone(options);
 
-    const rudderElement = new RudderElementBuilder().setType('page').build();
+    const htElement = new HtElementBuilder().setType('page').build();
     if (!clonedProperties) {
       clonedProperties = {};
     }
     if (name) {
-      rudderElement.message.name = clonedProperties.name = name;
+      htElement.message.name = clonedProperties.name = name;
     }
     if (category) {
-      rudderElement.message.category = clonedProperties.category = category;
+      htElement.message.category = clonedProperties.category = category;
     }
 
-    rudderElement.message.properties = this.getPageProperties(clonedProperties);
+    htElement.message.properties = this.getPageProperties(clonedProperties);
 
-    this.processAndSendDataToDestinations('page', rudderElement, clonedOptions, callback);
+    this.processAndSendDataToDestinations('page', htElement, clonedOptions, callback);
   }
 
   /**
@@ -726,13 +726,13 @@ class Analytics {
     const clonedProperties = R.clone(properties);
     const clonedOptions = R.clone(options);
 
-    const rudderElement = new RudderElementBuilder().setType('track').build();
+    const htElement = new HtElementBuilder().setType('track').build();
     if (event) {
-      rudderElement.setEventName(event);
+      htElement.setEventName(event);
     }
-    rudderElement.setProperty(clonedProperties || {});
+    htElement.setProperty(clonedProperties || {});
 
-    this.processAndSendDataToDestinations('track', rudderElement, clonedOptions, callback);
+    this.processAndSendDataToDestinations('track', htElement, clonedOptions, callback);
   }
 
   /**
@@ -770,9 +770,9 @@ class Analytics {
       }
       this.storage.setUserTraits(this.userTraits);
     }
-    const rudderElement = new RudderElementBuilder().setType('identify').build();
+    const htElement = new HtElementBuilder().setType('identify').build();
 
-    this.processAndSendDataToDestinations('identify', rudderElement, clonedOptions, callback);
+    this.processAndSendDataToDestinations('identify', htElement, clonedOptions, callback);
   }
 
   /**
@@ -794,14 +794,14 @@ class Analytics {
     if (typeof from === 'object') (options = from), (from = null);
     if (typeof to === 'object') (options = to), (from = null), (to = null);
 
-    const rudderElement = new RudderElementBuilder().setType('alias').build();
+    const htElement = new HtElementBuilder().setType('alias').build();
 
-    rudderElement.message.previousId =
+    htElement.message.previousId =
       getStringId(from) || (this.userId ? this.userId : this.getAnonymousId());
-    rudderElement.message.userId = getStringId(to);
+    htElement.message.userId = getStringId(to);
     const clonedOptions = R.clone(options);
 
-    this.processAndSendDataToDestinations('alias', rudderElement, clonedOptions, callback);
+    this.processAndSendDataToDestinations('alias', htElement, clonedOptions, callback);
   }
 
   /**
@@ -831,7 +831,7 @@ class Analytics {
     const clonedTraits = R.clone(traits);
     const clonedOptions = R.clone(options);
 
-    const rudderElement = new RudderElementBuilder().setType('group').build();
+    const htElement = new HtElementBuilder().setType('group').build();
 
     if (clonedTraits) {
       for (const key in clonedTraits) {
@@ -842,7 +842,7 @@ class Analytics {
     }
     this.storage.setGroupTraits(this.groupTraits);
 
-    this.processAndSendDataToDestinations('group', rudderElement, clonedOptions, callback);
+    this.processAndSendDataToDestinations('group', htElement, clonedOptions, callback);
   }
 
   IsEventBlackListed(eventName, intgName) {
@@ -901,38 +901,36 @@ class Analytics {
   }
 
   /**
-   * Process and send data to destinations along with rudder BE
+   * Process and send data to destinations along with ht events BE
    *
    * @param {*} type
-   * @param {*} rudderElement
+   * @param {*} htElement
    * @param {*} callback
    * @memberof Analytics
    */
-  processAndSendDataToDestinations(type, rudderElement, options, callback) {
+  processAndSendDataToDestinations(type, htElement, options, callback) {
     try {
       if (!this.anonymousId) {
         this.setAnonymousId();
       }
 
       // assign page properties to context
-      // rudderElement.message.context.page = getDefaultPageProperties();
+      // htElement.message.context.page = getDefaultPageProperties();
       this.errorReporting.leaveBreadcrumb('Started sending data to destinations');
-      rudderElement.message.context.traits = {
+      htElement.message.context.traits = {
         ...this.userTraits,
       };
 
       // logger.debug("anonymousId: ", this.anonymousId)
-      rudderElement.message.anonymousId = this.anonymousId;
-      rudderElement.message.userId = rudderElement.message.userId
-        ? rudderElement.message.userId
-        : this.userId;
+      htElement.message.anonymousId = this.anonymousId;
+      htElement.message.userId = htElement.message.userId ? htElement.message.userId : this.userId;
 
       if (type == 'group') {
         if (this.groupId) {
-          rudderElement.message.groupId = this.groupId;
+          htElement.message.groupId = this.groupId;
         }
         if (this.groupTraits) {
-          rudderElement.message.traits = {
+          htElement.message.traits = {
             ...this.groupTraits,
           };
         }
@@ -940,28 +938,28 @@ class Analytics {
       // If auto/manual session tracking is enabled sessionId will be sent in the context
       try {
         const { sessionId, sessionStart } = this.uSession.getSessionInfo();
-        rudderElement.message.context.sessionId = sessionId;
-        if (sessionStart) rudderElement.message.context.sessionStart = true;
+        htElement.message.context.sessionId = sessionId;
+        if (sessionStart) htElement.message.context.sessionStart = true;
       } catch (e) {
         handleError(e);
       }
       // If cookie consent is enabled attach the denied consent group Ids to the context
       if (fetchCookieConsentState(this.cookieConsentOptions)) {
-        rudderElement.message.context.consentManagement = {
+        htElement.message.context.consentManagement = {
           deniedConsentIds: this.deniedConsentIds || [],
         };
       }
 
-      this.processOptionsParam(rudderElement, options);
-      // logger.debug(JSON.stringify(rudderElement))
+      this.processOptionsParam(htElement, options);
+      // logger.debug(JSON.stringify(htElement))
 
       // check for reserved keys and log
-      checkReservedKeywords(rudderElement.message, type);
+      checkReservedKeywords(htElement.message, type);
 
-      let clientSuppliedIntegrations = rudderElement.message.integrations;
+      let clientSuppliedIntegrations = htElement.message.integrations;
 
       if (clientSuppliedIntegrations) {
-        // structure user supplied integrations object to rudder format
+        // structure user supplied integrations object to ht events format
         transformToRudderNames(clientSuppliedIntegrations);
       } else if (this.shouldUseGlobalIntegrationsConfigInEvents()) {
         // when useGlobalIntegrationsConfigInEvents load option is set to true and integration object provided in load
@@ -972,10 +970,10 @@ class Analytics {
         clientSuppliedIntegrations = DEFAULT_INTEGRATIONS_CONFIG;
       }
 
-      rudderElement.message.integrations = clientSuppliedIntegrations;
+      htElement.message.integrations = clientSuppliedIntegrations;
 
       try {
-        rudderElement.message.context['ua-ch'] = this.uach;
+        htElement.message.context['ua-ch'] = this.uach;
       } catch (err) {
         handleError(err);
       }
@@ -985,7 +983,7 @@ class Analytics {
       if (!this.clientIntegrationObjects) {
         // logger.debug("pushing in replay queue")
         // new event processing after analytics initialized  but integrations not fetched from BE
-        this.toBeProcessedByIntegrationArray.push([type, rudderElement]);
+        this.toBeProcessedByIntegrationArray.push([type, htElement]);
       } else {
         // get intersection between config plane native enabled destinations
         // (which were able to successfully load on the page) vs user supplied integrations
@@ -997,27 +995,27 @@ class Analytics {
         // try to first send to all integrations, if list populated from BE
         this.processAndSendEventsToDeviceMode(
           successfulLoadedIntersectClientSuppliedIntegrations,
-          rudderElement,
+          htElement,
           type,
         );
       }
 
-      const clonedRudderElement = R.clone(rudderElement);
+      const clonedHtElement = R.clone(htElement);
       // convert integrations object to server identified names, kind of hack now!
-      transformToServerNames(clonedRudderElement.message.integrations);
+      transformToServerNames(clonedHtElement.message.integrations);
 
       // Holding the cloud mode events based on flag and integrations load check
       const shouldNotBufferDataPlaneEvents =
         !this.bufferDataPlaneEventsUntilReady || this.clientIntegrationObjects;
       if (shouldNotBufferDataPlaneEvents) {
-        this.queueEventForDataPlane(type, clonedRudderElement);
+        this.queueEventForDataPlane(type, clonedHtElement);
       } else {
-        this.preProcessQueue.enqueue(type, clonedRudderElement);
+        this.preProcessQueue.enqueue(type, clonedHtElement);
       }
 
       // logger.debug(`${type} is called `)
       if (callback && typeof callback === 'function') {
-        callback(clonedRudderElement);
+        callback(clonedHtElement);
       }
     } catch (error) {
       handleError(error);
@@ -1047,12 +1045,12 @@ class Analytics {
 
   /**
    * add campaign parsed details under context
-   * @param {*} rudderElement
+   * @param {*} htElement
    */
-  addCampaignInfo(rudderElement) {
-    const msgContext = rudderElement.message.context;
+  addCampaignInfo(htElement) {
+    const msgContext = htElement.message.context;
     if (msgContext && typeof msgContext === 'object') {
-      rudderElement.message.context.campaign = this.utm(window.location.href);
+      htElement.message.context.campaign = this.utm(window.location.href);
     }
   }
 
@@ -1062,22 +1060,22 @@ class Analytics {
    * context.page's default properties are overridden by same keys of
    * provided properties in case of page call
    *
-   * @param {*} rudderElement
+   * @param {*} htElement
    * @param {*} options
    * @memberof Analytics
    */
-  processOptionsParam(rudderElement, options) {
-    const { type, properties } = rudderElement.message;
+  processOptionsParam(htElement, options) {
+    const { type, properties } = htElement.message;
 
-    this.addCampaignInfo(rudderElement);
+    this.addCampaignInfo(htElement);
 
     // assign page properties to context.page
     // eslint-disable-next-line unicorn/consistent-destructuring
-    rudderElement.message.context.page = this.getContextPageProperties(
+    htElement.message.context.page = this.getContextPageProperties(
       type === 'page' ? properties : undefined,
     );
-    mergeTopLevelElementsMutator(rudderElement.message, options);
-    rudderElement.message.context = mergeContext(rudderElement.message, options);
+    mergeTopLevelElementsMutator(htElement.message, options);
+    htElement.message.context = mergeContext(htElement.message, options);
   }
 
   getPageProperties(properties, options) {
@@ -1158,7 +1156,7 @@ class Analytics {
    * Sets anonymous id in the following precedence:
    * 1. anonymousId: Id directly provided to the function.
    * 2. rudderAmpLinkerParm: value generated from linker query parm (rudderstack)
-   *    using praseLinker util.
+   *    using parseLinker util.
    * 3. generateUUID: A new unique id is generated and assigned.
    *
    * @param {string} anonymousId
@@ -1266,7 +1264,7 @@ class Analytics {
     this.uSession.initialize(options);
 
     if (options && options.clientSuppliedCallbacks) {
-      // convert to rudder recognized method names
+      // convert to ht events recognized method names
       const transformedCallbackMapping = {};
       Object.keys(this.methodToCallbackMapping).forEach((methodName) => {
         if (

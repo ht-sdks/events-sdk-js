@@ -70,8 +70,8 @@ class Vero {
    *
    * @param {Identify} identify
    */
-  identify(rudderElement) {
-    const { message } = rudderElement;
+  identify(htElement) {
+    const { message } = htElement;
     const { traits } = message.context || message;
     const userId = message.userId || message.anonymousId;
     let payload = traits;
@@ -93,10 +93,10 @@ class Vero {
    *
    * @param {Track} track
    */
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('=== In Vero track ===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, properties, anonymousId, userId } = message;
     if (!event) {
       logger.error('[Vero]: Event name from track call is missing!!===');
@@ -121,9 +121,9 @@ class Vero {
    *
    * @param {Page} page
    */
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('=== In Vero Page ===');
-    const { name, category } = rudderElement.message;
+    const { name, category } = htElement.message;
     let eventName;
     if (!name && !category) {
       eventName = `Viewed Page`;
@@ -134,8 +134,8 @@ class Vero {
     } else {
       eventName = `Viewed ${category} ${name} Page`;
     }
-    const elemClone = { ...rudderElement };
-    elemClone.message = { ...rudderElement.message };
+    const elemClone = { ...htElement };
+    elemClone.message = { ...htElement.message };
     elemClone.message.event = eventName;
     this.track(elemClone);
   }
@@ -146,8 +146,8 @@ class Vero {
    *
    * @param {Alias} alias
    */
-  alias(rudderElement) {
-    const { message } = rudderElement;
+  alias(htElement) {
+    const { message } = htElement;
     const { userId, previousId } = message;
     if (!previousId) {
       logger.error('===Vero: previousId is required for alias call===');

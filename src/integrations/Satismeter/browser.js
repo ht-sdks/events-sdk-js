@@ -49,9 +49,9 @@ class Satismeter {
     return !!window.satismeter;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Satismeter identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { traits } = message.context;
     let userId = message.userId || traits.userId;
     if (!userId && this.identifyAnonymousUsers) {
@@ -75,9 +75,9 @@ class Satismeter {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Satismeter track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, context } = message;
     if (!event) {
       logger.error('[Satismeter]:: event is required for track call');

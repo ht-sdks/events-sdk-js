@@ -45,15 +45,15 @@ class June {
     return !!window.analytics && typeof window.analytics === 'object';
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In June page===');
-    const { name, properties } = rudderElement.message;
+    const { name, properties } = htElement.message;
     window.analytics.page(name, properties);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In June identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const userId =
       get(message, 'userId') ||
       get(message, 'context.traits.userId') ||
@@ -66,10 +66,10 @@ class June {
     window.analytics.identify(userId, traits);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In June track===');
     let groupId;
-    const { message } = rudderElement;
+    const { message } = htElement;
     const externalGroupId = getDestinationExternalID(message, 'juneGroupId');
     const { event } = message;
     let { properties } = message;
@@ -83,14 +83,14 @@ class June {
     }
   }
 
-  group(rudderElement) {
+  group(htElement) {
     logger.debug('===In June group===');
-    const { groupId } = rudderElement.message;
+    const { groupId } = htElement.message;
     if (!groupId) {
       logger.error('groupId is required for group call');
       return;
     }
-    const { traits } = rudderElement.message;
+    const { traits } = htElement.message;
     window.analytics.group(groupId, traits);
   }
 }

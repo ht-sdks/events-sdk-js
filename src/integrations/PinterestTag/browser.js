@@ -199,8 +199,8 @@ export default class PinterestTag {
     return pinterestObject;
   }
 
-  track(rudderElement) {
-    const { message } = rudderElement;
+  track(htElement) {
+    const { message } = htElement;
     if (!message?.event) {
       return;
     }
@@ -218,15 +218,15 @@ export default class PinterestTag {
     });
   }
 
-  page(rudderElement) {
-    const { category, name } = rudderElement.message;
+  page(htElement) {
+    const { category, name } = htElement.message;
     const pageObject = { name: name || '' };
     let event = 'PageVisit';
     if (category) {
       pageObject.category = category;
       event = 'ViewCategory';
     }
-    this.setLdp(rudderElement.message);
+    this.setLdp(htElement.message);
     window.pintrk('track', event, pageObject);
   }
 

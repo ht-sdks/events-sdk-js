@@ -106,10 +106,10 @@ class DCMFloodlight {
     logger.debug('[DCM Floodlight] identify:: method not supported');
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In DCMFloodlight track===');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event } = message;
     let customFloodlightVariable;
 
@@ -218,10 +218,10 @@ class DCMFloodlight {
     document.getElementsByTagName('body')[0].appendChild(iframe);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In DCMFloodlight page===');
-    const { category } = rudderElement.message.properties;
-    const { name } = rudderElement.message || rudderElement.message.properties;
+    const { category } = htElement.message.properties;
+    const { name } = htElement.message || htElement.message.properties;
 
     if (!category && !name) {
       logger.error('[DCM Floodlight]:: category or name is required for page');
@@ -230,10 +230,10 @@ class DCMFloodlight {
 
     const categoryVal = category ? `${category} ` : '';
     const nameVal = name ? `${name} ` : '';
-    rudderElement.message.event = `Viewed ${categoryVal}${nameVal}Page`;
+    htElement.message.event = `Viewed ${categoryVal}${nameVal}Page`;
 
-    rudderElement.message.type = 'track';
-    this.track(rudderElement);
+    htElement.message.type = 'track';
+    this.track(htElement);
   }
 }
 

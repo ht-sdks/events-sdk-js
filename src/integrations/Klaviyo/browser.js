@@ -100,8 +100,8 @@ class Klaviyo {
     return !!(window._learnq && window._learnq.push !== Array.prototype.push);
   }
 
-  identify(rudderElement) {
-    const { message } = rudderElement;
+  identify(htElement) {
+    const { message } = htElement;
     if (!(message.context && message.context.traits)) {
       logger.error('user traits not present');
       return;
@@ -139,8 +139,8 @@ class Klaviyo {
     window._learnq.push(['identify', payload]);
   }
 
-  track(rudderElement) {
-    const { message } = rudderElement;
+  track(htElement) {
+    const { message } = htElement;
     const properties = message?.properties || {};
 
     const event = message.event ? message.event.trim().toLowerCase() : message.event;
@@ -169,8 +169,8 @@ class Klaviyo {
     }
   }
 
-  page(rudderElement) {
-    const { message } = rudderElement;
+  page(htElement) {
+    const { message } = htElement;
     const properties = message?.properties || {};
     if (this.sendPageAsTrack) {
       let eventName;

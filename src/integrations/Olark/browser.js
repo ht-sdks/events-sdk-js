@@ -59,9 +59,9 @@ class Olark {
     return !!window.olark;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Olark Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { context } = message;
 
     const userTraits = getDefinedTraits(message);

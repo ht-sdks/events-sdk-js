@@ -76,7 +76,7 @@ declare module 'events-sdk-js' {
    */
   interface loadOptions {
     integrations?: integrationOptions;
-    // defaults to https://api.rudderlabs.com
+    // defaults to events.us-east-1.hightouch.com
     configUrl?: string;
     queueOptions?: queueOptions;
     // Defaults to true
@@ -96,7 +96,7 @@ declare module 'events-sdk-js' {
     beaconQueueOptions?: beaconQueueOptions;
     cookieConsentManager?: cookieConsentManager;
     anonymousIdOptions?: anonymousIdOptions;
-    // defaults to https://cdn.rudderlabs.com/v1.1/js-integrations
+    // defaults to https://d1xt4zx4uzh8tq.cloudfront.net/v1.1/js-integrations
     destSDKBaseURL?: string;
     sessions?: {
       autoTrack?: boolean; // Defaults to true

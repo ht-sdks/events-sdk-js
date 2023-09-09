@@ -42,9 +42,9 @@ class TiktokAds {
     return !!window.ttq;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Tiktok Ads Identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { traits } = message.context;
     const { email, phone, number } = traits;
     const payload = {};
@@ -64,9 +64,9 @@ class TiktokAds {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Tiktok Ads Track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     let event = message?.event;
     if (!event) {
       logger.error('Event name is required');
@@ -94,7 +94,7 @@ class TiktokAds {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Tiktok Ads Page===');
     window.ttq.page();
   }

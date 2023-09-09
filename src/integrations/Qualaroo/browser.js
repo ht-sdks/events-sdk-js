@@ -57,9 +57,9 @@ class Qualaroo {
     return !!window._kiq && typeof window._kiq === 'object';
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('===In Qualaroo identify===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { traits } = message.context;
     const userId = traits?.email || message.userId || traits?.userId || traits?.Id || '';
 
@@ -77,9 +77,9 @@ class Qualaroo {
     }
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('===In Qualaroo track===');
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { event, context } = message;
     if (!event) {
       logger.error('[Qualaroo]:: event is required for track call');
@@ -95,9 +95,9 @@ class Qualaroo {
     window._kiq.push(['set', { 'Triggered Event': event }]);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('===In Qualaroo page===');
-    const { name, category } = rudderElement.message;
+    const { name, category } = htElement.message;
     let pageFullName;
     if (name && category) {
       pageFullName = `${category} ${name}`;

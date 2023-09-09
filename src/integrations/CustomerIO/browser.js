@@ -28,11 +28,11 @@ class CustomerIO {
     loadNativeSdk(siteID, datacenterEU);
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in Customer IO identify');
-    const { userId, context } = rudderElement.message;
+    const { userId, context } = htElement.message;
     const { traits } = context || {};
-    if(!userId){
+    if (!userId) {
       logger.error('userId is required for Identify call.');
       return;
     }
@@ -44,21 +44,21 @@ class CustomerIO {
     window._cio.identify(traits);
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in Customer IO track');
 
-    const eventName = rudderElement.message.event;
-    const { properties } = rudderElement.message;
+    const eventName = htElement.message.event;
+    const { properties } = htElement.message;
     window._cio.track(eventName, properties);
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in Customer IO page');
     if (this.sendPageNameInSDK === false) {
-      window._cio.page(rudderElement.message.properties);
+      window._cio.page(htElement.message.properties);
     } else {
-      const name = rudderElement.message.name || rudderElement.message.properties.url;
-      window._cio.page(name, rudderElement.message.properties);
+      const name = htElement.message.name || htElement.message.properties.url;
+      window._cio.page(name, htElement.message.properties);
     }
   }
 

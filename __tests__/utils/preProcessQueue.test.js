@@ -1,5 +1,5 @@
 import PreProcessQueue from '../../src/utils/PreProcessQueue';
-import RudderElement from '../../src/utils/RudderElement';
+import HtElement from '../../src/utils/HtElement';
 
 describe('PreProcessQueue', () => {
   let preProcessQueue;
@@ -53,23 +53,23 @@ describe('PreProcessQueue', () => {
   describe('processQueueElement()', () => {
     it('should call the queueFn with null if processQueueElements is true', () => {
       const type = 'track';
-      const rudderElement = new RudderElement();
+      const htElement = new HtElement();
       const queueFn = jest.fn();
       const callback = jest.fn();
       preProcessQueue.init({}, callback);
 
       preProcessQueue.processQueueElements = true;
-      preProcessQueue.processQueueElement(type, rudderElement, queueFn);
+      preProcessQueue.processQueueElement(type, htElement, queueFn);
       expect(queueFn).toHaveBeenCalledWith(null);
     });
 
     it('should call the queueFn with an error if processQueueElements is false', () => {
       const type = 'track';
-      const rudderElement = new RudderElement();
+      const htElement = new HtElement();
       const queueFn = jest.fn();
 
       preProcessQueue.processQueueElements = false;
-      preProcessQueue.processQueueElement(type, rudderElement, queueFn);
+      preProcessQueue.processQueueElement(type, htElement, queueFn);
       expect(queueFn).toHaveBeenCalledWith(
         new Error('The queue elements are not ready to be processed yet'),
       );

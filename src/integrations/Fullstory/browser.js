@@ -132,9 +132,9 @@ class Fullstory {
     return !!window.FS;
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in FULLSORY page');
-    const rudderMessage = rudderElement.message;
+    const rudderMessage = htElement.message;
     const pageName = rudderMessage.name;
     const props = {
       name: pageName,
@@ -144,11 +144,11 @@ class Fullstory {
     window.FS.event('Viewed a Page', Fullstory.getFSProperties(props));
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in FULLSORY identify');
 
-    let { userId } = rudderElement.message;
-    const { context, anonymousId } = rudderElement.message;
+    let { userId } = htElement.message;
+    const { context, anonymousId } = htElement.message;
     const { traits } = context;
 
     if (!userId) userId = anonymousId;
@@ -157,11 +157,11 @@ class Fullstory {
     else window.FS.identify(userId, Fullstory.getFSProperties(traits));
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in FULLSTORY track');
     window.FS.event(
-      rudderElement.message.event,
-      Fullstory.getFSProperties(rudderElement.message.properties),
+      htElement.message.event,
+      Fullstory.getFSProperties(htElement.message.properties),
     );
   }
 }

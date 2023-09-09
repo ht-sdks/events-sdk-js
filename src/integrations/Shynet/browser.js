@@ -83,11 +83,11 @@ class Shynet {
     return this.scriptCheck;
   }
 
-  page(rudderElement) {
+  page(htElement) {
     try {
       this.shynetScript.newPageLoad(
-        rudderElement?.message?.properties?.referrer,
-        rudderElement?.message?.properties?.url,
+        htElement?.message?.properties?.referrer,
+        htElement?.message?.properties?.url,
       );
     } catch (exp) {
       logger.info(exp.message);

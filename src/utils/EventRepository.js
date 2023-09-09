@@ -11,7 +11,7 @@ const MESSAGE_LENGTH = 32 * 1000; // ~32 Kb
 /**
  *
  * @class EventRepository responsible for adding events into
- * flush queue and sending data to rudder backend
+ * flush queue and sending data to ht events backend
  * in batch and maintains order of the event.
  */
 class EventRepository {
@@ -58,11 +58,11 @@ class EventRepository {
   /**
    *
    *
-   * @param {RudderElement} rudderElement
+   * @param {HtElement} htElement
    * @memberof EventRepository
    */
-  enqueue(rudderElement, type) {
-    const message = rudderElement.getElementContent();
+  enqueue(htElement, type) {
+    const message = htElement.getElementContent();
     message.originalTimestamp = message.originalTimestamp || getCurrentTimeFormatted();
     message.sentAt = getCurrentTimeFormatted(); // add this, will get modified when actually being sent
 

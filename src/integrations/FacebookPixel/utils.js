@@ -50,7 +50,7 @@ const getHashedStatus = (message, integrationName) => {
 };
 
 const buildPayLoad = (
-  rudderElement,
+  htElement,
   configWhilistedProperties,
   configBlacklistedProperties,
   hashedPii,
@@ -94,7 +94,7 @@ const buildPayLoad = (
     (propObject) => propObject.whitelistPiiProperties,
   );
 
-  const { properties } = rudderElement.message;
+  const { properties } = htElement.message;
 
   const payload = Object.entries(properties).reduce((acc, [currPropName, currPropValue]) => {
     const isPropertyPii =
@@ -175,20 +175,19 @@ const formatRevenue = (revenue) => {
  * `track()` properties.
  *
  * https://www.facebook.com/business/help/606577526529702?id=1205376682832142
- * @param {*} rudderElement
+ * @param {*} htElement
  * @param {*} defaultValue
  * @param {*} categoryToContent
  * @returns
  */
-const getContentType = (rudderElement, defaultValue, categoryToContent) => {
+const getContentType = (htElement, defaultValue, categoryToContent) => {
   // Get the message-specific override if it exists in the options parameter of `track()`
-  const contentTypeMessageOverride =
-    rudderElement.message.integrations?.FACEBOOK_PIXEL?.contentType;
+  const contentTypeMessageOverride = htElement.message.integrations?.FACEBOOK_PIXEL?.contentType;
   if (contentTypeMessageOverride) return contentTypeMessageOverride;
 
   // Otherwise check if there is a replacement set for all Facebook Pixel
   // track calls of this category
-  const { category } = rudderElement.message.properties;
+  const { category } = htElement.message.properties;
   if (category) {
     const categoryMapping = categoryToContent?.find((i) => i.from === category);
     if (categoryMapping?.to) return categoryMapping.to;

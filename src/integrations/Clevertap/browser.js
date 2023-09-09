@@ -95,10 +95,10 @@ class Clevertap {
     return !!window.clevertap && window.clevertap.logout !== undefined;
   }
 
-  identify(rudderElement) {
+  identify(htElement) {
     logger.debug('in clevertap identify');
 
-    const { message } = rudderElement;
+    const { message } = htElement;
     const { context } = message;
     if (!context?.traits) {
       logger.error('user traits not present');
@@ -142,9 +142,9 @@ class Clevertap {
     });
   }
 
-  track(rudderElement) {
+  track(htElement) {
     logger.debug('in clevertap track');
-    const { event, properties } = rudderElement.message;
+    const { event, properties } = htElement.message;
     if (properties) {
       if (event === 'Order Completed') {
         let ecomProperties = {
@@ -155,7 +155,7 @@ class Clevertap {
         // Extract other K-V property from traits about user custom properties
         try {
           ecomProperties = extractCustomFields(
-            rudderElement.message,
+            htElement.message,
             ecomProperties,
             ['properties'],
             ['checkout_id', 'revenue', 'products'],
@@ -179,9 +179,9 @@ class Clevertap {
     }
   }
 
-  page(rudderElement) {
+  page(htElement) {
     logger.debug('in clevertap page');
-    const { name, properties } = rudderElement.message;
+    const { name, properties } = htElement.message;
     let eventName;
     if (properties?.category && name) {
       eventName = `WebPage Viewed ${name} ${properties.category}`;
