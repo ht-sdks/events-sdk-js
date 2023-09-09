@@ -8,6 +8,21 @@ import { Store } from './store';
 import { fromBase64 } from './v3DecryptionUtils';
 
 const defaults = {
+  user_storage_key: 'htev_user_id',
+  user_storage_trait: 'htev_trait',
+  user_storage_anonymousId: 'htev_anonymous_id',
+  group_storage_key: 'htev_group_id',
+  group_storage_trait: 'htev_group_trait',
+  page_storage_init_referrer: 'htev_page_init_referrer',
+  page_storage_init_referring_domain: 'htev_page_init_referring_domain',
+  session_info: 'htev_session',
+  auth_token: 'htev_auth_token',
+  prefix: 'HtEvEncrypt:',
+  prefixV3: 'HtEv_ENC_v3_', // prefix for v3 encryption
+  key: 'HTEV',
+};
+
+const rudderDefaults = {
   user_storage_key: 'rl_user_id',
   user_storage_trait: 'rl_trait',
   user_storage_anonymousId: 'rl_anonymous_id',
@@ -24,6 +39,7 @@ const defaults = {
 
 const anonymousIdKeyMap = {
   segment: 'ajs_anonymous_id',
+  rudder: 'rl_anonymous_id',
 };
 
 /**
@@ -71,6 +87,27 @@ function decryptValue(value) {
   // Try if it is v3 encrypted value
   if (value.substring(0, defaults.prefixV3.length) === defaults.prefixV3) {
     return fromBase64(value.substring(defaults.prefixV3.length));
+  }
+  return value;
+}
+
+/**
+ * decrypt value originally made by rudder
+ * @param {*} value
+ */
+function decryptRudderValue(value) {
+  if (!value || typeof value !== 'string' || trim(value) === '') {
+    return value;
+  }
+  if (value.substring(0, rudderDefaults.prefix.length) === rudderDefaults.prefix) {
+    return AES.decrypt(value.substring(rudderDefaults.prefix.length), rudderDefaults.key).toString(
+      Utf8,
+    );
+  }
+
+  // Try if it is v3 encrypted value
+  if (value.substring(0, rudderDefaults.prefixV3.length) === rudderDefaults.prefixV3) {
+    return fromBase64(value.substring(rudderDefaults.prefixV3.length));
   }
   return value;
 }
@@ -244,16 +281,16 @@ class Storage {
 
   /**
    * Function to fetch anonymousId from external source
-   * @param {string} key source of the anonymousId
-   * @returns string
+   * @param {('segment'|'rudder')} source - source of the anonymousId
+   * @returns string | undefined
    */
   fetchExternalAnonymousId(source) {
     let anonId;
+    let encrypted;
     const key = source.toLowerCase();
     if (!Object.keys(anonymousIdKeyMap).includes(key)) {
       return anonId;
     }
-    // eslint-disable-next-line sonarjs/no-small-switch
     switch (key) {
       case 'segment':
         /**
@@ -261,14 +298,27 @@ class Storage {
          * Ref: https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/#identify
          */
         if (Store.enabled) {
-          anonId = Store.get(anonymousIdKeyMap[key]);
+          anonId = Store.get(anonymousIdKeyMap.segment);
         }
         // If anonymousId is not present in local storage and check cookie support exists
         // fetch it from cookie
         if (!anonId && Cookie.isSupportAvailable) {
-          anonId = Cookie.get(anonymousIdKeyMap[key]);
+          anonId = Cookie.get(anonymousIdKeyMap.segment);
         }
         return anonId;
+
+      case 'rudder':
+      case 'rudderstack':
+        // Rudder prefers cookies, so check there first
+        if (Cookie.isSupportAvailable) {
+          encrypted = Cookie.get(anonymousIdKeyMap.rudder);
+        }
+        // Rudder falls back to localStorage
+        if (!encrypted && Store.enabled) {
+          encrypted = Store.get(anonymousIdKeyMap.rudder);
+        }
+        // Rudder always JSON stringifies and then encrypts stored values
+        return parse(decryptRudderValue(encrypted));
 
       default:
         return anonId;
@@ -278,30 +328,19 @@ class Storage {
   /**
    * get stored anonymous id
    *
-   * Use cases:
-   * 1. getAnonymousId() ->  anonymousIdOptions is undefined this function will return rl_anonymous_id
-   * if present otherwise undefined
+   * @param {{autoCapture?: {enabled?: boolean, source?: "segment" | "rudder"}}} anonymousIdOptions - optional
    *
-   * 2. getAnonymousId(anonymousIdOptions) -> In case anonymousIdOptions is present this function will check
-   * if rl_anonymous_id is present then it will return that
+   * @returns string
    *
-   * otherwise it will validate the anonymousIdOptions and try to fetch the anonymous Id from the provided source.
-   * Finally if no anonymous Id is present in the source it will return undefined.
-   *
-   * anonymousIdOptions example:
-   *  {
-        autoCapture: {
-          enabled: true,
-          source: "segment",
-        },
-      }
-   *
+   * If anonymousIdOptions is undefined, returns htev_anonymous_id, if present else undefined.
+   * If anonymousIdOptions is present, returns htev_anonymous_id, if present else checks external provided source.
+   * In all cases, the function returns undefined if no anonymous id is found.
    */
   getAnonymousId(anonymousIdOptions) {
     // fetch the rl_anonymous_id from storage
     const rlAnonymousId = parse(decryptValue(this.storage.get(defaults.user_storage_anonymousId)));
     /**
-     * If RS's anonymous ID is available, return from here.
+     * If HtEv's anonymous ID is available, return from here.
      *
      * The user, while migrating from a different analytics SDK,
      * will only need to auto-capture the anonymous ID when the RS SDK
@@ -318,13 +357,19 @@ class Storage {
     if (rlAnonymousId) {
       return rlAnonymousId;
     }
-    // validate the provided anonymousIdOptions argument
-    const source = get(anonymousIdOptions, 'autoCapture.source');
-    if (get(anonymousIdOptions, 'autoCapture.enabled') === true && typeof source === 'string') {
-      // fetch the anonymousId from the external source
-      // ex - segment
-      const anonId = this.fetchExternalAnonymousId(source);
-      if (anonId) return anonId; // return anonymousId if present
+
+    // try-catch this in case decrypting values fails on rudder sources
+    try {
+      // validate the provided anonymousIdOptions argument
+      const source = get(anonymousIdOptions, 'autoCapture.source');
+      if (get(anonymousIdOptions, 'autoCapture.enabled') === true && typeof source === 'string') {
+        // fetch the anonymousId from the external source
+        // ex - segment
+        const anonId = this.fetchExternalAnonymousId(source);
+        if (anonId) return anonId; // return anonymousId if present
+      }
+    } catch (err) {
+      console.error('Problem with external anonymousId', err.toString());
     }
 
     return rlAnonymousId; // return undefined

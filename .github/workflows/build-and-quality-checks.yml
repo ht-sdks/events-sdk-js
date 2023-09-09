@@ -37,10 +37,14 @@ jobs:
         run: |
           npm run check:security
 
-      - name: Execute bundle size checks
-        uses: rudderlabs/github-action-check-size-limit@v2.6.0
-        env:
-          HUSKY: 0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          build_script: check:size:build
+      # size check only supports PR workflows
+      # does github action support an if statement like thing???
+      # maybe trigger multiple jobs with if statement check
+
+      # - name: Execute bundle size checks
+      #   uses: rudderlabs/github-action-check-size-limit@v2.6.0
+      #   env:
+      #     HUSKY: 0
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     build_script: check:size:build
