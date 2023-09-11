@@ -55,10 +55,10 @@ jobs:
         # aws s3 cp public/list_integration_sdks.html s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/list_integration_sdks.html --cache-control max-age=3600
         # aws s3 cp dist/modern/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/js-integrations/ --recursive --cache-control max-age=3600
         run: |
-          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/events.min.js --cache-control max-age=3600
-          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/events.min.js.map --cache-control max-age=3600
-          aws s3 cp dist/modern/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/events.min.js --cache-control max-age=3600
-          aws s3 cp dist/modern/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/${{ env.CURRENT_VERSION_VALUE }}/modern/events.min.js.map --cache-control max-age=3600
+          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v${{ env.CURRENT_VERSION_VALUE }}/events.min.js --cache-control max-age=3600
+          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v${{ env.CURRENT_VERSION_VALUE }}/events.min.js.map --cache-control max-age=3600
+          aws s3 cp dist/modern/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v${{ env.CURRENT_VERSION_VALUE }}/modern/events.min.js --cache-control max-age=3600
+          aws s3 cp dist/modern/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/v${{ env.CURRENT_VERSION_VALUE }}/modern/events.min.js.map --cache-control max-age=3600
           AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/${{ env.CURRENT_VERSION_VALUE }}*"
 
       - name: Sync files to S3 latest
@@ -86,7 +86,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           PROJECT_NAME: 'Events SDK JS - Browser CDN Package'
-          CDN_URL: 'https://d1xt4zx4uzh8tq.cloudfront.net/${{ env.CURRENT_VERSION_VALUE }}/events.min.js'
+          CDN_URL: 'https://d1xt4zx4uzh8tq.cloudfront.net/v${{ env.CURRENT_VERSION_VALUE }}/events.min.js'
         with:
           channel-id: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
           payload: |
