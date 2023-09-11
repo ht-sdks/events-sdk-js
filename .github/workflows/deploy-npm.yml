@@ -39,7 +39,7 @@ jobs:
         run: |
           npm set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           cd dist/npm-lib
-          npm publish
+          npm publish --access=public
 
       - name: Get new version number
         run: |
