@@ -1,4 +1,4 @@
-declare module 'events-sdk-js' {
+declare module '@ht-sdks/events-sdk-js' {
   /**
    * Represents the integration options object
    * Example usages:

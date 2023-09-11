@@ -1,6 +1,6 @@
 {
   "name": "@ht-sdks/events-sdk-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Events SDK Javascript",
   "main": "index.js",
   "module": "index.es.js",
