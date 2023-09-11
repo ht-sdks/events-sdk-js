@@ -63,6 +63,13 @@ declare module 'events-sdk-js' {
     };
   }
 
+  interface userIdOptions {
+    autoCapture?: {
+      enabled?: boolean;
+      source?: string;
+    };
+  }
+
   /**
    * Represents residency server input the options
    */
@@ -96,6 +103,7 @@ declare module 'events-sdk-js' {
     beaconQueueOptions?: beaconQueueOptions;
     cookieConsentManager?: cookieConsentManager;
     anonymousIdOptions?: anonymousIdOptions;
+    userIdOptions?: userIdOptions;
     // defaults to https://d1xt4zx4uzh8tq.cloudfront.net/v1.1/js-integrations
     destSDKBaseURL?: string;
     sessions?: {
