@@ -38,8 +38,9 @@ jobs:
           npm ci
           npm run build:browser
           npm run build:browser:modern
-          npm run build:integration:all
-          npm run build:integration:all:modern
+        # for now, skip integrations
+        # npm run build:integration:all
+        # npm run build:integration:all:modern
 
       - name: Get new version number
         run: |
