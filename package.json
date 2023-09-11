@@ -1,6 +1,6 @@
 {
   "name": "@ht-sdks/events-sdk-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "./dist/browser.min.js",
   "scripts": {
