@@ -42,6 +42,11 @@ const anonymousIdKeyMap = {
   rudder: 'rl_anonymous_id',
 };
 
+const userIdKeyMap = {
+  segment: 'ajs_user_id',
+  rudder: 'rl_user_id',
+};
+
 /**
  * Json stringify the given value
  * @param {*} value
@@ -252,10 +257,22 @@ class Storage {
   }
 
   /**
-   * get the stored userId
+   * get stored user id
+   *
+   * @param {{autoCapture?: {enabled?: boolean, source?: "segment" | "rudder" | "auto"}}} userIdOptions - optional
+   *
+   * @returns string
+   *
+   * If htev_user_id is already in storage, always return that.
+   * If htev_user_id is undefined, try to import an external value based on the userIdOptions.
+   * In all cases, the function returns undefined if no user id is found.
    */
-  getUserId() {
-    return this.getItem(defaults.user_storage_key);
+  getUserId(userIdOptions) {
+    const htUserId = this.getItem(defaults.user_storage_key);
+    if (htUserId) {
+      return htUserId;
+    }
+    return this.fetchExternalValue(userIdOptions, userIdKeyMap);
   }
 
   /**
@@ -280,99 +297,108 @@ class Storage {
   }
 
   /**
-   * Function to fetch anonymousId from external source
-   * @param {('segment'|'rudder')} source - source of the anonymousId
-   * @returns string | undefined
+   * get external value based on a keyMap
+   *
+   * @param {{autoCapture?: {enabled?: boolean, source?: "segment" | "rudder" | "auto"}}} options
+   * @param {{segment: string, rudder: string}} keyMap
+   *
+   * @returns string
    */
-  fetchExternalAnonymousId(source) {
-    let anonId;
+  fetchExternalValue(options, keyMap) {
+    let value;
+    // try-catch this in case decrypting values fails on rudder sources
+    try {
+      // validate the provided options argument
+      const source = get(options, 'autoCapture.source');
+      if (typeof source !== 'string' || get(options, 'autoCapture.enabled') !== true) {
+        return value;
+      }
+      // fetch the value from one external source or try to import from all of them
+      if (source === 'auto') {
+        const sourceKeys = Object.keys(keyMap);
+        while (!value && sourceKeys.length > 0) {
+          value = this.fetchExternalValueFromSource(keyMap, sourceKeys.pop());
+        }
+      } else {
+        value = this.fetchExternalValueFromSource(keyMap, source);
+      }
+      if (value) return value;
+    } catch (err) {
+      // console.error('Problem with fetching external value', err.toString());
+    }
+    return value;
+  }
+
+  /**
+   * @param {{segment: string, rudder: string}} keyMap
+   * @param {('segment'|'rudder')} source
+   *
+   * @returns string
+   */
+  fetchExternalValueFromSource(keyMap, source) {
+    let value;
     let encrypted;
     const key = source.toLowerCase();
-    if (!Object.keys(anonymousIdKeyMap).includes(key)) {
-      return anonId;
+    if (!Object.keys(keyMap).includes(key)) {
+      return value;
     }
     switch (key) {
       case 'segment':
-        /**
-         * First check the local storage for anonymousId
-         * Ref: https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/#identify
-         */
+        // Segment prefers localstorage, so check there first
         if (Store.enabled) {
-          anonId = Store.get(anonymousIdKeyMap.segment);
+          value = Store.get(keyMap.segment);
         }
-        // If anonymousId is not present in local storage and check cookie support exists
-        // fetch it from cookie
-        if (!anonId && Cookie.isSupportAvailable) {
-          anonId = Cookie.get(anonymousIdKeyMap.segment);
+        // then try cookie
+        if (!value && Cookie.isSupportAvailable) {
+          value = Cookie.get(keyMap.segment);
         }
-        return anonId;
+        return value;
 
       case 'rudder':
       case 'rudderstack':
         // Rudder prefers cookies, so check there first
         if (Cookie.isSupportAvailable) {
-          encrypted = Cookie.get(anonymousIdKeyMap.rudder);
+          encrypted = Cookie.get(keyMap.rudder);
         }
-        // Rudder falls back to localStorage
+        // then try localStorage
         if (!encrypted && Store.enabled) {
-          encrypted = Store.get(anonymousIdKeyMap.rudder);
+          encrypted = Store.get(keyMap.rudder);
         }
         // Rudder always JSON stringifies and then encrypts stored values
         return parse(decryptRudderValue(encrypted));
 
       default:
-        return anonId;
+        return value;
     }
+  }
+
+  /**
+   * Function to fetch anonymousId from external source
+   * @param {('segment'|'rudder')} source - source of the anonymousId
+   * @returns string | undefined
+   */
+  fetchExternalAnonymousId(source) {
+    return this.fetchExternalValueFromSource(anonymousIdKeyMap, source);
   }
 
   /**
    * get stored anonymous id
    *
-   * @param {{autoCapture?: {enabled?: boolean, source?: "segment" | "rudder"}}} anonymousIdOptions - optional
+   * @param {{autoCapture?: {enabled?: boolean, source?: "segment" | "rudder" | "auto"}}} anonymousIdOptions - optional
    *
    * @returns string
    *
-   * If anonymousIdOptions is undefined, returns htev_anonymous_id, if present else undefined.
-   * If anonymousIdOptions is present, returns htev_anonymous_id, if present else checks external provided source.
+   * If htev_anonymous_id is already in storage, always return that.
+   * If htev_anonymous_id is undefined, try to import an external value based on the anonymousIdOptions.
    * In all cases, the function returns undefined if no anonymous id is found.
    */
   getAnonymousId(anonymousIdOptions) {
-    // fetch the rl_anonymous_id from storage
-    const rlAnonymousId = parse(decryptValue(this.storage.get(defaults.user_storage_anonymousId)));
-    /**
-     * If HtEv's anonymous ID is available, return from here.
-     *
-     * The user, while migrating from a different analytics SDK,
-     * will only need to auto-capture the anonymous ID when the RS SDK
-     * loads for the first time.
-     *
-     * The captured anonymous ID would be available in RS's persistent storage
-     * for all the subsequent SDK runs.
-     * So, instead of always grabbing the ID from the migration source when
-     * the options are specified, it is first checked in the RS's persistent storage.
-     *
-     * Moreover, the user can also clear the anonymous ID from the storage via
-     * the 'reset' API, which renders the migration source's data useless.
-     */
-    if (rlAnonymousId) {
-      return rlAnonymousId;
+    // check for existing anonymous id and early return if found
+    const htAnonymousId = parse(decryptValue(this.storage.get(defaults.user_storage_anonymousId)));
+    if (htAnonymousId) {
+      return htAnonymousId;
     }
-
-    // try-catch this in case decrypting values fails on rudder sources
-    try {
-      // validate the provided anonymousIdOptions argument
-      const source = get(anonymousIdOptions, 'autoCapture.source');
-      if (get(anonymousIdOptions, 'autoCapture.enabled') === true && typeof source === 'string') {
-        // fetch the anonymousId from the external source
-        // ex - segment
-        const anonId = this.fetchExternalAnonymousId(source);
-        if (anonId) return anonId; // return anonymousId if present
-      }
-    } catch (err) {
-      console.error('Problem with external anonymousId', err.toString());
-    }
-
-    return rlAnonymousId; // return undefined
+    return this.fetchExternalValue(anonymousIdOptions, anonymousIdKeyMap);
   }
 
   /**

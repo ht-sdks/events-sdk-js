@@ -115,10 +115,15 @@ class Analytics {
 
   /**
    * initialize the user after load config
+   * @param {* | undefined} [anonymousIdOptions]
+   * @param {* | undefined} [userIdOptions]
    */
-  initializeUser(anonymousIdOptions) {
+  initializeUser(anonymousIdOptions, userIdOptions) {
+    // By default, auto import other userID on SDK.load()
+    this.userId =
+      this.storage.getUserId(userIdOptions || { autoCapture: { enabled: true, source: 'auto' } }) ||
+      '';
     // save once for storing older values to encrypted
-    this.userId = this.storage.getUserId() || '';
     this.storage.setUserId(this.userId);
 
     this.userTraits = this.storage.getUserTraits() || {};
@@ -130,7 +135,10 @@ class Analytics {
     this.groupTraits = this.storage.getGroupTraits() || {};
     this.storage.setGroupTraits(this.groupTraits);
 
-    this.anonymousId = this.getAnonymousId(anonymousIdOptions);
+    // By default, auto import other anonymous IDs on SDK.load()
+    this.anonymousId = this.getAnonymousId(
+      anonymousIdOptions || { autoCapture: { enabled: true, source: 'auto' } },
+    );
     this.storage.setAnonymousId(this.anonymousId);
   }
 
@@ -1298,7 +1306,10 @@ class Analytics {
       this.lockIntegrationsVersion = options.lockIntegrationsVersion === true;
     }
 
-    this.initializeUser(options ? options.anonymousIdOptions : undefined);
+    this.initializeUser(
+      options ? options.anonymousIdOptions : undefined,
+      options ? options.userIdOptions : undefined,
+    );
     this.setInitialPageProperties();
 
     this.destSDKBaseURL = getIntegrationsCDNPath(
