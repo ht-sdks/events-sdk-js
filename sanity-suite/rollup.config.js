@@ -14,7 +14,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const serverPort = 3001;
-const prodCDNURL = 'https://d1xt4zx4uzh8tq.cloudfront.net';
+const prodCDNURL = 'https://cdn.hightouch-events.com/js';
 const defaultVersion = 'v1.1';
 // TODO: get this lst from public folder subfolders
 const featuresList = ['eventFiltering', 'preloadBuffer'];
