@@ -1,7 +1,7 @@
 import sourceConfig1ExpectedData from '../../__mocks__/sourceConfig1.json';
 
 const CONFIG_URL =
-  'https://events.us-east-1.hightouch.com/sourceConfig/?p=__MODULE_TYPE__&v=__PACKAGE_VERSION__';
+  'https://us-east-1.hightouch-events.com/sourceConfig/?p=__MODULE_TYPE__&v=__PACKAGE_VERSION__';
 
 const getConfigUrl = (writeKey) => {
   return CONFIG_URL.concat(CONFIG_URL.includes('?') ? '&' : '?').concat(

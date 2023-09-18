@@ -11,8 +11,8 @@ const RESERVED_KEYS = [
 ];
 
 const CONFIG_URL =
-  'https://events.us-east-1.hightouch.com/sourceConfig/?p=__MODULE_TYPE__&v=__PACKAGE_VERSION__';
-const SDK_CDN_BASE_URL = 'https://d1xt4zx4uzh8tq.cloudfront.net';
+  'https://us-east-1.hightouch-events.com/sourceConfig/?p=__MODULE_TYPE__&v=__PACKAGE_VERSION__';
+const SDK_CDN_BASE_URL = 'https://cdn.hightouch-events.com/js';
 const CDN_ARCH_VERSION_DIR = 'v1.1';
 const CDN_INT_DIR = 'js-integrations';
 const DEST_SDK_BASE_URL = `${SDK_CDN_BASE_URL}/${CDN_ARCH_VERSION_DIR}/${CDN_INT_DIR}`;
@@ -37,7 +37,7 @@ const ERROR_REPORTING_SERVICE_GLOBAL_KEY_NAME = 'errorReporting';
 const LOAD_ORIGIN = 'RS_JS_SDK';
 
 const DEFAULT_REGION = 'US';
-const DEFAULT_DATAPLANE_URL = 'https://events.us-east-1.hightouch.com';
+const DEFAULT_DATAPLANE_URL = 'https://us-east-1.hightouch-events.com';
 
 const RESIDENCY_SERVERS = [DEFAULT_REGION, 'EU'];
 

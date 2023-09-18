@@ -83,7 +83,7 @@ declare module '@ht-sdks/events-sdk-js' {
    */
   interface loadOptions {
     integrations?: integrationOptions;
-    // defaults to events.us-east-1.hightouch.com
+    // defaults to us-east-1.hightouch-events.com
     configUrl?: string;
     queueOptions?: queueOptions;
     // Defaults to true
@@ -104,7 +104,7 @@ declare module '@ht-sdks/events-sdk-js' {
     cookieConsentManager?: cookieConsentManager;
     anonymousIdOptions?: anonymousIdOptions;
     userIdOptions?: userIdOptions;
-    // defaults to https://d1xt4zx4uzh8tq.cloudfront.net/v1.1/js-integrations
+    // defaults to https://cdn.hightouch-events.com/js/v1.1/js-integrations
     destSDKBaseURL?: string;
     sessions?: {
       autoTrack?: boolean; // Defaults to true
