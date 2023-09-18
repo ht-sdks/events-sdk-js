@@ -14,7 +14,7 @@ e.page()}();
 
 The above snippet lets you integrate the SDK with your website and load it asynchronously to keep your page load time unaffected.
 
-To load `hightouch-events.js` on to your page synchronously, you can refer to the minified or non-minified versions of the code in the following sections:
+To load the events SDK synchronously, you can refer to the minified or non-minified versions of the code in the following sections:
 
 ### Minified code
 

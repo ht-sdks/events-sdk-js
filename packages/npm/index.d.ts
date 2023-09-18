@@ -83,7 +83,7 @@ declare module '@ht-sdks/events-sdk-js' {
    */
   interface loadOptions {
     integrations?: integrationOptions;
-    // defaults to events.us-east-1.hightouch.com
+    // defaults to us-east-1.hightouch-events.com
     configUrl?: string;
     queueOptions?: queueOptions;
     // Defaults to true
