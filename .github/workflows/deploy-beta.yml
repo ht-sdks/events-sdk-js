@@ -48,8 +48,8 @@ jobs:
 
       - name: Sync files to S3 beta folder
         # for now, skip integrations
-        # aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/beta/${{ env.TAGNAME }}/js-integrations/ --recursive --cache-control max-age=3600
+        # aws s3 cp dist/legacy/js-integrations/ s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/js/beta/${{ env.TAGNAME }}/js-integrations/ --recursive --cache-control max-age=3600
         run: |
-          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/beta/${{ env.TAGNAME }}/events.min.js --cache-control max-age=3600
-          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/beta/${{ env.TAGNAME }}/events.min.js.map --cache-control max-age=3600
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/beta/${{ env.TAGNAME }}/*"
+          aws s3 cp dist/legacy/events.min.js s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/js/beta/${{ env.TAGNAME }}/events.min.js --cache-control max-age=3600
+          aws s3 cp dist/legacy/events.min.js.map s3://${{ secrets.AWS_PROD_S3_BUCKET_NAME }}/js/beta/${{ env.TAGNAME }}/events.min.js.map --cache-control max-age=3600
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PROD_CF_DISTRIBUTION_ID }} --paths "/js/beta/${{ env.TAGNAME }}/*"
