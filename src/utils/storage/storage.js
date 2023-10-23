@@ -135,17 +135,18 @@ function encryptValue(value) {
  */
 class Storage {
   constructor() {
-    // First try setting the storage to cookie else to localstorage
-
-    if (Cookie.isSupportAvailable) {
-      this.storage = Cookie;
-      return;
-    }
+    // First try setting the storage to localstorage else cookie
 
     // localStorage is enabled.
-    if (Store.enabled) {
-      this.storage = Store;
-    }
+    // if (Store.enabled) {
+    //   this.storage = Store;
+    //   return;
+    // }
+
+    // if (Cookie.isSupportAvailable) {
+    //   this.storage = Cookie;
+    //   return;
+    // }
 
     if (!this.storage) {
       logger.error('No storage is available :: initializing the SDK without storage');
